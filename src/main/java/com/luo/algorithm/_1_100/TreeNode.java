@@ -1,4 +1,4 @@
-package com.luo.algorithm.hundred;
+package com.luo.algorithm._1_100;
 
 public class TreeNode {
     int val;

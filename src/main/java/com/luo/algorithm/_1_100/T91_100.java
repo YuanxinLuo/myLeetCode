@@ -1,6 +1,6 @@
-package com.luo.algorithm.hundred;
+package com.luo.algorithm._1_100;
 
-public class NinetyToHundred {
+public class T91_100 {
 
     /**
      * 98. 验证二叉搜索树

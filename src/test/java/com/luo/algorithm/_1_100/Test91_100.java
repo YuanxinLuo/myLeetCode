@@ -1,11 +1,11 @@
-package com.luo.algorithm.hundred;
+package com.luo.algorithm._1_100;
 
 import org.junit.Test;
 
-public class NinetyToHundredTest {
+public class Test91_100 {
     @Test
     public void test98() {
-        NinetyToHundred test = new NinetyToHundred();
+        T91_100 test = new T91_100();
         //    2
         //   / \
         //  1   3
