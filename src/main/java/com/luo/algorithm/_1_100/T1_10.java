@@ -87,21 +87,69 @@ public class T1_10 {
 //        return root.next;
     }
 
+
+    /**
+     * 3. 无重复字符的最长子串
+     * 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+     * <p>
+     * 示例 1:
+     * <p>
+     * 输入: "abcabcbb"
+     * 输出: 3
+     * 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+     * 示例 2:
+     * <p>
+     * 输入: "bbbbb"
+     * 输出: 1
+     * 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+     * 示例 3:
+     * <p>
+     * 输入: "pwwkew"
+     * 输出: 3
+     * 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+     *      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+     * 通过次数472,377提交次数1,375,258
+     * <p>
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/longest-substring-without-repeating-characters
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * @param s 字符串
+     * @return 最长子串 的长度
+     */
+    public int lengthOfLongestSubstring(String s) {
+        int[] last = new int[128];
+        for (int i = 0; i < 128; i++) {
+            last[i] = -1;
+        }
+        int n = s.length();
+        int start = 0;
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            int index = s.charAt(i);
+            start = Math.max(start, last[index] + 1);
+            res = Math.max(res, i - start + 1);
+            last[index] = i;
+        }
+        return res;
+    }
+
     /**
      * 7. 整数反转
      * 给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转。
      * 示例 1:
-     *
+     * <p>
      * 输入: 123
      * 输出: 321
-     *  示例 2:
-     *
+     * 示例 2:
+     * <p>
      * 输入: -123
      * 输出: -321
      * 示例 3:
-     *
+     * <p>
      * 输入: 120
      * 输出: 21
+     *
      * @param x 整数
      * @return 反转之后
      */
@@ -119,5 +167,29 @@ public class T1_10 {
             rev = rev * 10 + pop;
         }
         return rev;
+    }
+
+    /**
+     * 9. 回文数
+     * 判断一个整数是否是回文数。回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。
+     *
+     * @param x 整型数字
+     * @return true false
+     */
+    public boolean isPalindrome(int x) {
+        if (x < 0 || (x % 10 == 0 && x != 0)) {
+            return false;
+        }
+        String str = String.valueOf(x);
+        int L = str.length() - 1;
+        int R = 0;
+        while (L > R) {
+            if (str.charAt(L) != str.charAt(R)) {
+                return false;
+            }
+            L--;
+            R++;
+        }
+        return x == reverse(x);
     }
 }

@@ -32,9 +32,25 @@ public class Test1_10 {
     }
 
     @Test
-    public void test7(){
+    public void test3() {
+        System.out.println(test.lengthOfLongestSubstring("abcabcbb"));
+        System.out.println(test.lengthOfLongestSubstring("bbbbb"));
+        System.out.println(test.lengthOfLongestSubstring("pwwkew"));
+    }
+
+    @Test
+    public void test7() {
         System.out.println(test.reverse(123));
         System.out.println(test.reverse(-123));
         System.out.println(test.reverse(120));
+    }
+
+    @Test
+    public void test9() {
+        System.out.println(test.isPalindrome(121));
+        System.out.println(test.isPalindrome(-121));
+        System.out.println(test.isPalindrome(10));
+        System.out.println(test.isPalindrome(12121));
+        System.out.println(test.isPalindrome(12321));
     }
 }
