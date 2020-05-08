@@ -1,6 +1,6 @@
 package com.luo.algorithm._1_100;
 
-public class ListNode {
+class ListNode {
     int val;
     ListNode next;
 
