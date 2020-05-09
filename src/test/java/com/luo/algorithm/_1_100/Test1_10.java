@@ -39,6 +39,13 @@ public class Test1_10 {
     }
 
     @Test
+    public void test5() {
+        System.out.println(test.longestPalindrome("babad"));
+        System.out.println(test.longestPalindrome("cbbd"));
+    }
+
+
+    @Test
     public void test7() {
         System.out.println(test.reverse(123));
         System.out.println(test.reverse(-123));
