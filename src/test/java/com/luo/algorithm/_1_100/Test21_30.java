@@ -16,9 +16,17 @@ public class Test21_30 {
         l2.next.next = new ListNode(4);
 
         ListNode listNode = t.mergeTwoLists(l1, l2);
-        while (listNode.next != null){
-            System.out.print(listNode.val +" -> ");
+        while (listNode.next != null) {
+            System.out.print(listNode.val + " -> ");
             listNode = listNode.next;
         }
+    }
+
+    @Test
+    public void test26() {
+        int[] nums1 = {1, 1, 2};
+        int[] nums2 = {0, 0, 1, 1, 1, 2, 2, 3, 3, 4};
+        System.out.println(t.removeDuplicates(nums1));
+        System.out.println(t.removeDuplicates(nums2));
     }
 }
