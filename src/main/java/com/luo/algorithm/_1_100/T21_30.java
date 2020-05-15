@@ -90,4 +90,60 @@ public class T21_30 {
         }
         return i + 1;
     }
+
+
+    /**
+     * 27. 移除元素
+     * 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。
+     * <p>
+     * 不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。
+     * <p>
+     * 元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
+     * <p>
+     * 示例 1:
+     * 给定 nums = [3,2,2,3], val = 3,
+     * 函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。
+     * 你不需要考虑数组中超出新长度后面的元素。
+     * <p>
+     * 示例 2:
+     * 给定 nums = [0,1,2,2,3,0,4,2], val = 2,
+     * 函数应该返回新的长度 5, 并且 nums 中的前五个元素为 0, 1, 3, 0, 4。
+     * 注意这五个元素可为任意顺序。
+     * 你不需要考虑数组中超出新长度后面的元素。
+     *
+     * @param nums 整形数组
+     * @param val  需要移除的数值
+     * @return 移除后数组的长度
+     */
+    public int removeElement(int[] nums, int val) {
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != val) {
+                nums[count] = nums[i];
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 28. 实现 strStr()
+     * 实现 strStr() 函数。
+     * 给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
+     * <p>
+     * 示例 1:
+     * 输入: haystack = "hello", needle = "ll"
+     * 输出: 2
+     * <p>
+     * 示例 2:
+     * 输入: haystack = "aaaaa", needle = "bba"
+     * 输出: -1
+     *
+     * @param haystack 主辅材
+     * @param needle
+     * @return
+     */
+    public int strStr(String haystack, String needle) {
+        return haystack.indexOf(needle);
+    }
 }

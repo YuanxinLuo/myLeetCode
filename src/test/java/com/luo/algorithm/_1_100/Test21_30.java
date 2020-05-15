@@ -29,4 +29,14 @@ public class Test21_30 {
         System.out.println(t.removeDuplicates(nums1));
         System.out.println(t.removeDuplicates(nums2));
     }
+
+    @Test
+    public void test27() {
+        int[] nums1 = {3, 2, 2, 3};
+        int val1 = 3;
+        System.out.println(t.removeElement(nums1, val1));
+        int[] nums2 = {0, 1, 2, 2, 3, 0, 4, 2};
+        int val2 = 2;
+        System.out.println(t.removeElement(nums2, val2));
+    }
 }
