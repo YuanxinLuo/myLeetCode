@@ -23,6 +23,39 @@ public class Test21_30 {
     }
 
     @Test
+    public void test25() {
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(5);
+
+        System.out.print(head.val + "->");
+        ListNode node = head.next;
+        while (node != null) {
+            System.out.print(node.val + "->");
+            node = node.next;
+        }
+        System.out.println();
+        ListNode node1 = t.reverseKGroup(head, 2);
+        System.out.print(node1.val + "->");
+        ListNode node2 = node1.next;
+        while (node2 != null) {
+            System.out.print(node2.val + "->");
+            node2 = node2.next;
+        }
+        System.out.println();
+        ListNode node3 = t.reverseKGroup(head, 3);
+        System.out.print(node3.val + "->");
+        ListNode node4 = node3.next;
+        while (node4 != null) {
+            System.out.print(node4.val + "->");
+            node4 = node4.next;
+        }
+        System.out.println();
+    }
+
+    @Test
     public void test26() {
         int[] nums1 = {1, 1, 2};
         int[] nums2 = {0, 0, 1, 1, 1, 2, 2, 3, 3, 4};
