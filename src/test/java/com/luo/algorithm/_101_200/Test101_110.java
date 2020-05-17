@@ -45,4 +45,27 @@ public class Test101_110 {
             System.out.println(Arrays.toString(list.toArray()));
         }
     }
+
+    @Test
+    public void test104() {
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(9);
+        root.right = new TreeNode(20);
+        root.right.left = new TreeNode(15);
+        root.right.right = new TreeNode(7);
+        System.out.println(t.maxDepth(root));
+    }
+
+    @Test
+    public void test107() {
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(9);
+        root.right = new TreeNode(20);
+        root.right.left = new TreeNode(15);
+        root.right.right = new TreeNode(7);
+        List<List<Integer>> lists = t.levelOrderBottom(root);
+        for (List<Integer> list : lists) {
+            System.out.println(Arrays.toString(list.toArray()));
+        }
+    }
 }
