@@ -2,35 +2,46 @@ package com.luo.algorithm._1_100;
 
 public class T51_60 {
     /**
-     * 45. 跳跃游戏 II
-     * 给定一个非负整数数组，你最初位于数组的第一个位置。
-     * 数组中的每个元素代表你在该位置可以跳跃的最大长度。
-     * 你的目标是使用最少的跳跃次数到达数组的最后一个位置。
+     * 53. 最大子序和
+     * 给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+     * 示例:
+     * 输入: [-2,1,-3,4,-1,2,1,-5,4],
+     * 输出: 6
+     * 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
+     *
+     * @param nums 整数数组
+     * @return 最大子序和
+     */
+    public int maxSubArray(int[] nums) {
+        int res = nums[0];
+        int sum = 0;
+        for (int num : nums) {
+            if (sum > 0) {
+                sum += num;
+            } else {
+                sum = num;
+            }
+            res = Math.max(res, sum);
+        }
+        return res;
+    }
+
+    /**
+     * 58. 最后一个单词的长度
+     * 给定一个仅包含大小写字母和空格 ' ' 的字符串 s，返回其最后一个单词的长度。如果字符串从左向右滚动显示，那么最后一个单词就是最后出现的单词。
+     * 如果不存在最后一个单词，请返回 0 。
+     * 说明：一个单词是指仅由字母组成、不包含任何空格字符的 最大子字符串。
      * <p>
      * 示例:
-     * 输入: [2,3,1,1,4]
-     * 输出: 2
-     * 解释: 跳到最后一个位置的最小跳跃数是 2。
-     * 从下标为 0 跳到下标为 1 的位置，跳 1 步，然后跳 3 步到达数组的最后一个位置。
+     * 输入: "Hello World"
+     * 输出: 5
      *
-     * @param nums int数组
-     * @return 最少跳跃次数
+     * @param s 字符串
+     * @return 最后一个单词的长度
      */
-    public int jump(int[] nums) {
-        int steps = 0;
-        int start = 0;
-        int end = 0;
-        while (end < nums.length - 1) {
-            int max = end;
-            for (int i = start; i <= end; i++) {
-                if (nums[i] + i > max) {
-                    max = nums[i] + i;
-                }
-            }
-            start = end + 1;
-            end = max;
-            steps++;
-        }
-        return steps;
+    public int lengthOfLastWord(String s) {
+        String[] s1 = s.split(" ");
+        if (s1.length == 0) return 0;
+        return s1[s1.length - 1].length();
     }
 }

@@ -10,4 +10,12 @@ public class Test61_70 {
         System.out.println(t.mySqrt(4));
         System.out.println(t.mySqrt(8));
     }
+
+    @Test
+    public void test70(){
+        System.out.println(t.climbStairs(2));
+        System.out.println(t.climbStairs(3));
+        System.out.println(t.climbStairs(4));
+        System.out.println(t.climbStairs(5));
+    }
 }
