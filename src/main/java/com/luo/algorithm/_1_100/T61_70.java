@@ -2,6 +2,72 @@ package com.luo.algorithm._1_100;
 
 public class T61_70 {
     /**
+     * 66. 加一
+     * 给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。
+     * 最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。
+     * 你可以假设除了整数 0 之外，这个整数不会以零开头。
+     * <p>
+     * 示例 1:
+     * 输入: [1,2,3]
+     * 输出: [1,2,4]
+     * 解释: 输入数组表示数字 123。
+     * <p>
+     * 示例 2:
+     * 输入: [4,3,2,1]
+     * 输出: [4,3,2,2]
+     * 解释: 输入数组表示数字 4321。
+     *
+     * @param digits
+     * @return
+     */
+    public int[] plusOne(int[] digits) {
+        for (int i = digits.length - 1; i >= 0; i--) {
+            if (digits[i] != 9) {//最后一位数不是9 ，直接加1 ，然后返回
+                digits[i]++;
+                return digits;
+            }
+            digits[i] = 0;
+        }
+        int[] tmp = new int[digits.length + 1];
+        tmp[0] = 1;
+        return tmp;
+    }
+
+    /**
+     * 67. 二进制求和
+     * 给你两个二进制字符串，返回它们的和（用二进制表示）。
+     * 输入为 非空 字符串且只包含数字 1 和 0。
+     * <p>
+     * 示例 1:
+     * 输入: a = "11", b = "1"
+     * 输出: "100"
+     * <p>
+     * 示例 2:
+     * 输入: a = "1010", b = "1011"
+     * 输出: "10101"
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    public String addBinary(String a, String b) {
+        if (a == null || a.length() == 0) return b;
+        if (b == null || b.length() == 0) return a;
+        StringBuilder sb = new StringBuilder();
+        int i = a.length() - 1;
+        int j = b.length() - 1;
+        int c = 0;
+        while (i >= 0 || j >= 0) {
+            if (i >= 0) c += a.charAt(i--) - '0';
+            if (j >= 0) c += b.charAt(j--) - '0';
+            sb.append(c % 2);
+            c >>= 1;
+        }
+        String res = sb.reverse().toString();
+        return c > 0 ? "1" + res : res;
+    }
+
+    /**
      * 69. x 的平方根
      * 实现 int sqrt(int x) 函数。
      * 计算并返回 x 的平方根，其中 x 是非负整数。
