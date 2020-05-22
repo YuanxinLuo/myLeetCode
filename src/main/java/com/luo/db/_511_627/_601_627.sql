@@ -32,7 +32,7 @@
 select id,movie,description,rating
 from cinema
 where description != 'boring' and id % 2 = 1
-order by rating desc
+order by rating desc;
 
 
 
@@ -58,4 +58,4 @@ order by rating desc
 #     | 2  | B    | m   | 1500   |
 #     | 3  | C    | f   | 5500   |
 #     | 4  | D    | m   | 500    |
-update salary set sex = case when sex='m' then 'f' else 'm' end
+update salary set sex = case when sex='m' then 'f' else 'm' end;
