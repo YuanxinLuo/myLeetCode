@@ -57,6 +57,14 @@ public class Test101_110 {
     }
 
     @Test
+    public void test105() {
+        int[] pre = {3, 9, 20, 15, 7};
+        int[] in = {9, 3, 15, 20, 7};
+        TreeNode root = t.buildTree(pre, in);
+        System.out.println(root);
+    }
+
+    @Test
     public void test107() {
         TreeNode root = new TreeNode(3);
         root.left = new TreeNode(9);
@@ -67,5 +75,12 @@ public class Test101_110 {
         for (List<Integer> list : lists) {
             System.out.println(Arrays.toString(list.toArray()));
         }
+    }
+
+    @Test
+    public void test108(){
+        int[] nums = {-10,-3,0,5,9};
+        TreeNode root = t.sortedArrayToBST(nums);
+        System.out.println(root);
     }
 }

@@ -106,6 +106,41 @@ public class T101_110 {
         return root == null ? 0 : Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
     }
 
+    /**
+     * 105. 从前序与中序遍历序列构造二叉树
+     * 根据一棵树的前序遍历与中序遍历构造二叉树。
+     * 注意:
+     * 你可以假设树中没有重复的元素。
+     * <p>
+     * 例如，给出
+     * 前序遍历 preorder = [3,9,20,15,7]
+     * 中序遍历 inorder = [9,3,15,20,7]
+     * 返回如下的二叉树：
+     * <p>
+     * 3
+     * / \
+     * 9  20
+     * /  \
+     * 15   7
+     *
+     * @param preorder 前序数组
+     * @param inorder  中序数组
+     * @return 二叉树
+     */
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if (preorder.length == 0 || inorder.length == 0) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[0]);
+        for (int i = 0; i < preorder.length; i++) {
+            if (preorder[i] == inorder[i]) {
+                root.left = buildTree(Arrays.copyOfRange(preorder, 1, i + 1), Arrays.copyOfRange(inorder, 0, i));
+                root.right = buildTree(Arrays.copyOfRange(preorder, i + 1, preorder.length), Arrays.copyOfRange(inorder, i + 1, inorder.length));
+                break;
+            }
+        }
+        return root;
+    }
 
     /**
      * 107. 二叉树的层次遍历 II
@@ -152,5 +187,37 @@ public class T101_110 {
         }
         func(lists, level + 1, root.left);
         func(lists, level + 1, root.right);
+    }
+
+
+    /**
+     * 108. 将有序数组转换为二叉搜索树
+     * 将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。
+     *
+     * 本题中，一个高度平衡二叉树是指一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1。
+     *
+     * 示例:
+     * 给定有序数组: [-10,-3,0,5,9],
+     *
+     * 一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：
+     *
+     *       0
+     *      / \
+     *    -3   9
+     *    /   /
+     *  -10  5
+     * @param nums
+     * @return
+     */
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return buildBST(nums,0,nums.length-1);
+    }
+    private TreeNode buildBST(int[] nums ,int begin,int end){
+        if(begin > end) return null;
+        int mid = (begin + end + 1) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = buildBST(nums, begin,mid - 1);
+        root.right = buildBST(nums,mid + 1, end);
+        return root;
     }
 }
