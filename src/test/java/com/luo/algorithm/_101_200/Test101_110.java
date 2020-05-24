@@ -1,6 +1,7 @@
 package com.luo.algorithm._101_200;
 
 import org.junit.Test;
+import sun.reflect.generics.tree.Tree;
 
 import java.util.Arrays;
 import java.util.List;
@@ -78,9 +79,28 @@ public class Test101_110 {
     }
 
     @Test
-    public void test108(){
-        int[] nums = {-10,-3,0,5,9};
+    public void test108() {
+        int[] nums = {-10, -3, 0, 5, 9};
         TreeNode root = t.sortedArrayToBST(nums);
         System.out.println(root);
+    }
+
+    @Test
+    public void test110() {
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(9);
+        root.right = new TreeNode(20);
+        root.right.left = new TreeNode(15);
+        root.right.right = new TreeNode(7);
+        System.out.println(t.isBalanced(root));
+
+        TreeNode root2 = new TreeNode(1);
+        root2.right = new TreeNode(2);
+        root2.left = new TreeNode(2);
+        root2.left.left = new TreeNode(3);
+        root2.left.right = new TreeNode(4);
+        root2.left.left.left = new TreeNode(4);
+        root2.left.left.right = new TreeNode(4);
+        System.out.println(t.isBalanced(root2));
     }
 }

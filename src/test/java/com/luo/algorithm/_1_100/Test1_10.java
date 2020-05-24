@@ -39,6 +39,12 @@ public class Test1_10 {
     }
 
     @Test
+    public void test4() {
+        System.out.println(test.findMedianSortedArrays(new int[]{1, 3}, new int[]{2}));
+        System.out.println(test.findMedianSortedArrays(new int[]{1, 2}, new int[]{3, 4}));
+    }
+
+    @Test
     public void test5() {
         System.out.println(test.longestPalindrome("babad"));
         System.out.println(test.longestPalindrome("cbbd"));

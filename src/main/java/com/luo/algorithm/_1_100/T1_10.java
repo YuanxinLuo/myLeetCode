@@ -135,6 +135,49 @@ public class T1_10 {
     }
 
     /**
+     * 4. 寻找两个正序数组的中位数
+     * 给定两个大小为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。
+     * 请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
+     * 你可以假设 nums1 和 nums2 不会同时为空。
+     * 示例 1:
+     * nums1 = [1, 3]
+     * nums2 = [2]
+     * 则中位数是 2.0
+     * <p>
+     * 示例 2:
+     * nums1 = [1, 2]
+     * nums2 = [3, 4]
+     * 则中位数是 (2 + 3)/2 = 2.5
+     *
+     * @param nums1 数组1
+     * @param nums2 数组2
+     * @return 中位数
+     */
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        if ((nums1.length + nums2.length) % 2 == 0) {
+            return (get_location(nums1, nums2, 0, 0, (nums1.length + nums2.length) / 2) + get_location(nums1, nums2, 0, 0, (nums1.length + nums2.length) / 2 + 1)) / 2.0;
+        }
+        return (double) get_location(nums1, nums2, 0, 0, (nums1.length + nums2.length) / 2 + 1);
+    }
+
+    private double get_location(int[] nums1, int[] nums2, int begin1, int begin2, int k) {
+        if (begin1 == nums1.length) return nums2[begin2 + k - 1];
+        else if (begin2 == nums2.length) return nums1[begin1 + k - 1];
+        else if (k == 1) return nums1[begin1] < nums2[begin2] ? nums1[begin1] : nums2[begin2];
+        else {
+            int end1, end2;
+            if (begin1 + k / 2 - 1 >= nums1.length) end1 = nums1.length - 1;
+            else end1 = begin1 + k / 2 - 1;
+
+            if (begin2 + k / 2 - 1 >= nums2.length) end2 = nums2.length - 1;
+            else end2 = begin2 + k / 2 - 1;
+
+            if (nums1[end1] <= nums2[end2]) return get_location(nums1, nums2, end1 + 1, begin2, k - end1 - 1 + begin1);
+            else return get_location(nums1, nums2, begin1, end2 + 1, k - end2 - 1 + begin2);
+        }
+    }
+
+    /**
      * 5. 最长回文子串
      * 给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
      * 示例 1：
