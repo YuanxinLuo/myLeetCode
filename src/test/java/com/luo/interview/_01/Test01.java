@@ -18,8 +18,21 @@ public class Test01 {
     }
 
     @Test
-    public void test03(){
-        System.out.println(t.replaceSpaces("Mr John Smith    ",13));
-        System.out.println(t.replaceSpaces("               ",5));
+    public void test03() {
+        System.out.println(t.replaceSpaces("Mr John Smith    ", 13));
+        System.out.println(t.replaceSpaces("               ", 5));
+    }
+
+    @Test
+    public void test04() {
+        System.out.println(t.canPermutePalindrome("tactcoa"));
+        System.out.println(t.canPermutePalindrome("code"));
+    }
+
+    @Test
+    public void test06() {
+        System.out.println(t.compressString("aabcccccaaa"));
+        System.out.println(t.compressString("abbccd"));
+        System.out.println(t.compressString("bb"));
     }
 }

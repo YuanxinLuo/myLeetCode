@@ -1,7 +1,9 @@
 package com.luo.interview._01;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class T01 {
     /**
@@ -89,5 +91,69 @@ public class T01 {
             length--;
         }
         return sb.toString();
+    }
+
+    /**
+     * 面试题 01.04. 回文排列
+     * 给定一个字符串，编写一个函数判定其是否为某个回文串的排列之一。
+     * 回文串是指正反两个方向都一样的单词或短语。排列是指字母的重新排列。
+     * 回文串不一定是字典当中的单词。
+     * 示例1：
+     * 输入："tactcoa"
+     * 输出：true（排列有"tacocat"、"atcocta"，等等）
+     *
+     * @param s 字符串
+     * @return true false
+     */
+    public boolean canPermutePalindrome(String s) {
+        if (null == s) return false;
+        char[] chars = s.toCharArray();
+        Set<Character> set = new HashSet<>();
+        for (char c : chars) {
+            if (set.contains(c)) {
+                set.remove(c);
+            } else {
+                set.add(c);
+            }
+        }
+        return set.size() <= 1;
+    }
+
+
+    /**
+     * 面试题 01.06. 字符串压缩
+     * 字符串压缩。利用字符重复出现的次数，编写一种方法，实现基本的字符串压缩功能。比如，字符串aabcccccaaa会变为a2b1c5a3。若“压缩”后的字符串没有变短，则返回原先的字符串。你可以假设字符串中只包含大小写英文字母（a至z）。
+     * <p>
+     * 示例1:
+     * 输入："aabcccccaaa"
+     * 输出："a2b1c5a3"
+     * <p>
+     * 示例2:
+     * 输入："abbccd"
+     * 输出："abbccd"
+     * 解释："abbccd"压缩后为"a1b2c2d1"，比原字符串长度更长。
+     *
+     * @param S
+     * @return
+     */
+    public String compressString(String S) {
+        if (S == null || S.length() == 0) return "";
+        char[] chars = S.toCharArray();
+        StringBuilder sb = new StringBuilder(chars[0]);
+        int index = 0;
+        int cnt = 1;
+        for (int i = 1; i < S.length(); i++) {
+            if (chars[i] == chars[index]) {
+                cnt++;
+            } else {
+                sb.append(chars[index]);
+                sb.append(cnt);
+                index = i;
+                cnt = 1;
+            }
+        }
+        sb.append(chars[S.length() - 1]);
+        sb.append(cnt);
+        return sb.length() >= S.length() ? S : sb.toString();
     }
 }
