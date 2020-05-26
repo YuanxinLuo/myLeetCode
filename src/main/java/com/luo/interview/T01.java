@@ -1,4 +1,4 @@
-package com.luo.interview._01;
+package com.luo.interview;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -155,5 +155,27 @@ public class T01 {
         sb.append(chars[S.length() - 1]);
         sb.append(cnt);
         return sb.length() >= S.length() ? S : sb.toString();
+    }
+
+    /**
+     * 面试题 01.09. 字符串轮转
+     * 字符串轮转。给定两个字符串s1和s2，请编写代码检查s2是否为s1旋转而成（比如，waterbottle是erbottlewat旋转后的字符串）。
+     * <p>
+     * 示例1:
+     * 输入：s1 = "waterbottle", s2 = "erbottlewat"
+     * 输出：True
+     * <p>
+     * 示例2:
+     * 输入：s1 = "aa", "aba"
+     * 输出：False
+     *
+     * @param s1
+     * @param s2
+     * @return
+     */
+    public boolean isFlipedString(String s1, String s2) {
+        if (s1.length() != s2.length()) return false;
+        String ss = s2 + s2;
+        return ss.contains(s1);
     }
 }

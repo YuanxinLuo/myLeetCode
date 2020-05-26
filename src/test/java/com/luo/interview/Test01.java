@@ -1,4 +1,4 @@
-package com.luo.interview._01;
+package com.luo.interview;
 
 import org.junit.Test;
 
@@ -6,33 +6,39 @@ public class Test01 {
     T01 t = new T01();
 
     @Test
-    public void test01() {
+    public void test0101() {
         System.out.println(t.isUnique("leetcode"));
         System.out.println(t.isUnique("abc"));
     }
 
     @Test
-    public void test02() {
+    public void test0102() {
         System.out.println(t.CheckPermutation("abc", "bca"));
         System.out.println(t.CheckPermutation("abc", "bad"));
     }
 
     @Test
-    public void test03() {
+    public void test0103() {
         System.out.println(t.replaceSpaces("Mr John Smith    ", 13));
         System.out.println(t.replaceSpaces("               ", 5));
     }
 
     @Test
-    public void test04() {
+    public void test0104() {
         System.out.println(t.canPermutePalindrome("tactcoa"));
         System.out.println(t.canPermutePalindrome("code"));
     }
 
     @Test
-    public void test06() {
+    public void test0106() {
         System.out.println(t.compressString("aabcccccaaa"));
         System.out.println(t.compressString("abbccd"));
         System.out.println(t.compressString("bb"));
+    }
+
+    @Test
+    public void test0109() {
+        System.out.println(t.isFlipedString("waterbottle", "erbottlewat"));
+        System.out.println(t.isFlipedString("aa", "aba"));
     }
 }
