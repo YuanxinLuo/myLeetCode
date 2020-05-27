@@ -39,4 +39,44 @@ public class T02 {
         }
         return dummy.next;
     }
+
+    /**
+     * 面试题 02.02. 返回倒数第 k 个节点
+     * 实现一种算法，找出单向链表中倒数第 k 个节点。返回该节点的值。
+     * 注意：本题相对原题稍作改动
+     * 示例：
+     * 输入： 1->2->3->4->5 和 k = 2
+     * 输出： 4
+     *
+     * @param head
+     * @param k
+     * @return
+     */
+    public int kthToLast(ListNode head, int k) {
+        ListNode fast = head;
+        ListNode slow = head;
+        for (int i = 1; i < k; i++) {
+            fast = fast.next;
+        }
+        while (fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow.val;
+    }
+
+    /**
+     * 面试题 02.03. 删除中间节点
+     * 实现一种算法，删除单向链表中间的某个节点（即不是第一个或最后一个节点），假定你只能访问该节点。
+     * <p>
+     * 示例：
+     * 输入：单向链表a->b->c->d->e->f中的节点c
+     * 结果：不返回任何数据，但该链表变为a->b->d->e->f
+     *
+     * @param node
+     */
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
 }
