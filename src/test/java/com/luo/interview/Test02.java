@@ -36,12 +36,25 @@ public class Test02 {
 
 
     @Test
-    public void test0202(){
+    public void test0202() {
         ListNode head = new ListNode(1);
         head.next = new ListNode(2);
         head.next.next = new ListNode(3);
         head.next.next.next = new ListNode(4);
         head.next.next.next.next = new ListNode(5);
-        System.out.println(t.kthToLast(head,2));
+        System.out.println(t.kthToLast(head, 2));
+    }
+
+    @Test
+    public void test0206() {
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        System.out.println(t.isPalindrome(head));
+
+        ListNode head2 = new ListNode(1);
+        head2.next = new ListNode(2);
+        head2.next.next = new ListNode(2);
+        head2.next.next.next = new ListNode(1);
+        System.out.println(t.isPalindrome(head2));
     }
 }

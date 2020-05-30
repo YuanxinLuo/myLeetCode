@@ -23,6 +23,12 @@ public class Test81_90 {
     }
 
     @Test
+    public void test84() {
+        System.out.println(t.largestRectangleArea(new int[]{2, 1, 5, 6, 2, 3}));
+        System.out.println(t.largestRectangleArea(new int[]{2, 1, 7, 6, 2, 3}));
+    }
+
+    @Test
     public void test88() {
         int[] nums1 = {1, 2, 3, 0, 0, 0};
         int[] nums2 = {2, 5, 6};
