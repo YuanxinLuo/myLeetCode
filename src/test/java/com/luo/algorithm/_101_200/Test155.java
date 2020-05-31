@@ -12,7 +12,7 @@ public class Test155 {
     }
 
     private void test(int[] ito) {
-        T155MinStack solution = new T155MinStack();
+        T155.MinStack solution = new T155.MinStack();
         int rtn;
         long begin = System.currentTimeMillis();
         for (int i = 0; i < ito.length; i++) {
