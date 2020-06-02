@@ -10,4 +10,16 @@ public class Test05 {
 //        System.out.println(t.insertBits(10000000000, 10011, 2, 6));
         System.out.println(t.insertBits(0, 10011, 0, 4));
     }
+
+
+    @Test
+    public void test0503() {
+        System.out.println(t.reverseBits(1775));
+        System.out.println(t.reverseBits(7));
+    }
+
+    @Test
+    public void test0506() {
+        System.out.println(t.convertInteger(29, 15));
+    }
 }

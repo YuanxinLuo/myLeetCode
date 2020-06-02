@@ -28,4 +28,58 @@ public class T05 {
         }
         return ans;
     }
+
+    /**
+     * 面试题 05.03. 翻转数位
+     * 给定一个32位整数 num，你可以将一个数位从0变为1。请编写一个程序，找出你能够获得的最长的一串1的长度。
+     * <p>
+     * 示例 1：
+     * 输入: num = 1775(110111011112)
+     * 输出: 8
+     * <p>
+     * 示例 2：
+     * 输入: num = 7(01112)
+     * 输出: 4
+     *
+     * @param num
+     * @return
+     */
+    public int reverseBits(int num) {
+        int maxLen = 0, preLen = 0, curLen = 0, bits = 32;
+        while (bits-- > 0) {
+            if ((num & 1) == 0) {
+                curLen -= preLen;
+                preLen = curLen + 1;
+            }
+            curLen++;
+            maxLen = Math.max(maxLen, curLen);
+            num >>= 1;
+        }
+        return maxLen;
+    }
+
+    /**
+     * 面试题 05.06. 整数转换
+     * 整数转换。编写一个函数，确定需要改变几个位才能将整数A转成整数B。
+     * <p>
+     * 示例1:
+     * 输入：A = 29 （或者0b11101）, B = 15（或者0b01111）
+     * 输出：2
+     * <p>
+     * 示例2:
+     * 输入：A = 1，B = 2
+     * 输出：2
+     *
+     * @param A
+     * @param B
+     * @return
+     */
+    public int convertInteger(int A, int B) {
+        int x = A ^ B, cnt = 0;
+        while (x != 0) {
+            x &= (x - 1);
+            cnt++;
+        }
+        return cnt;
+    }
 }
