@@ -22,4 +22,10 @@ public class Test05 {
     public void test0506() {
         System.out.println(t.convertInteger(29, 15));
     }
+
+    @Test
+    public void test0507() {
+        System.out.println(t.exchangeBits(2));
+        System.out.println(t.exchangeBits(3));
+    }
 }
