@@ -72,4 +72,5 @@ public class Test21_30 {
         int val2 = 2;
         System.out.println(t.removeElement(nums2, val2));
     }
+
 }

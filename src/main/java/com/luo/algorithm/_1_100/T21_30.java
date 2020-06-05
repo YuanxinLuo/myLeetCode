@@ -196,4 +196,5 @@ public class T21_30 {
     public int strStr(String haystack, String needle) {
         return haystack.indexOf(needle);
     }
+
 }
