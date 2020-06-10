@@ -59,6 +59,15 @@ public class Test1_10 {
     }
 
     @Test
+    public void test8() {
+        System.out.println(test.myAtoi("42"));
+        System.out.println(test.myAtoi("   -42"));
+        System.out.println(test.myAtoi("4193 with words"));
+        System.out.println(test.myAtoi("words and 987"));
+        System.out.println(test.myAtoi("-91283472332"));
+    }
+
+    @Test
     public void test9() {
         System.out.println(test.isPalindrome(121));
         System.out.println(test.isPalindrome(-121));
