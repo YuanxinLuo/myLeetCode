@@ -24,4 +24,15 @@ public class Test16 {
     public void test1611() {
         System.out.println(Arrays.toString(t.divingBoard(1, 2, 3)));
     }
+
+    @Test
+    public void test1615() {
+        System.out.println(Arrays.toString(t.masterMind("RGBY", "GGRR")));
+    }
+
+    @Test
+    public void test1617() {
+        System.out.println(t.maxSubArray(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4}));
+        System.out.println(t.maxSubArray(new int[]{1}));
+    }
 }
