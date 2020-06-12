@@ -2,6 +2,9 @@ package com.luo.algorithm._1_100;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Test11_20 {
     T11_20 t = new T11_20();
 
@@ -22,6 +25,13 @@ public class Test11_20 {
         System.out.println(t.longestCommonPrefix(s2));
     }
 
+    @Test
+    public void test15() {
+        List<List<Integer>> lists = t.threeSum(new int[]{-1, 0, 1, 2, -1, -4});
+        for (List<Integer> list : lists) {
+            System.out.println(Arrays.toString(list.toArray()));
+        }
+    }
 
     @Test
     public void test20() {
