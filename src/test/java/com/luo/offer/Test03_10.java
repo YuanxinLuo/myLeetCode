@@ -2,6 +2,8 @@ package com.luo.offer;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 public class Test03_10 {
     Offer03_10 t = new Offer03_10();
 
@@ -22,5 +24,18 @@ public class Test03_10 {
 
         System.out.println(t.findNumberIn2DArray(matrix, 5));
         System.out.println(t.findNumberIn2DArray(matrix, 20));
+    }
+
+    @Test
+    public void test05() {
+        System.out.println(t.replaceSpace("We are happy."));
+    }
+
+    @Test
+    public void test06() {
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(3);
+        head.next.next = new ListNode(2);
+        System.out.println(Arrays.toString(t.reversePrint(head)));
     }
 }

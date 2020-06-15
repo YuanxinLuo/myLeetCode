@@ -49,4 +49,39 @@ public class Offer03_10 {
         }
         return false;
     }
+
+    /**
+     * 面试题05. 替换空格
+     * 请实现一个函数，把字符串 s 中的每个空格替换成"%20"。
+     * 示例 1：
+     * 输入：s = "We are happy."
+     * 输出："We%20are%20happy."
+     */
+    public String replaceSpace(String s) {
+        return s.replace(" ", "%20");
+    }
+
+    /**
+     * 面试题06. 从尾到头打印链表
+     * 输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。
+     * <p>
+     * 示例 1：
+     * 输入：head = [1,3,2]
+     * 输出：[2,3,1]
+     */
+    public int[] reversePrint(ListNode head) {
+        ListNode node = head;
+        int count = 0;
+        while (node != null) {
+            count++;
+            node = node.next;
+        }
+        int[] nums = new int[count];
+        node = head;
+        for (int i = count - 1; i >= 0; i--) {
+            nums[i] = node.val;
+            node = node.next;
+        }
+        return nums;
+    }
 }
