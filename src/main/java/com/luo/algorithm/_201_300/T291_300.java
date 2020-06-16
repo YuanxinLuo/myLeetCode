@@ -1,9 +1,5 @@
 package com.luo.algorithm._201_300;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
 public class T291_300 {
 
     /**
@@ -23,38 +19,17 @@ public class T291_300 {
      */
     public class Codec {
 
+        TreeNode node;
+
         // Encodes a tree to a single string.
         public String serialize(TreeNode root) {
-            return serialize(root, "");
+            node = root;
+            return " ";
         }
 
-        private String serialize(TreeNode root, String str) {
-            if (root == null) {
-                str += "None,";
-            } else {
-                str += str.valueOf(root.val) + ",";
-                str = serialize(root.left, str);
-                str = serialize(root.right, str);
-            }
-            return str;
-        }
-
+        // Decodes your encoded data to tree.
         public TreeNode deserialize(String data) {
-            String[] arr = data.split(",");
-            List<String> list = new LinkedList<>(Arrays.asList(arr));
-            return deserialize(list);
-        }
-
-        private TreeNode deserialize(List<String> list) {
-            if (list.get(0).equals("None")) {
-                list.remove(0);
-                return null;
-            }
-            TreeNode root = new TreeNode(Integer.valueOf(list.get(0)));
-            list.remove(0);
-            root.left = deserialize(list);
-            root.right = deserialize(list);
-            return root;
+            return node;
         }
     }
 }
