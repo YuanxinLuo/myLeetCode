@@ -38,4 +38,10 @@ public class Test03_10 {
         head.next.next = new ListNode(2);
         System.out.println(Arrays.toString(t.reversePrint(head)));
     }
+
+    @Test
+    public void test09(){
+        Offer03_10.CQueue obj = t.new CQueue();
+//        obj.appendTail();
+    }
 }

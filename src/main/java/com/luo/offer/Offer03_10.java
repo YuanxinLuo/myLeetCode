@@ -84,4 +84,45 @@ public class Offer03_10 {
         }
         return nums;
     }
+
+    /**
+     * 面试题09. 用两个栈实现队列
+     * 用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )
+     * 示例 1：
+     * 输入：
+     * ["CQueue","appendTail","deleteHead","deleteHead"]
+     * [[],[3],[],[]]
+     * 输出：[null,null,3,-1]
+     * <p>
+     * 示例 2：
+     * 输入：
+     * ["CQueue","deleteHead","appendTail","appendTail","deleteHead","deleteHead"]
+     * [[],[],[5],[2],[],[]]
+     * 输出：[null,-1,null,null,5,2]
+     */
+    class CQueue {
+        int[] stack1, stack2;
+        int top1, top2;
+        int size = 10005;
+
+        public CQueue() {
+            size = 5005;
+            stack1 = new int[size];
+            stack2 = new int[size];
+            top1 = top2 = -1;
+        }
+
+        public void appendTail(int value) {
+            stack1[++top1] = value;
+        }
+
+        public int deleteHead() {
+            if (top1 == -1 && top2 == -1) return -1;
+            if (top2 != -1) return stack2[top2--];
+            while (top1 > -1) {
+                stack2[++top2] = stack1[top1--];
+            }
+            return stack2[top2--];
+        }
+    }
 }
