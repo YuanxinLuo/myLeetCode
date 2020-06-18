@@ -40,8 +40,20 @@ public class Test03_10 {
     }
 
     @Test
-    public void test09(){
+    public void test09() {
         Offer03_10.CQueue obj = t.new CQueue();
 //        obj.appendTail();
+    }
+
+    @Test
+    public void test10I() {
+        System.out.println(t.fib(2));
+        System.out.println(t.fib(5));
+    }
+
+    @Test
+    public void test10II() {
+        System.out.println(t.numWays(2));
+        System.out.println(t.numWays(7));
     }
 }
