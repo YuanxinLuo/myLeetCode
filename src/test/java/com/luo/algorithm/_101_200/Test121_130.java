@@ -9,6 +9,13 @@ import java.util.List;
 public class Test121_130 {
     T121_130 t = new T121_130();
 
+
+    @Test
+    public void test125(){
+        System.out.println(t.isPalindrome("A man, a plan, a canal: Panama"));
+        System.out.println(t.isPalindrome("race a car"));
+    }
+
     @Test
     public void test126() {
         List<String> list1 = new ArrayList<>();
