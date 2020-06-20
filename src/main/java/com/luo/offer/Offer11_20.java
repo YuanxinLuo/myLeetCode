@@ -54,4 +54,48 @@ public class Offer11_20 {
         }
         return res;
     }
+
+    /**
+     * 剑指 Offer 17. 打印从1到最大的n位数
+     * 输入数字 n，按顺序打印出从 1 到最大的 n 位十进制数。比如输入 3，则打印出 1、2、3 一直到最大的 3 位数 999。
+     * <p>
+     * 示例 1:
+     * 输入: n = 1
+     * 输出: [1,2,3,4,5,6,7,8,9]
+     */
+    public int[] printNumbers(int n) {
+        int num = (int) Math.pow(10, n) - 1;
+        int[] res = new int[num];
+        for (int i = 0; i < num; i++) {
+            res[i] = i + 1;
+        }
+        return res;
+    }
+
+    /**
+     * 剑指 Offer 18. 删除链表的节点
+     * 给定单向链表的头指针和一个要删除的节点的值，定义一个函数删除该节点。
+     * 返回删除后的链表的头节点。
+     * 注意：此题对比原题有改动
+     * <p>
+     * 示例 1:
+     * 输入: head = [4,5,1,9], val = 5
+     * 输出: [4,1,9]
+     * 解释: 给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -> 1 -> 9.
+     * <p>
+     * 示例 2:
+     * 输入: head = [4,5,1,9], val = 1
+     * 输出: [4,5,9]
+     * 解释: 给定你链表中值为 1 的第三个节点，那么在调用了你的函数之后，该链表应变为 4 -> 5 -> 9.
+     */
+    public ListNode deleteNode(ListNode head, int val) {
+        if (head.val == val) return head.next;
+        ListNode pre = head, cur = head.next;
+        while (cur != null && cur.val != val) {
+            pre = cur;
+            cur = cur.next;
+        }
+        if (cur != null) pre.next = cur.next;
+        return head;
+    }
 }

@@ -75,4 +75,13 @@ public class Test1_10 {
         System.out.println(test.isPalindrome(12121));
         System.out.println(test.isPalindrome(12321));
     }
+
+    @Test
+    public void test10() {
+        System.out.println(test.isMatch("aa", "a"));
+        System.out.println(test.isMatch("aa", "a*"));
+        System.out.println(test.isMatch("ab",".*"));
+        System.out.println(test.isMatch("aab","c*a*b"));
+        System.out.println(test.isMatch("mississippi","mis*is*p*."));
+    }
 }
