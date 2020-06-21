@@ -11,7 +11,22 @@ public class Test121_130 {
 
 
     @Test
-    public void test125(){
+    public void test124() {
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        System.out.println(t.maxPathSum(root));
+
+        TreeNode r2 = new TreeNode(-10);
+        r2.left = new TreeNode(9);
+        r2.right = new TreeNode(20);
+        r2.right.left = new TreeNode(15);
+        r2.right.right = new TreeNode(7);
+        System.out.println(t.maxPathSum(r2));
+    }
+
+    @Test
+    public void test125() {
         System.out.println(t.isPalindrome("A man, a plan, a canal: Panama"));
         System.out.println(t.isPalindrome("race a car"));
     }
