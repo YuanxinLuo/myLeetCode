@@ -35,4 +35,12 @@ public class Test16 {
         System.out.println(t.maxSubArray(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4}));
         System.out.println(t.maxSubArray(new int[]{1}));
     }
+
+    @Test
+    public void test1618(){
+        System.out.println(t.patternMatching("abba","dogcatcatdog"));
+        System.out.println(t.patternMatching("abba","dogcatcatfish"));
+        System.out.println(t.patternMatching("aaaa","dogcatcatdog"));
+        System.out.println(t.patternMatching("abba","dogdogdogdog"));
+    }
 }
