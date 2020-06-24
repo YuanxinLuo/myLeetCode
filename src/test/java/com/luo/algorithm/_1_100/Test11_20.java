@@ -34,6 +34,11 @@ public class Test11_20 {
     }
 
     @Test
+    public void test16(){
+        System.out.println(t.threeSumClosest(new int[]{-1,2,1,-4},1));
+    }
+
+    @Test
     public void test20() {
         System.out.println(t.isValid("()"));
         System.out.println(t.isValid("()[]{}"));

@@ -1,9 +1,6 @@
 package com.luo.offer;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Offer31_40 {
     /**
@@ -59,5 +56,48 @@ public class Offer31_40 {
             votes += num == x ? 1 : -1;
         }
         return x;
+    }
+
+    /**
+     * 剑指 Offer 40. 最小的k个数
+     * 输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
+     * <p>
+     * 示例 1：
+     * 输入：arr = [3,2,1], k = 2
+     * 输出：[1,2] 或者 [2,1]
+     * <p>
+     * 示例 2：
+     * 输入：arr = [0,1,2,1], k = 1
+     * 输出：[0]
+     */
+    public int[] getLeastNumbers(int[] arr, int k) {
+        if (k == 0 || arr.length == 0) {
+            return new int[0];
+        }
+        return quickSearch(arr, 0, arr.length - 1, k - 1);
+    }
+
+    private int[] quickSearch(int[] nums, int lo, int hi, int k) {
+        int j = partition(nums, lo, hi);
+        if (j == k) {
+            return Arrays.copyOf(nums, j + 1);
+        }
+        return j > k ? quickSearch(nums, lo, j - 1, k) : quickSearch(nums, j + 1, hi, k);
+    }
+
+    private int partition(int[] nums, int lo, int hi) {
+        int v = nums[lo];
+        int i = lo, j = hi + 1;
+        while (true) {
+            while (++i <= hi && nums[i] < v) ;
+            while (--j >= lo && nums[j] > v) ;
+            if (i >= j) break;
+            int t = nums[j];
+            nums[j] = nums[i];
+            nums[i] = t;
+        }
+        nums[lo] = nums[j];
+        nums[j] = v;
+        return j;
     }
 }

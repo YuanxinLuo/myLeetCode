@@ -25,4 +25,10 @@ public class Test31_40 {
     public void test39() {
         System.out.println(t.majorityElement(new int[]{1, 2, 3, 2, 2, 2, 5, 4, 2}));
     }
+
+    @Test
+    public void test40() {
+        System.out.println(Arrays.toString(t.getLeastNumbers(new int[]{3, 2, 1}, 2)));
+        System.out.println(Arrays.toString(t.getLeastNumbers(new int[]{0, 1, 2, 1}, 1)));
+    }
 }

@@ -164,6 +164,79 @@ public class T11_20 {
     }
 
     /**
+     * 16. 最接近的三数之和
+     * 给定一个包括 n 个整数的数组 nums 和 一个目标值 target。找出 nums 中的三个整数，使得它们的和与 target 最接近。返回这三个数的和。假定每组输入只存在唯一答案。
+     * 示例：
+     * 输入：nums = [-1,2,1,-4], target = 1
+     * 输出：2
+     * 解释：与 target 最接近的和是 2 (-1 + 2 + 1 = 2) 。
+     */
+    public int threeSumClosest(int[] nums, int target) {
+        // 初始化 ans 为边界值，表示离 target 最远的和。
+        int ans = Integer.MIN_VALUE;
+        int len = nums.length;
+        if (len < 3) {
+            throw new IllegalArgumentException("数组元素不够三个！");
+        }
+        // 对数组排序，方便双指针移动。
+        Arrays.sort(nums);
+        // 判断 target 如果在数组和的边界之外则直接返回边界值。
+        if (target <= nums[0] + nums[1] + nums[2]) {
+            return nums[0] + nums[1] + nums[2];
+        } else if (target >= nums[len - 1] + nums[len - 2] + nums[len - 3]){
+            return nums[len - 1] + nums[len - 2] + nums[len - 3];
+        }
+        // 循环固定第一个数，根据双指针从它之后去选择另外两个数。
+        for (int i = 0; i < len - 2; i++) {
+            // 相同的第一个数只固定一次，避免重复运算。
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int L = i + 1, R = len - 1;
+            while (L < R) {
+                // 判断当前循环能得到的最小三数和。
+                int min = nums[i] + nums[L] + nums[L + 1];
+                if (target < min) {
+                    if (Math.abs(ans - target) > Math.abs(min - target)) {
+                        ans = min;
+                    }
+                    break;
+                }
+                // 判断当前循环能得到的最大三数和。
+                int max = nums[i] + nums[R] + nums[R - 1];
+                if (target > max) {
+                    if (Math.abs(ans - target) > Math.abs(max - target)) {
+                        ans = max;
+                    }
+                    break;
+                }
+                int sum = nums[i] + nums[L] + nums[R];
+                // 如果三数之和等于 target 则直接返回。
+                if (sum == target) {
+                    return sum;
+                }
+                // 根据差的绝对值判断离 target 最近的和。
+                if (Math.abs(target - sum) < Math.abs(target - ans)) {
+                    ans = sum;
+                }
+                // 根据三数之和与 target 大小的比较来移动俩指针。
+                if (sum > target) {
+                    R--;
+                    while (L < R && nums[R + 1] == nums[R]) {
+                        R--;
+                    }
+                } else {
+                    L++;
+                    while (L < R && nums[L - 1] == nums[L]) {
+                        L++;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+
+    /**
      * 20. 有效的括号
      * 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
      * <p>
