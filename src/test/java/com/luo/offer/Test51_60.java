@@ -39,4 +39,17 @@ public class Test51_60 {
         System.out.println(t.getIntersectionNode(a3, b3));
 
     }
+
+    @Test
+    public void test53I() {
+        int[] nums = {5, 7, 7, 8, 8, 10};
+        System.out.println(t.search(nums, 8));
+        System.out.println(t.search(nums, 6));
+    }
+
+    @Test
+    public void test53II() {
+        System.out.println(t.missingNumber(new int[]{0, 1, 3}));
+        System.out.println(t.missingNumber(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 9}));
+    }
 }
