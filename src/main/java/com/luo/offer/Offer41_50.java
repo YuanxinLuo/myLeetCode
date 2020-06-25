@@ -1,12 +1,16 @@
 package com.luo.offer;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import java.util.HashMap;
+
 public class Offer41_50 {
 
     /**
      * 剑指 Offer 42. 连续子数组的最大和
      * 输入一个整型数组，数组里有正数也有负数。数组中的一个或连续多个整数组成一个子数组。求所有子数组的和的最大值。
      * 要求时间复杂度为O(n)。
-     *
+     * <p>
      * 示例1:
      * 输入: nums = [-2,1,-3,4,-1,2,1,-5,4]
      * 输出: 6
@@ -19,15 +23,15 @@ public class Offer41_50 {
 //            res = Math.max(res, nums[i]);
 //        }
 //        return res;
-        int max=nums[0];
-        int temp=max;
-        for(int i=1;i<nums.length;i++) {
-            if(temp>=0) {
-                temp+=nums[i];
-            }else {
-                temp=nums[i];
+        int max = nums[0];
+        int temp = max;
+        for (int i = 1; i < nums.length; i++) {
+            if (temp >= 0) {
+                temp += nums[i];
+            } else {
+                temp = nums[i];
             }
-            max=Math.max(temp, max);
+            max = Math.max(temp, max);
         }
         return max;
     }
@@ -46,7 +50,7 @@ public class Offer41_50 {
      */
     public int translateNum(int num) {
         String src = String.valueOf(num);
-        int p = 0, q = 0, r = 1;
+        int p, q = 0, r = 1;
         for (int i = 0; i < src.length(); i++) {
             p = q;
             q = r;
@@ -59,5 +63,29 @@ public class Offer41_50 {
             }
         }
         return r;
+    }
+
+    /**
+     * 剑指 Offer 50. 第一个只出现一次的字符
+     * 在字符串 s 中找出第一个只出现一次的字符。如果没有，返回一个单空格。 s 只包含小写字母。
+     * 示例:
+     * s = "abaccdeff"
+     * 返回 "b"
+     * <p>
+     * s = ""
+     * 返回 " "
+     */
+    public char firstUniqChar(String s) {
+        HashMap<Character, Boolean> dic = new HashMap<>();
+        char[] sc = s.toCharArray();
+        for (char c : sc) {
+            dic.put(c, !dic.containsKey(c));
+        }
+        for (char c : sc) {
+            if(dic.get(c)) {
+                return c;
+            }
+        }
+        return ' ';
     }
 }

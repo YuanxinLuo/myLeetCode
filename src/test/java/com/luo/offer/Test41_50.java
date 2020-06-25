@@ -14,4 +14,10 @@ public class Test41_50 {
     public void test46() {
         System.out.println(t.translateNum(12258));
     }
+
+    @Test
+    public void test50(){
+        System.out.println(t.firstUniqChar("abaccdeff"));
+        System.out.println(t.firstUniqChar(""));
+    }
 }
