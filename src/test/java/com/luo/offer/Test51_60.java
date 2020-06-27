@@ -2,6 +2,7 @@ package com.luo.offer;
 
 import com.luo.algorithm._1_100.T51_60;
 import org.junit.Test;
+import sun.reflect.generics.tree.Tree;
 
 public class Test51_60 {
     Offer51_60 t = new Offer51_60();
@@ -51,5 +52,32 @@ public class Test51_60 {
     public void test53II() {
         System.out.println(t.missingNumber(new int[]{0, 1, 3}));
         System.out.println(t.missingNumber(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 9}));
+    }
+
+    @Test
+    public void test54() {
+        TreeNode root1 = new TreeNode(3);
+        root1.left = new TreeNode(1);
+        root1.left.right = new TreeNode(2);
+        root1.right = new TreeNode(4);
+        System.out.println(t.kthLargest(root1, 1));
+
+        TreeNode root2 = new TreeNode(5);
+        root2.left = new TreeNode(3);
+        root2.right = new TreeNode(6);
+        root2.left.left = new TreeNode(2);
+        root2.left.right = new TreeNode(4);
+        root2.left.left.left = new TreeNode(1);
+        System.out.println(t.kthLargest(root2, 3));
+    }
+
+    @Test
+    public void test55I() {
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(9);
+        root.right = new TreeNode(20);
+        root.right.left = new TreeNode(15);
+        root.right.right = new TreeNode(7);
+        System.out.println(t.maxDepth(root));
     }
 }

@@ -6,6 +6,13 @@ public class Test41_50 {
     T41_50 t = new T41_50();
 
     @Test
+    public void test41() {
+        System.out.println(t.firstMissingPositive(new int[]{1, 2, 0}));
+        System.out.println(t.firstMissingPositive(new int[]{3, 4, -1, 1}));
+        System.out.println(t.firstMissingPositive(new int[]{7, 8, 9, 11, 12}));
+    }
+
+    @Test
     public void test45() {
         int[] nums = {2, 3, 1, 1, 4};
         System.out.println(t.jump(nums));
