@@ -1,8 +1,8 @@
 package com.luo.offer;
 
-import com.luo.algorithm._1_100.T51_60;
 import org.junit.Test;
-import sun.reflect.generics.tree.Tree;
+
+import java.util.Arrays;
 
 public class Test51_60 {
     Offer51_60 t = new Offer51_60();
@@ -79,5 +79,30 @@ public class Test51_60 {
         root.right.left = new TreeNode(15);
         root.right.right = new TreeNode(7);
         System.out.println(t.maxDepth(root));
+    }
+
+    @Test
+    public void test55II() {
+        TreeNode r1 = new TreeNode(3);
+        r1.left = new TreeNode(9);
+        r1.right = new TreeNode(20);
+        r1.right.left = new TreeNode(15);
+        r1.right.right = new TreeNode(7);
+        System.out.println(t.isBalanced(r1));
+
+        TreeNode r2 = new TreeNode(1);
+        r2.right = new TreeNode(2);
+        r2.left = new TreeNode(2);
+        r2.left.left = new TreeNode(3);
+        r2.left.right = new TreeNode(3);
+        r2.left.left.left = new TreeNode(4);
+        r2.left.left.right = new TreeNode(4);
+        System.out.println(t.isBalanced(r2));
+    }
+
+    @Test
+    public void test57() {
+        System.out.println(Arrays.toString(t.twoSum(new int[]{2, 7, 11, 15}, 9)));
+        System.out.println(Arrays.toString(t.twoSum(new int[]{10, 26, 30, 31, 47, 60}, 40)));
     }
 }
