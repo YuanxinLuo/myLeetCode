@@ -105,4 +105,17 @@ public class Test51_60 {
         System.out.println(Arrays.toString(t.twoSum(new int[]{2, 7, 11, 15}, 9)));
         System.out.println(Arrays.toString(t.twoSum(new int[]{10, 26, 30, 31, 47, 60}, 40)));
     }
+
+    @Test
+    public void test57II() {
+        System.out.println(Arrays.deepToString(t.findContinuousSequence(9)));
+        System.out.println(Arrays.deepToString(t.findContinuousSequence(15)));
+    }
+
+    @Test
+    public void test58I() {
+        System.out.println(t.reverseWords("the sky is blus"));
+        System.out.println(t.reverseWords("  hello world!  "));
+        System.out.println(t.reverseWords("a good   example"));
+    }
 }
