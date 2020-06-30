@@ -118,4 +118,31 @@ public class Test51_60 {
         System.out.println(t.reverseWords("  hello world!  "));
         System.out.println(t.reverseWords("a good   example"));
     }
+
+    @Test
+    public void test58II() {
+        System.out.println(t.reverseLeftWords("abcdefg", 2));
+        System.out.println(t.reverseLeftWords("lrloseumgh", 6));
+    }
+
+    @Test
+    public void test59I() {
+        System.out.println(Arrays.toString(t.maxSlidingWindow(new int[]{1, 3, -1, -3, 5, 3, 6, 7}, 3)));
+    }
+
+    @Test
+    public void test59II(){
+        Offer51_60.MaxQueue obj = t.new MaxQueue();
+//        int param_1 = obj.max_value();
+//        obj.push_back(value);
+//        int param_3 = obj.pop_front();
+    }
+
+    @Test
+    public void test60() {
+        System.out.println(Arrays.toString(t.twoSum(1)));
+        System.out.println(Arrays.toString(t.twoSum(2)));
+        System.out.println(Arrays.toString(t.twoSum(3)));
+        System.out.println(Arrays.toString(t.twoSum(4)));
+    }
 }

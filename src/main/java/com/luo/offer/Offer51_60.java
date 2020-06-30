@@ -1,7 +1,9 @@
 package com.luo.offer;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class Offer51_60 {
 
@@ -266,5 +268,167 @@ public class Offer51_60 {
             }
         }
         return sb.toString().trim();
+    }
+
+    /**
+     * 剑指 Offer 58 - II. 左旋转字符串
+     * 字符串的左旋转操作是把字符串前面的若干个字符转移到字符串的尾部。请定义一个函数实现字符串左旋转操作的功能。
+     * 比如，输入字符串"abcdefg"和数字2，该函数将返回左旋转两位得到的结果"cdefgab"。
+     * <p>
+     * 示例 1：
+     * 输入: s = "abcdefg", k = 2
+     * 输出: "cdefgab"
+     * <p>
+     * 示例 2：
+     * 输入: s = "lrloseumgh", k = 6
+     * 输出: "umghlrlose"
+     */
+    public String reverseLeftWords(String s, int n) {
+        return s.substring(n, s.length()) + s.substring(0, n);
+    }
+
+    /**
+     * 剑指 Offer 59 - I. 滑动窗口的最大值
+     * 给定一个数组 nums 和滑动窗口的大小 k，请找出所有滑动窗口里的最大值。
+     * <p>
+     * 示例:
+     * 输入: nums = [1,3,-1,-3,5,3,6,7], 和 k = 3
+     * 输出: [3,3,5,5,6,7]
+     * 解释:
+     * <p>
+     * 滑动窗口的位置                最大值
+     * ---------------               -----
+     * [1  3  -1] -3  5  3  6  7       3
+     * 1 [3  -1  -3] 5  3  6  7       3
+     * 1  3 [-1  -3  5] 3  6  7       5
+     * 1  3  -1 [-3  5  3] 6  7       5
+     * 1  3  -1  -3 [5  3  6] 7       6
+     * 1  3  -1  -3  5 [3  6  7]      7
+     */
+    public int[] maxSlidingWindow(int[] nums, int k) {
+//        if (nums.length == 0 || k == 0) return new int[0];
+//        Deque<Integer> deque = new LinkedList<>();
+//        int[] res = new int[nums.length - k + 1];
+//        for (int j = 0, i = 1 - k; j < nums.length; i++, j++) {
+//            if (i > 0 && deque.peekFirst() == nums[i - 1]) deque.removeFirst();
+//            while (!deque.isEmpty() && deque.peekLast() < nums[j]) deque.removeLast();
+//            deque.addLast(nums[j]);
+//            if (i >= 0) res[i] = deque.peekFirst();
+//        }
+//        return res;
+        if (nums.length == 0) return new int[0];
+        int[] ans = new int[nums.length - k + 1];
+        int i = 0;
+        int max = Integer.MIN_VALUE;
+        int idx = -1;
+        for (int j = 0; j < k; j++) {
+            if (nums[j] > max) {
+                max = nums[j];
+                idx = j;
+            }
+        }
+        ans[i++] = max;
+
+        for (int j = k; j < nums.length; j++) {
+            if (idx <= j - k) {
+                max = nums[++idx];
+                int l = idx + 1;
+                while (l <= j) {
+                    if (nums[l] > max) {
+                        max = nums[l];
+                        idx = l;
+                    }
+                    l++;
+                }
+            } else {
+                if (nums[j] > max) {
+                    max = nums[j];
+                    idx = j;
+                }
+            }
+            ans[i++] = max;
+        }
+        return ans;
+    }
+
+    /**
+     * 剑指 Offer 59 - II. 队列的最大值
+     * 请定义一个队列并实现函数 max_value 得到队列里的最大值，要求函数max_value、push_back 和 pop_front 的均摊时间复杂度都是O(1)。
+     * <p>
+     * 若队列为空，pop_front 和 max_value 需要返回 -1
+     * <p>
+     * 示例 1：
+     * 输入:
+     * ["MaxQueue","push_back","push_back","max_value","pop_front","max_value"]
+     * [[],[1],[2],[],[],[]]
+     * 输出: [null,null,null,2,1,2]
+     * 示例 2：
+     * 输入:
+     * ["MaxQueue","pop_front","max_value"]
+     * [[],[],[]]
+     * 输出: [null,-1,-1]
+     */
+    class MaxQueue {
+        Queue<Integer> queue;
+        LinkedList<Integer> max;
+
+        public MaxQueue() {
+            queue = new LinkedList<>();
+            max = new LinkedList<>();
+        }
+
+        public int max_value() {
+            return max.size() == 0 ? -1 : max.getFirst();
+        }
+
+        public void push_back(int value) {
+            queue.add(value);
+            while (max.size() != 0 && max.getLast() < value) {
+                max.removeLast();
+            }
+            max.add(value);
+        }
+
+        public int pop_front() {
+            if (max.size() != 0 && queue.peek().equals(max.getFirst())) max.removeFirst();
+            return queue.size() == 0 ? -1 : queue.poll();
+        }
+    }
+
+
+    /**
+     * 剑指 Offer 60. n个骰子的点数
+     * 把n个骰子扔在地上，所有骰子朝上一面的点数之和为s。输入n，打印出s的所有可能的值出现的概率。
+     * 你需要用一个浮点数数组返回答案，其中第 i 个元素代表这 n 个骰子所能掷出的点数集合中第 i 小的那个的概率。
+     * <p>
+     * 示例 1:
+     * 输入: 1
+     * 输出: [0.16667,0.16667,0.16667,0.16667,0.16667,0.16667]
+     * <p>
+     * 示例 2:
+     * 输入: 2
+     * 输出: [0.02778,0.05556,0.08333,0.11111,0.13889,0.16667,0.13889,0.11111,0.08333,0.05556,0.02778]
+     */
+    public double[] twoSum(int n) {
+        if (n == 0) return new double[0];
+        int code = 6;//每个骰子有6个数字
+        int[][] count = new int[2][n * code + 1];
+        int flag = 0;
+        //i为骰子数,j为点数,k为移动的位数(1=<k<=6)
+        for (int j = 1; j <= code; j++) count[flag][j] = 1;//第1枚骰子,i=1
+        for (int i = 2; i <= n; i++) {//第2枚到第n枚骰子
+            for (int j = 1; j < i; j++) count[1 - flag][j] = 0;//第1~i-1置0,第0位没有进行修改过，始终为初始值0;
+            for (int j = i; j <= i * code; j++) {
+                count[1 - flag][j] = 0;//这里必须有清空操作,否则后面的+=操作会基于上上次循环的初始值累加
+                for (int k = 1; k <= 6 && j - k >= 1; k++) {
+                    count[1 - flag][j] += count[flag][j - k];
+                }
+            }
+            flag = 1 - flag;
+        }
+        double base = Math.pow(code, n);
+        double[] p = new double[n * code - n + 1];
+        for (int j = 0; j < p.length; j++) p[j] = count[flag][n + j] / base;//base已经是double类型了，这里前面可不用加(double)转换了
+        return p;
     }
 }
