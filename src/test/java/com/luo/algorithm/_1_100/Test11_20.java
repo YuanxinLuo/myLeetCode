@@ -9,6 +9,11 @@ public class Test11_20 {
     T11_20 t = new T11_20();
 
     @Test
+    public void test11() {
+        System.out.println(t.maxArea(new int[]{1, 8, 6, 2, 5, 4, 8, 3, 7}));
+    }
+
+    @Test
     public void test13() {
         System.out.println(t.romanToInt("III"));
         System.out.println(t.romanToInt("IV"));
@@ -34,8 +39,8 @@ public class Test11_20 {
     }
 
     @Test
-    public void test16(){
-        System.out.println(t.threeSumClosest(new int[]{-1,2,1,-4},1));
+    public void test16() {
+        System.out.println(t.threeSumClosest(new int[]{-1, 2, 1, -4}, 1));
     }
 
     @Test

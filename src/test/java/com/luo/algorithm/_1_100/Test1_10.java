@@ -50,6 +50,11 @@ public class Test1_10 {
         System.out.println(test.longestPalindrome("cbbd"));
     }
 
+    @Test
+    public void test6(){
+        System.out.println(test.convert("LEETCODEISHIRING",3));
+        System.out.println(test.convert("LEETCODEISHIRING",4));
+    }
 
     @Test
     public void test7() {
