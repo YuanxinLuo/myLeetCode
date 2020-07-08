@@ -11,6 +11,17 @@ public class Test11_20 {
     @Test
     public void test11() {
         System.out.println(t.maxArea(new int[]{1, 8, 6, 2, 5, 4, 8, 3, 7}));
+        System.out.println(t.maxArea(new int[]{}));
+        System.out.println(t.maxArea(new int[]{1, 1}));
+    }
+
+    @Test
+    public void test12() {
+        System.out.println(t.intToRoman(3));
+        System.out.println(t.intToRoman(4));
+        System.out.println(t.intToRoman(9));
+        System.out.println(t.intToRoman(58));
+        System.out.println(t.intToRoman(1994));
     }
 
     @Test
