@@ -30,9 +30,16 @@ public class Test17 {
     }
 
     @Test
+    public void test1713() {
+        String[] dicts = {"looked", "just", "like", "her", "brother"};
+        System.out.println(t.respace(dicts, "jesslookedjustliketimherbrother"));
+    }
+
+
+    @Test
     public void test1716() {
         System.out.println(t.massage(new int[]{1, 2, 3, 1}));
         System.out.println(t.massage(new int[]{2, 7, 9, 3, 1,}));
-        System.out.println(t.massage(new int[]{2,1,4,5,3,1,1,3}));
+        System.out.println(t.massage(new int[]{2, 1, 4, 5, 3, 1, 1, 3}));
     }
 }

@@ -55,6 +55,17 @@ public class Test11_20 {
     }
 
     @Test
+    public void test17() {
+        System.out.println(t.letterCombinations("23"));
+        System.out.println(t.letterCombinations("45"));
+    }
+
+    @Test
+    public void test18() {
+        System.out.println(t.fourSum(new int[]{1, 0, -1, 0, -2, 2}, 0));
+    }
+
+    @Test
     public void test20() {
         System.out.println(t.isValid("()"));
         System.out.println(t.isValid("()[]{}"));
