@@ -23,6 +23,11 @@ public class Test21_30 {
     }
 
     @Test
+    public void test22(){
+        System.out.println(t.generateParenthesis(3));
+    }
+
+    @Test
     public void test25() {
         ListNode head = new ListNode(1);
         head.next = new ListNode(2);

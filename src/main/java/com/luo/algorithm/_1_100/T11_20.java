@@ -330,7 +330,7 @@ public class T11_20 {
      * 17. 电话号码的字母组合
      * 给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。
      * 给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
-     *
+     * <p>
      * 示例:
      * 输入："23"
      * 输出：["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
@@ -379,85 +379,112 @@ public class T11_20 {
      * 给定一个包含 n 个整数的数组 nums 和一个目标值 target，判断 nums 中是否存在四个元素 a，b，c 和 d ，使得 a + b + c + d 的值与 target 相等？找出所有满足条件且不重复的四元组。
      * 注意：
      * 答案中不可以包含重复的四元组。
-     *
+     * <p>
      * 示例：
      * 给定数组 nums = [1, 0, -1, 0, -2, 2]，和 target = 0。
      * 满足要求的四元组集合为：
      * [
-     *   [-1,  0, 0, 1],
-     *   [-2, -1, 1, 2],
-     *   [-2,  0, 0, 2]
+     * [-1,  0, 0, 1],
+     * [-2, -1, 1, 2],
+     * [-2,  0, 0, 2]
      * ]
      */
     public List<List<Integer>> fourSum(int[] nums, int target) {
         /*定义一个返回值*/
-        List<List<Integer>> result=new ArrayList<>();
+        List<List<Integer>> result = new ArrayList<>();
         /*当数组为null或元素小于4个时，直接返回*/
-        if(nums==null||nums.length<4){
+        if (nums == null || nums.length < 4) {
             return result;
         }
         /*对数组进行从小到大排序*/
         Arrays.sort(nums);
         /*数组长度*/
-        int length=nums.length;
+        int length = nums.length;
         /*定义4个指针k，i，j，h  k从0开始遍历，i从k+1开始遍历，留下j和h，j指向i+1，h指向数组最大值*/
-        for(int k=0;k<length-3;k++){
+        for (int k = 0; k < length - 3; k++) {
             /*当k的值与前面的值相等时忽略*/
-            if(k>0&&nums[k]==nums[k-1]){
+            if (k > 0 && nums[k] == nums[k - 1]) {
                 continue;
             }
             /*获取当前最小值，如果最小值比目标值大，说明后面越来越大的值根本没戏*/
-            int min1=nums[k]+nums[k+1]+nums[k+2]+nums[k+3];
-            if(min1>target){
+            int min1 = nums[k] + nums[k + 1] + nums[k + 2] + nums[k + 3];
+            if (min1 > target) {
                 break;
             }
             /*获取当前最大值，如果最大值比目标值小，说明后面越来越小的值根本没戏，忽略*/
-            int max1=nums[k]+nums[length-1]+nums[length-2]+nums[length-3];
-            if(max1<target){
+            int max1 = nums[k] + nums[length - 1] + nums[length - 2] + nums[length - 3];
+            if (max1 < target) {
                 continue;
             }
             /*第二层循环i，初始值指向k+1*/
-            for(int i=k+1;i<length-2;i++){
+            for (int i = k + 1; i < length - 2; i++) {
                 /*当i的值与前面的值相等时忽略*/
-                if(i>k+1&&nums[i]==nums[i-1]){
+                if (i > k + 1 && nums[i] == nums[i - 1]) {
                     continue;
                 }
                 /*定义指针j指向i+1*/
-                int j=i+1;
+                int j = i + 1;
                 /*定义指针h指向数组末尾*/
-                int h=length-1;
+                int h = length - 1;
                 /*获取当前最小值，如果最小值比目标值大，说明后面越来越大的值根本没戏，忽略*/
-                int min=nums[k]+nums[i]+nums[j]+nums[j+1];
-                if(min>target){
+                int min = nums[k] + nums[i] + nums[j] + nums[j + 1];
+                if (min > target) {
                     continue;
                 }
                 /*获取当前最大值，如果最大值比目标值小，说明后面越来越小的值根本没戏，忽略*/
-                int max=nums[k]+nums[i]+nums[h]+nums[h-1];
-                if(max<target){
+                int max = nums[k] + nums[i] + nums[h] + nums[h - 1];
+                if (max < target) {
                     continue;
                 }
                 /*开始j指针和h指针的表演，计算当前和，如果等于目标值，j++并去重，h--并去重，当当前和大于目标值时h--，当当前和小于目标值时j++*/
-                while (j<h){
-                    int curr=nums[k]+nums[i]+nums[j]+nums[h];
-                    if(curr==target){
-                        result.add(Arrays.asList(nums[k],nums[i],nums[j],nums[h]));
+                while (j < h) {
+                    int curr = nums[k] + nums[i] + nums[j] + nums[h];
+                    if (curr == target) {
+                        result.add(Arrays.asList(nums[k], nums[i], nums[j], nums[h]));
                         j++;
-                        while(j<h&&nums[j]==nums[j-1]){
+                        while (j < h && nums[j] == nums[j - 1]) {
                             j++;
                         }
                         h--;
-                        while(j<h&&i<h&&nums[h]==nums[h+1]){
+                        while (j < h && i < h && nums[h] == nums[h + 1]) {
                             h--;
                         }
-                    }else if(curr>target){
+                    } else if (curr > target) {
                         h--;
-                    }else {
+                    } else {
                         j++;
                     }
                 }
             }
         }
         return result;
+    }
+
+    /**
+     * 19. 删除链表的倒数第N个节点
+     * 给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
+     * <p>
+     * 示例：
+     * 给定一个链表: 1->2->3->4->5, 和 n = 2.
+     * 当删除了倒数第二个节点后，链表变为 1->2->3->5.
+     */
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        int length = 0;
+        ListNode first = head;
+        while (first != null) {
+            length++;
+            first = first.next;
+        }
+        length -= n;
+        first = dummy;
+        while (length > 0) {
+            length--;
+            first = first.next;
+        }
+        first.next = first.next.next;
+        return dummy.next;
     }
 
     /**
