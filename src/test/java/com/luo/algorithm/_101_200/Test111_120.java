@@ -2,6 +2,9 @@ package com.luo.algorithm._101_200;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Test111_120 {
     T111_120 t = new T111_120();
 
@@ -19,5 +22,40 @@ public class Test111_120 {
         root.right.right.right = new TreeNode(1);
 
         System.out.println(t.hasPathSum(root, 22));
+    }
+
+    @Test
+    public void test118(){
+        System.out.println(t.generate(5));
+    }
+
+    @Test
+    public void test119(){
+        System.out.println(t.getRow(3));
+    }
+
+    @Test
+    public void test120() {
+        List<List<Integer>> triangle = new ArrayList<>();
+        List<Integer> t1 = new ArrayList<>();
+        t1.add(2);
+        List<Integer> t2 = new ArrayList<>();
+        t2.add(3);
+        t2.add(4);
+        List<Integer> t3 = new ArrayList<>();
+        t3.add(6);
+        t3.add(5);
+        t3.add(7);
+        List<Integer> t4 = new ArrayList<>();
+        t4.add(4);
+        t4.add(1);
+        t4.add(8);
+        t4.add(3);
+        triangle.add(t1);
+        triangle.add(t2);
+        triangle.add(t3);
+        triangle.add(t4);
+
+        System.out.println(t.minimumTotal(triangle));
     }
 }
