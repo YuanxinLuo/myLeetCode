@@ -27,6 +27,107 @@ public class Offer11_20 {
     }
 
     /**
+     * 剑指 Offer 12. 矩阵中的路径
+     * 请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一格开始，每一步可以在矩阵中向左、右、上、下移动一格。如果一条路径经过了矩阵的某一格，那么该路径不能再次进入该格子。例如，在下面的3×4的矩阵中包含一条字符串“bfce”的路径（路径中的字母用加粗标出）。
+     * <p>
+     * [["a","b","c","e"],
+     * ["s","f","c","s"],
+     * ["a","d","e","e"]]
+     * <p>
+     * 但矩阵中不包含字符串“abfb”的路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入这个格子。
+     * 示例 1：
+     * 输入：board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+     * 输出：true
+     * <p>
+     * 示例 2：
+     * 输入：board = [["a","b"],["c","d"]], word = "abcd"
+     * 输出：true
+     */
+    boolean res = false;
+    int row, col;
+
+    public boolean exist(char[][] board, String word) {
+        if (word.length() == 0) return res;
+        char[] words = word.toCharArray();
+        row = board.length;
+        col = board[0].length;
+        if (row * col < words.length) return res;
+        for (int i = 0; i < row && res == false; i++) {//遍历board，res为true时可以直接返回了。
+            for (int j = 0; j < col; j++) {
+                if (words[0] == board[i][j]) {
+                    dfs(board, words, i, j, 0);
+                }
+            }
+        }
+        return res;
+    }
+
+    private void dfs(char[][] board, char[] word, int i, int j, int index) {
+        if (res || board[i][j] != word[index]) return;//找到满足的路径或路径不正确
+        if (word.length - 1 == index) {//找到满足的路径
+            res = true;
+            return;
+        }
+        char temp = board[i][j];
+        board[i][j] = '#';//标记路径
+        if (i + 1 < row && board[i + 1][j] != '#') dfs(board, word, i + 1, j, index + 1);//下
+        if (i > 0 && board[i - 1][j] != '#') dfs(board, word, i - 1, j, index + 1);//上
+        if (j + 1 < col && board[i][j + 1] != '#') dfs(board, word, i, j + 1, index + 1);//右
+        if (j > 0 && board[i][j - 1] != '#') dfs(board, word, i, j - 1, index + 1);//左
+        board[i][j] = temp;//撤销选择
+    }
+
+    /**
+     * 剑指 Offer 13. 机器人的运动范围
+     * 地上有一个m行n列的方格，从坐标 [0,0] 到坐标 [m-1,n-1] 。
+     * 一个机器人从坐标 [0, 0] 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），
+     * 也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。
+     * 但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？
+     * <p>
+     * 示例 1：
+     * 输入：m = 2, n = 3, k = 1
+     * 输出：3
+     * <p>
+     * 示例 2：
+     * 输入：m = 3, n = 1, k = 0
+     * 输出：1
+     */
+    int counts = 0;
+
+    public int movingCount(int m, int n, int k) {
+        //辅助数组 用来标记是否统计过
+        int[][] visited = new int[m][n];
+        //从 0,0位置开始统计
+        helper(visited, 0, 0, m - 1, n - 1, k);
+        return counts;
+    }
+
+    /**
+     * 传入i,j两点 判断当前点是否符合规则 符合规则下继续对下右两个方向递归判断
+     */
+    private void helper(int[][] visited, int i, int j, int m, int n, int k) {
+        if (i <= m && j <= n && visited[i][j] != 1 && (indexSum(i) + indexSum(j)) <= k) {
+            counts++;
+            visited[i][j] = 1;
+            helper(visited, i + 1, j, m, n, k);
+            helper(visited, i, j + 1, m, n, k);
+        }
+    }
+
+    /**
+     * 根据传入的数 求出各位上的数字累加和
+     */
+    private int indexSum(int index) {
+        int sum = index % 10;
+        int tmp = index / 10;
+        while (tmp > 0) {
+            sum += tmp % 10;
+            tmp /= 10;
+        }
+        return sum;
+    }
+
+    /**
      * 面试题15. 二进制中1的个数
      * 请实现一个函数，输入一个整数，输出该数二进制表示中 1 的个数。例如，把 9 表示成二进制是 1001，有 2 位是 1。因此，如果输入 9，则该函数输出 2。
      * <p>

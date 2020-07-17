@@ -14,6 +14,23 @@ public class Test11_20 {
     }
 
     @Test
+    public void test12() {
+        char[][] board1 = {{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
+        String word1 = "ABCCED";
+        System.out.println(t.exist(board1, word1));
+
+        char[][] board2 = {{'a', 'b'}, {'c', 'd'}};
+        String word2 = "abcd";
+        System.out.println(t.exist(board2, word2));
+    }
+
+    @Test
+    public void test13() {
+        System.out.println(t.movingCount(2, 3, 1));
+        System.out.println(t.movingCount(3, 1, 0));
+    }
+
+    @Test
     public void test15() {
         System.out.println(t.hammingWeight(Integer.parseUnsignedInt("00000000000000000000000000001011", 2)));
         System.out.println(t.hammingWeight(Integer.parseUnsignedInt("00000000000000000000000010000000", 2)));

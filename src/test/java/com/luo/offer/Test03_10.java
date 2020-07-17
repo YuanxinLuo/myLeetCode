@@ -40,6 +40,13 @@ public class Test03_10 {
     }
 
     @Test
+    public void test07() {
+        int[] pre = {3, 9, 20, 15, 7};
+        int[] in = {9, 3, 15, 20, 7};
+        System.out.println(t.buildTree(pre, in));
+    }
+
+    @Test
     public void test09() {
         Offer03_10.CQueue obj = t.new CQueue();
 //        obj.appendTail();
