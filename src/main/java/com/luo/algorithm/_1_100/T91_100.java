@@ -6,6 +6,7 @@ import java.util.List;
 
 public class T91_100 {
 
+
     /**
      * 93. 复原IP地址
      * 给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。
@@ -96,6 +97,38 @@ public class T91_100 {
             C = C * 2 * (2 * i + 1) / (i + 2);
         }
         return (int) C;
+    }
+    /**
+     * 97. 交错字符串
+     * 给定三个字符串 s1, s2, s3, 验证 s3 是否是由 s1 和 s2 交错组成的。
+     *
+     * 示例 1:
+     * 输入: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbcbcac"
+     * 输出: true
+     *
+     * 示例 2:
+     * 输入: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbbaccc"
+     * 输出: false
+     */
+    public boolean isInterleave(String s1, String s2, String s3) {
+        int n = s1.length(), m = s2.length(), t = s3.length();
+        if (n + m != t) {
+            return false;
+        }
+        boolean[] f = new boolean[m + 1];
+        f[0] = true;
+        for (int i = 0; i <= n; ++i) {
+            for (int j = 0; j <= m; ++j) {
+                int p = i + j - 1;
+                if (i > 0) {
+                    f[j] = f[j] && s1.charAt(i - 1) == s3.charAt(p);
+                }
+                if (j > 0) {
+                    f[j] = f[j] || (f[j - 1] && s2.charAt(j - 1) == s3.charAt(p));
+                }
+            }
+        }
+        return f[m];
     }
     /**
      * 98. 验证二叉搜索树

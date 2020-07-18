@@ -6,16 +6,21 @@ public class Test91_100 {
     T91_100 test = new T91_100();
 
     @Test
-    public void test93(){
+    public void test93() {
         System.out.println(test.restoreIpAddresses("25525511135"));
         System.out.println(test.restoreIpAddresses("1921680104"));
     }
 
     @Test
-    public void test96(){
+    public void test96() {
         System.out.println(test.numTrees(3));
     }
 
+    @Test
+    public void test97() {
+        System.out.println(test.isInterleave("aabcc", "dbbca", "aadbbcbcac"));
+        System.out.println(test.isInterleave("aabcc", "dbbca", "aadbbbaccc"));
+    }
 
     @Test
     public void test98() {
