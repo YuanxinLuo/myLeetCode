@@ -31,12 +31,31 @@ public class Test11_20 {
     }
 
     @Test
+    public void test14I() {
+        System.out.println(t.cuttingRope(2));
+        System.out.println(t.cuttingRope(10));
+    }
+
+    @Test
+    public void test14II() {
+        System.out.println(t.cuttingRopeII(2));
+        System.out.println(t.cuttingRopeII(10));
+    }
+
+
+    @Test
     public void test15() {
         System.out.println(t.hammingWeight(Integer.parseUnsignedInt("00000000000000000000000000001011", 2)));
         System.out.println(t.hammingWeight(Integer.parseUnsignedInt("00000000000000000000000010000000", 2)));
         System.out.println(t.hammingWeight(Integer.parseUnsignedInt("11111111111111111111111111111101", 2)));
     }
 
+    @Test
+    public void test16() {
+        System.out.println(t.myPow(2.00000, 10));
+        System.out.println(t.myPow(2.10000, 3));
+        System.out.println(t.myPow(2.00000, -2));
+    }
 
     @Test
     public void test17() {

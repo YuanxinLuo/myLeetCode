@@ -2,11 +2,13 @@ package com.luo.algorithm._101_200;
 
 import org.junit.Test;
 
-public class Test146 {
+public class Test141_150 {
+
+    T141_150 t = new T141_150();
 
     @Test
     public void test146() {
-        T146LRUCache cache = new T146LRUCache(2);
+        T141_150.LURCache cache = t.new LURCache(2);
         cache.put(1, 1);
         cache.put(2, 2);
         System.out.println(cache.get(1));
