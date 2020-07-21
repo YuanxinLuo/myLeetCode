@@ -2,7 +2,17 @@ package com.luo.algorithm._101_200;
 
 import org.junit.Test;
 
-public class Test155 {
+public class Test151_160 {
+
+    T151_160 t = new T151_160();
+
+    @Test
+    public void test152() {
+        int[] nums1 = {2, 3, -2, 4};
+        int[] nums2 = {-2, 0, -1};
+        System.out.println(t.maxProduct(nums1));
+        System.out.println(t.maxProduct(nums2));
+    }
     @Test
     public void test155() {
         int[][] testTable = {{1,-2,3},{2,7,9,-3,1},{7,10,4,3,1},{11,6,2,7}};
@@ -12,7 +22,7 @@ public class Test155 {
     }
 
     private void test(int[] ito) {
-        T155.MinStack solution = new T155.MinStack();
+        T151_160.MinStack solution = t.new MinStack();
         int rtn;
         long begin = System.currentTimeMillis();
         for (int i = 0; i < ito.length; i++) {
@@ -36,5 +46,4 @@ public class Test155 {
         System.out.println("耗时：" + (end - begin) + "ms");
         System.out.println("-------------------");
     }
-
 }

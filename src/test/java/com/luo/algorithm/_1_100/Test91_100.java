@@ -6,9 +6,37 @@ public class Test91_100 {
     T91_100 test = new T91_100();
 
     @Test
+    public void test91(){
+        System.out.println(test.numDecodings("12"));
+        System.out.println(test.numDecodings("226"));
+    }
+    @Test
+    public void test92(){
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(5);
+        System.out.println(test.reverseBetween(head,2,4));
+    }
+
+    @Test
     public void test93() {
         System.out.println(test.restoreIpAddresses("25525511135"));
         System.out.println(test.restoreIpAddresses("1921680104"));
+    }
+
+    @Test
+    public void test94() {
+        TreeNode root = new TreeNode(1);
+        root.right = new TreeNode(2);
+        root.right.left = new TreeNode(3);
+        System.out.println(test.inorderTraversal(root));
+    }
+
+    @Test
+    public void test95() {
+        System.out.println(test.generateTrees(3));
     }
 
     @Test
