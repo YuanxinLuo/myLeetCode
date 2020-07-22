@@ -36,6 +36,15 @@ public class Test61_70 {
     }
 
     @Test
+    public void test67() {
+        System.out.println(t.strToInt("42"));
+        System.out.println(t.strToInt("   -42"));
+        System.out.println(t.strToInt("4193 with words"));
+        System.out.println(t.strToInt("words and 987"));
+        System.out.println(t.strToInt("-91283472332"));
+    }
+
+    @Test
     public void test68I() {
         TreeNode root = new TreeNode(6);
         root.left = new TreeNode(2);

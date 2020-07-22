@@ -76,7 +76,31 @@ public class Test11_20 {
         head2.next = new ListNode(5);
         head2.next.next = new ListNode(1);
         head2.next.next.next = new ListNode(9);
-
         System.out.println(t.deleteNode(head2, 1));
+    }
+
+    @Test
+    public void test19() {
+        System.out.println(t.isMatch("aa", "a"));
+        System.out.println(t.isMatch("aa", "a*"));
+        System.out.println(t.isMatch("ab", ".*"));
+        System.out.println(t.isMatch("aab", "c*a*b"));
+        System.out.println(t.isMatch("mississippi", "mis*is*p*."));
+    }
+
+    @Test
+    public void test20() {
+        System.out.println(t.isNumber("+100"));
+        System.out.println(t.isNumber("5e2"));
+        System.out.println(t.isNumber("-123"));
+        System.out.println(t.isNumber("3.1416"));
+        System.out.println(t.isNumber("0123"));
+
+        System.out.println(t.isNumber("12e"));
+        System.out.println(t.isNumber("1a3.14"));
+        System.out.println(t.isNumber("1.2.3"));
+        System.out.println(t.isNumber("+-5"));
+        System.out.println(t.isNumber("-1E-16"));
+        System.out.println(t.isNumber("12e+5.4"));
     }
 }

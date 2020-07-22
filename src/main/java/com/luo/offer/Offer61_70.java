@@ -111,27 +111,88 @@ public class Offer61_70 {
     }
 
     /**
+     * 剑指 Offer 67. 把字符串转换成整数
+     * 写一个函数 StrToInt，实现把字符串转换成整数这个功能。不能使用 atoi 或者其他类似的库函数。
+     * <p>
+     * 首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。
+     * <p>
+     * 当我们寻找到的第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字组合起来，作为该整数的正负号；
+     * 假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成整数。
+     * <p>
+     * 该字符串除了有效的整数部分之后也可能会存在多余的字符，这些字符可以被忽略，它们对于函数不应该造成影响。
+     * <p>
+     * 注意：假如该字符串中的第一个非空格字符不是一个有效整数字符、字符串为空或字符串仅包含空白字符时，则你的函数不需要进行转换。
+     * <p>
+     * 在任何情况下，若函数不能进行有效的转换时，请返回 0。
+     * <p>
+     * 说明：
+     * 假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−231,  231 − 1]。
+     * 如果数值超过这个范围，请返回  INT_MAX (231 − 1) 或 INT_MIN (−231) 。
+     * <p>
+     * 示例 1:
+     * 输入: "42"
+     * 输出: 42
+     * <p>
+     * 示例 2:
+     * 输入: "   -42"
+     * 输出: -42
+     * 解释: 第一个非空白字符为 '-', 它是一个负号。
+     * 我们尽可能将负号与后面所有连续出现的数字组合起来，最后得到 -42 。
+     * <p>
+     * 示例 3:
+     * 输入: "4193 with words"
+     * 输出: 4193
+     * 解释: 转换截止于数字 '3' ，因为它的下一个字符不为数字。
+     * <p>
+     * 示例 4:
+     * 输入: "words and 987"
+     * 输出: 0
+     * 解释: 第一个非空字符是 'w', 但它不是数字或正、负号。
+     * 因此无法执行有效的转换。
+     * <p>
+     * 示例 5:
+     * 输入: "-91283472332"
+     * 输出: -2147483648
+     * 解释: 数字 "-91283472332" 超过 32 位有符号整数范围。
+     * 因此返回 INT_MIN (−231) 。
+     */
+    public int strToInt(String str) {
+        char[] c = str.trim().toCharArray();
+        if (c.length == 0) return 0;
+        int res = 0, bndry = Integer.MAX_VALUE / 10;
+        int i = 1, sign = 1;
+        if (c[0] == '-') sign = -1;
+        else if (c[0] != '+') i = 0;
+        for (int j = i; j < c.length; j++) {
+            if (c[j] < '0' || c[j] > '9') break;
+            if (res > bndry || res == bndry && c[j] > '7') return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            res = res * 10 + (c[j] - '0');
+        }
+        return sign * res;
+    }
+
+    /**
      * 剑指 Offer 68 - I. 二叉搜索树的最近公共祖先
      * 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
-     *
+     * <p>
      * 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
-     *
+     * <p>
      * 例如，给定如下二叉搜索树:  root = [6,2,8,0,4,7,9,null,null,3,5]
-     *
+     * <p>
      * 示例 1:
      * 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
      * 输出: 6
      * 解释: 节点 2 和节点 8 的最近公共祖先是 6。
-     *
+     * <p>
      * 示例 2:
      * 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4
      * 输出: 2
      * 解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。
      */
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if(root.val < p.val && root.val < q.val)
+        if (root.val < p.val && root.val < q.val)
             return lowestCommonAncestor(root.right, p, q);
-        if(root.val > p.val && root.val > q.val)
+        if (root.val > p.val && root.val > q.val)
             return lowestCommonAncestor(root.left, p, q);
         return root;
     }
@@ -139,27 +200,27 @@ public class Offer61_70 {
     /**
      * 剑指 Offer 68 - II. 二叉树的最近公共祖先
      * 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
-     *
+     * <p>
      * 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
-     *
+     * <p>
      * 例如，给定如下二叉树:  root = [3,5,1,6,2,0,8,null,null,7,4]
-     *
+     * <p>
      * 示例 1:
      * 输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
      * 输出: 3
      * 解释: 节点 5 和节点 1 的最近公共祖先是节点 3。
-     *
+     * <p>
      * 示例 2:
      * 输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
      * 输出: 5
      * 解释: 节点 5 和节点 4 的最近公共祖先是节点 5。因为根据定义最近公共祖先节点可以为节点本身。
      */
     public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
-        if(root == null || root == p || root == q) return root;
+        if (root == null || root == p || root == q) return root;
         TreeNode left = lowestCommonAncestor2(root.left, p, q);
         TreeNode right = lowestCommonAncestor2(root.right, p, q);
-        if(left == null) return right;
-        if(right == null) return left;
+        if (left == null) return right;
+        if (right == null) return left;
         return root;
     }
 }
