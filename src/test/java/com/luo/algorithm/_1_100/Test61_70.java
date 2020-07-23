@@ -8,10 +8,35 @@ public class Test61_70 {
     T61_70 t = new T61_70();
 
     @Test
+    public void test61() {
+        ListNode h1 = new ListNode(1);
+        h1.next = new ListNode(2);
+        h1.next.next = new ListNode(3);
+        h1.next.next.next = new ListNode(4);
+        h1.next.next.next.next = new ListNode(5);
+        System.out.println(t.rotateRight(h1, 2));
+
+        ListNode h2 = new ListNode(0);
+        h2.next = new ListNode(1);
+        h2.next.next = new ListNode(2);
+        System.out.println(t.rotateRight(h2, 4));
+    }
+
+    @Test
+    public void test62() {
+        System.out.println(t.uniquePaths(3, 2));
+        System.out.println(t.uniquePaths(7, 3));
+    }
+
+    @Test
+    public void test63() {
+        int[][] grid = {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
+        System.out.println(t.uniquePathsWithObstacles(grid));
+    }
+
+    @Test
     public void test64() {
-        System.out.println(t.sumNums(3));
-        System.out.println(t.sumNums(9));
-        System.out.println(t.sumNums(1000));
+        System.out.println(t.minPathSum(new int[][]{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}));
     }
 
     @Test
