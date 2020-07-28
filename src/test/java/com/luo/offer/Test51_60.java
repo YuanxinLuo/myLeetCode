@@ -101,6 +101,18 @@ public class Test51_60 {
     }
 
     @Test
+    public void test56I() {
+        System.out.println(Arrays.toString(t.singleNumbers(new int[]{4, 1, 4, 6})));
+        System.out.println(Arrays.toString(t.singleNumbers(new int[]{1, 2, 10, 4, 1, 4, 3, 3})));
+    }
+
+    @Test
+    public void test56II() {
+        System.out.println(t.singleNumber(new int[]{3, 4, 3, 3}));
+        System.out.println(t.singleNumber(new int[]{9, 1, 7, 9, 7, 9, 7}));
+    }
+
+    @Test
     public void test57() {
         System.out.println(Arrays.toString(t.twoSum(new int[]{2, 7, 11, 15}, 9)));
         System.out.println(Arrays.toString(t.twoSum(new int[]{10, 26, 30, 31, 47, 60}, 40)));
@@ -131,7 +143,7 @@ public class Test51_60 {
     }
 
     @Test
-    public void test59II(){
+    public void test59II() {
         Offer51_60.MaxQueue obj = t.new MaxQueue();
 //        int param_1 = obj.max_value();
 //        obj.push_back(value);

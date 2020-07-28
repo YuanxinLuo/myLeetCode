@@ -20,6 +20,12 @@ public class Test61_70 {
     }
 
     @Test
+    public void test63() {
+        System.out.println(t.maxProfit(new int[]{7, 1, 5, 3, 6, 4}));
+        System.out.println(t.maxProfit(new int[]{7, 6, 4, 3, 1}));
+    }
+
+    @Test
     public void test64() {
         System.out.println(t.sumNums(3));
         System.out.println(t.sumNums(9));
