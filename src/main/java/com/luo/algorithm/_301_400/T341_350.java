@@ -1,8 +1,106 @@
 package com.luo.algorithm._301_400;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class T341_350 {
+
+    /**
+     * 341. 扁平化嵌套列表迭代器
+     * 给你一个嵌套的整型列表。请你设计一个迭代器，使其能够遍历这个整型列表中的所有整数。
+     * 列表中的每一项或者为一个整数，或者是另一个列表。其中列表的元素也可能是整数或是其他列表。
+     * <p>
+     * 示例 1:
+     * 输入: [[1,1],2,[1,1]]
+     * 输出: [1,1,2,1,1]
+     * 解释: 通过重复调用 next 直到 hasNext 返回 false，next 返回的元素的顺序应该是: [1,1,2,1,1]。
+     * <p>
+     * 示例 2:
+     * 输入: [1,[4,[6]]]
+     * 输出: [1,4,6]
+     * 解释: 通过重复调用 next 直到 hasNext 返回 false，next 返回的元素的顺序应该是: [1,4,6]。
+     */
+    public class NestedIterator implements Iterator<Integer> {
+        private List<Integer> list;
+        private int index;
+
+        public NestedIterator(List<NestedInteger> nestedList) {
+            list = integerIterator(nestedList);
+            index = -1;
+        }
+
+        @Override
+        public Integer next() {
+            if (this.hasNext()) return list.get(++index);
+            return null;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (index + 1 < list.size()) return true;
+            return false;
+        }
+
+        private List<Integer> integerIterator(List<NestedInteger> nestedIntegerList) {
+            ArrayList<Integer> list = new ArrayList<>(nestedIntegerList.size());
+            for (NestedInteger tmp : nestedIntegerList) {
+                if (tmp.isInteger())
+                    list.add(tmp.getInteger());
+                else
+                    list.addAll(integerIterator(tmp.getList()));
+            }
+            return list;
+
+        }
+    }
+
+    /**
+     * 342. 4的幂
+     * 给定一个整数 (32 位有符号整数)，请编写一个函数来判断它是否是 4 的幂次方。
+     * <p>
+     * 示例 1:
+     * 输入: 16
+     * 输出: true
+     * <p>
+     * 示例 2:
+     * 输入: 5
+     * 输出: false
+     */
+    public boolean isPowerOfFour(int num) {
+        if (num == 0) return false;
+        while (num % 4 == 0) {
+            num /= 4;
+        }
+        return num == 1;
+    }
+
+    /**
+     * 343. 整数拆分
+     * 给定一个正整数 n，将其拆分为至少两个正整数的和，并使这些整数的乘积最大化。
+     * 返回你可以获得的最大乘积。
+     * 示例 1:
+     * 输入: 2
+     * 输出: 1
+     * 解释: 2 = 1 + 1, 1 × 1 = 1。
+     * <p>
+     * 示例 2:
+     * 输入: 10
+     * 输出: 36
+     * 解释: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36。
+     */
+    public int integerBreak(int n) {
+        if (n <= 3)
+            return n - 1;
+        int x = n / 3, y = n % 3;
+        //整除属于情况1，直接返回3的x次方
+        if (y == 0) return (int) Math.pow(3, x);
+        //余数为1属于情况2，相当于余数是4=2*2组合，返回3的x-1次方*2*2
+        if (y == 1) return (int) Math.pow(3, x - 1) * 4;
+        //余数是2属于情况3，直接返回3和2的组合
+        return (int) (Math.pow(3, x) * 2);
+    }
 
     /**
      * 345. 反转字符串中的元音字母

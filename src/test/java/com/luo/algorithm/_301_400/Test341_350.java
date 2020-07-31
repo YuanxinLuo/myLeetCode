@@ -5,11 +5,29 @@ import org.junit.Test;
 import java.util.Arrays;
 
 public class Test341_350 {
+
     T341_350 t = new T341_350();
 
+    @Test
+    public void test341(){
+
+    }
 
     @Test
-    public void test345(){
+    public void test342() {
+        System.out.println(t.isPowerOfFour(16));
+        System.out.println(t.isPowerOfFour(5));
+        System.out.println(t.isPowerOfFour(-2147483648));
+    }
+
+    @Test
+    public void test343() {
+        System.out.println(t.integerBreak(2));
+        System.out.println(t.integerBreak(10));
+    }
+
+    @Test
+    public void test345() {
         System.out.println(t.reverseVowels("hello"));
         System.out.println(t.reverseVowels("leetcode"));
     }
