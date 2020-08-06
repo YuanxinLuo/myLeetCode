@@ -2,15 +2,42 @@ package com.luo.algorithm._301_400;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 
 public class Test331_340 {
     T331_340 t = new T331_340();
 
+    @Test
+    public void test331(){
+        System.out.println(t.isValidSerialization("9,3,4,#,#,1,#,#,2,#,6,#,#"));
+        System.out.println(t.isValidSerialization("1,#"));
+        System.out.println(t.isValidSerialization("9,#,#,1"));
+    }
 
+    @Test
+    public void test332() {
+
+    }
+
+    @Test
+    public void test334() {
+        System.out.println(t.increasingTriplet(new int[]{1, 2, 3, 4, 5}));
+        System.out.println(t.increasingTriplet(new int[]{5, 4, 3, 2, 1}));
+    }
+
+    @Test
+    public void test335() {
+        System.out.println(t.isSelfCrossing(new int[]{2, 1, 1, 2}));
+        System.out.println(t.isSelfCrossing(new int[]{1, 2, 3, 4}));
+        System.out.println(t.isSelfCrossing(new int[]{1, 1, 1, 1}));
+    }
+
+    @Test
+    public void test336() {
+        System.out.println(t.palindromePairs(new String[]{"abcd", "dcba", "lls", "s", "sssll"}));
+        System.out.println(t.palindromePairs(new String[]{"bat", "tab", "cat"}));
+    }
 
     @Test
     public void test337() {

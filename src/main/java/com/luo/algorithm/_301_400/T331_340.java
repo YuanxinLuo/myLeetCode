@@ -6,6 +6,56 @@ import java.util.*;
 public class T331_340 {
 
     /**
+     * 331. 验证二叉树的前序序列化
+     * 序列化二叉树的一种方法是使用前序遍历。当我们遇到一个非空节点时，我们可以记录下这个节点的值。如果它是一个空节点，我们可以使用一个标记值记录，例如 #。
+     *
+     *      _9_
+     *     /   \
+     *    3     2
+     *   / \   / \
+     *  4   1  #  6
+     * / \ / \   / \
+     * # # # #   # #
+     * 例如，上面的二叉树可以被序列化为字符串 "9,3,4,#,#,1,#,#,2,#,6,#,#"，其中 # 代表一个空节点。
+     * 给定一串以逗号分隔的序列，验证它是否是正确的二叉树的前序序列化。编写一个在不重构树的条件下的可行算法。
+     * 每个以逗号分隔的字符或为一个整数或为一个表示 null 指针的 '#' 。
+     * 你可以认为输入格式总是有效的，例如它永远不会包含两个连续的逗号，比如 "1,,3" 。
+     *
+     * 示例 1:
+     * 输入: "9,3,4,#,#,1,#,#,2,#,6,#,#"
+     * 输出: true
+     *
+     * 示例 2:
+     * 输入: "1,#"
+     * 输出: false
+     *
+     * 示例 3:
+     * 输入: "9,#,#,1"
+     * 输出: false
+     */
+    public boolean isValidSerialization(String preorder) {
+        char[] charArray = preorder.toCharArray();
+        int num = 0;
+        for (int i = charArray.length - 1; i >= 0; i--) {
+            if (charArray[i] == ',') {
+                continue;
+            }
+            if (charArray[i] == '#') {
+                num++;
+            } else {
+                while (i >= 0 && charArray[i] != ',') {
+                    i--;
+                }
+                if (num >= 2) {
+                    num--;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return num == 1 ? true : false;
+    }
+    /**
      * 332. 重新安排行程
      * 给定一个机票的字符串二维数组 [from, to]，子数组中的两个成员分别表示飞机出发和降落的机场地点，对该行程进行重新规划排序。
      * 所有这些机票都属于一个从JFK（肯尼迪国际机场）出发的先生，所以该行程必须从 JFK 出发。
@@ -35,6 +85,7 @@ public class T331_340 {
         visit(graph, "JFK", ans);
         return ans;
     }
+
     // DFS方式遍历图，当走到不能走为止，再将节点加入到答案
     private void visit(Map<String, PriorityQueue<String>> graph, String src, List<String> ans) {
         PriorityQueue<String> nbr = graph.get(src);
@@ -43,6 +94,207 @@ public class T331_340 {
             visit(graph, dest, ans);
         }
         ans.add(0, src); // 逆序插入
+    }
+
+    /**
+     * 334. 递增的三元子序列
+     * 给定一个未排序的数组，判断这个数组中是否存在长度为 3 的递增子序列。
+     * 数学表达式如下:
+     * 如果存在这样的 i, j, k,  且满足 0 ≤ i < j < k ≤ n-1，
+     * 使得 arr[i] < arr[j] < arr[k] ，返回 true ; 否则返回 false 。
+     * 说明: 要求算法的时间复杂度为 O(n)，空间复杂度为 O(1) 。
+     * <p>
+     * 示例 1:
+     * 输入: [1,2,3,4,5]
+     * 输出: true
+     * <p>
+     * 示例 2:
+     * 输入: [5,4,3,2,1]
+     * 输出: false
+     */
+    public boolean increasingTriplet(int[] nums) {
+        if (nums.length < 3) return false;
+        int min = Integer.MAX_VALUE; //最小值
+        int second = Integer.MAX_VALUE;//第二元素最小的递增对的第二元素
+        for (int num : nums) {
+            if (num <= min) {//num比min小或相等，肯定不存在递增三元素。由于不存在以num结尾的递增对，故只需更新min
+                min = num;
+            } else if (num <= second) {//num比second小或相对，肯定不存在递增三元素。由于存在以num结尾的递增对且num不大于second，因此可以更新second
+                second = num;
+            } else {//num比second大，那就存在递增三元素，因为second是一个递增对的第二元素，加上num后就是递增三元素了
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 335. 路径交叉
+     * 给定一个含有 n 个正数的数组 x。从点 (0,0) 开始，先向北移动 x[0] 米，然后向西移动 x[1] 米，向南移动 x[2] 米，向东移动 x[3] 米，持续移动。
+     * 也就是说，每次移动后你的方位会发生逆时针变化。
+     * 编写一个 O(1) 空间复杂度的一趟扫描算法，判断你所经过的路径是否相交。
+     * 示例 1:
+     * <p>
+     * ┌───┐
+     * │   │
+     * └───┼──>
+     *     │
+     * <p>
+     * 输入: [2,1,1,2]
+     * 输出: true
+     * <p>
+     * 示例 2:
+     * ┌──────┐
+     * │      │
+     * │
+     * │
+     * └────────────>
+     * <p>
+     * 输入: [1,2,3,4]
+     * 输出: false
+     * <p>
+     * 示例 3:
+     * ┌───┐
+     * │   │
+     * └───┼>
+     * <p>
+     * 输入: [1,1,1,1]
+     * 输出: true
+     */
+    public boolean isSelfCrossing(int[] x) {
+        if(x.length <= 3)
+            return false;
+        int i, xl = x[1], yl = x[0], px = 0, py = 0;
+        //检测a类型路径的变化趋势
+        for(i = 2; i < x.length; i++){
+            if((i & 0x1) == 1){
+                if(x[i] <= xl){
+                    //a ---> b
+                    if(xl - px <= x[i])
+                        yl -= py;
+                    xl = x[i];
+                    break;
+                }
+                //用px保存xl的旧值
+                px = xl;
+                xl = x[i];
+            }else {
+                if(x[i] <= yl){
+                    //a ---> b
+                    if(yl - py <= x[i])
+                        xl -= px;
+                    yl = x[i];
+                    break;
+                }
+                //用py保存yl的旧值
+                py = yl;
+                yl = x[i];
+            }
+        }
+        //检测b类型路径的变化趋势
+        for(i++; i < x.length; i++){
+            if((i & 0x1) == 1 && x[i] < xl){
+                xl = x[i];
+            }else if(x[i] < yl){
+                yl = x[i];
+            }else{
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 336. 回文对
+     * 给定一组唯一的单词， 找出所有不同 的索引对(i, j)，使得列表中的两个单词， words[i] + words[j] ，可拼接成回文串。
+     * <p>
+     * 示例 1:
+     * 输入: ["abcd","dcba","lls","s","sssll"]
+     * 输出: [[0,1],[1,0],[3,2],[2,4]]
+     * 解释: 可拼接成的回文串为 ["dcbaabcd","abcddcba","slls","llssssll"]
+     * <p>
+     * 示例 2:
+     * 输入: ["bat","tab","cat"]
+     * 输出: [[0,1],[1,0]]
+     * 解释: 可拼接成的回文串为 ["battab","tabbat"]
+     */
+
+    public List<List<Integer>> palindromePairs(String[] words) {
+        //构建trie
+        TrieNode root = buildTire(words);
+        List<List<Integer>> res = new ArrayList();
+        //对于每个单词,在trie中搜索
+        for (int i = 0; i < words.length; i++) {
+            search(words[i], i, root, res);
+        }
+        return res;
+    }
+
+    private void search(String word, int i, TrieNode node, List<List<Integer>> res) {
+        int k = word.length(), j = 0;
+        for (; j < k; j++) {
+            //循环中在trie中发现的单词是比当前word长度要短的
+            char c = word.charAt(j);
+            if (node.index != -1 && isPalidrome(word, j, k - 1)) {
+                res.add(Arrays.asList(i, node.index));
+            }
+            //所有可能被排除，提前退出
+            if (node.children[c - 'a'] == null) return;
+
+            node = node.children[c - 'a'];
+        }
+        //长度等于当前搜索的word的单词
+        if (node.index != -1 && node.index != i) {
+            res.add(Arrays.asList(i, node.index));
+        }
+        //长度长于当前搜索的word的单词
+        for (int rest : node.belowIsPali) {
+            res.add(Arrays.asList(i, rest));
+        }
+    }
+
+    private TrieNode buildTire(String[] words) {
+        TrieNode root = new TrieNode();
+        for (int i = 0; i < words.length; i++) {
+            addWord(root, words[i], i);
+        }
+        return root;
+    }
+
+    private void addWord(TrieNode root, String word, int i) {
+        for (int j = word.length() - 1; j >= 0; j--) {
+            if (isPalidrome(word, 0, j)) {
+                root.belowIsPali.add(i);
+            }
+            char c = word.charAt(j);
+            if (root.children[c - 'a'] == null) {
+                root.children[c - 'a'] = new TrieNode();
+            }
+            root = root.children[c - 'a'];
+        }
+        root.index = i;
+    }
+
+    private boolean isPalidrome(String word, int i, int j) {
+        if (word.length() <= 1) {
+            return true;
+        }
+        while (i < j) {
+            if (word.charAt(i++) != word.charAt(j--)) return false;
+        }
+        return true;
+    }
+
+    class TrieNode {
+        int index;
+        List<Integer> belowIsPali;
+        TrieNode[] children;
+
+        public TrieNode() {
+            index = -1;
+            belowIsPali = new ArrayList<Integer>();
+            children = new TrieNode[26];
+        }
     }
 
     /**
