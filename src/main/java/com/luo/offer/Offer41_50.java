@@ -1,7 +1,6 @@
 package com.luo.offer;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Offer41_50 {
@@ -37,8 +36,90 @@ public class Offer41_50 {
     }
 
     /**
+     * 剑指 Offer 43. 1～n整数中1出现的次数
+     * 输入一个整数 n ，求1～n这n个整数的十进制表示中1出现的次数。
+     * 例如，输入12，1～12这些整数中包含1 的数字有1、10、11和12，1一共出现了5次。
+     * <p>
+     * 示例 1：
+     * 输入：n = 12
+     * 输出：5
+     * <p>
+     * 示例 2：
+     * 输入：n = 13
+     * 输出：6
+     */
+    public int countDigitOne(int n) {
+        return f(n);
+    }
+
+    private int f(int n) {
+        if (n <= 0)
+            return 0;
+        String s = String.valueOf(n);
+        int high = s.charAt(0) - '0';
+        int pow = (int) Math.pow(10, s.length() - 1);
+        int last = n - high * pow;
+        if (high == 1) {
+            return f(pow - 1) + last + 1 + f(last);
+        } else {
+            return pow + high * f(pow - 1) + f(last);
+        }
+    }
+
+    /**
+     * 剑指 Offer 44. 数字序列中某一位的数字
+     * 数字以0123456789101112131415…的格式序列化到一个字符序列中。在这个序列中，第5位（从下标0开始计数）是5，第13位是1，第19位是4，等等。
+     * 请写一个函数，求任意第n位对应的数字。
+     * 示例 1：
+     * 输入：n = 3
+     * 输出：3
+     * <p>
+     * 示例 2：
+     * 输入：n = 11
+     * 输出：0
+     */
+    public int findNthDigit(int n) {
+        int digit = 1;
+        long start = 1;
+        long count = 9;
+        while (n > count) { // 1.
+            n -= count;
+            digit += 1;
+            start *= 10;
+            count = digit * start * 9;
+        }
+        long num = start + (n - 1) / digit; // 2.
+        return Long.toString(num).charAt((n - 1) % digit) - '0'; // 3.
+    }
+
+    /**
+     * 输入一个非负整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
+     * <p>
+     * 示例 1:
+     * 输入: [10,2]
+     * 输出: "102"
+     * <p>
+     * 示例 2:
+     * 输入: [3,30,34,5,9]
+     * 输出: "3033459"
+     */
+    public String minNumber(int[] nums) {
+        String[] strs = new String[nums.length];
+        for (int i = 0; i < nums.length; ++i)
+            strs[i] = String.valueOf(nums[i]);
+        Arrays.sort(strs, (o1, o2) -> {
+            return (o1 + o2).compareTo(o2 + o1);
+        });
+        StringBuilder sb = new StringBuilder();
+        for (String s : strs)
+            sb.append(s);
+        return sb.toString();
+    }
+
+    /**
      * 面试题46. 把数字翻译成字符串
-     * 给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。
+     * 给定一个数字，我们按照如下规则把它翻译为字符串：0 翻译成 “a” ，1 翻译成 “b”，……，11 翻译成 “l”，……，25 翻译成 “z”。
+     * 一个数字可能有多个翻译。请编程实现一个函数，用来计算一个数字有多少种不同的翻译方法。
      * <p>
      * 示例 1:
      * 输入: 12258
@@ -82,7 +163,7 @@ public class Offer41_50 {
             dic.put(c, !dic.containsKey(c));
         }
         for (char c : sc) {
-            if(dic.get(c)) {
+            if (dic.get(c)) {
                 return c;
             }
         }
