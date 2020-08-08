@@ -60,31 +60,108 @@ public class T21_30 {
      *      ]
      */
     public List<String> generateParenthesis(int n) {
-        List<String> combinations = new ArrayList();
-        generateAll(new char[2 * n], 0, combinations);
-        return combinations;
+        List<String> ans = new ArrayList<>();
+        if (n < 1) {
+            return ans;
+        }
+        dfs(ans, new char[n << 1], 0, 0, 0, n);
+        return ans;
     }
 
-    public void generateAll(char[] current, int pos, List<String> result) {
-        if (pos == current.length) {
-            if (valid(current))
-                result.add(new String(current));
+    private void dfs(List<String> ans, char[] tmp, int left, int right, int level, int n) {
+        if (tmp.length == level) {
+            // 搜索结束
+            ans.add(String.copyValueOf(tmp));
+            return;
+        }
+        // 进行深度遍历搜索
+        if (left < n) {
+            if (right < left) {
+                tmp[level] = ')';
+                dfs(ans, tmp, left, right + 1, level + 1, n);
+            }
+            tmp[level] = '(';
+            dfs(ans, tmp, left + 1, right, level + 1, n);
         } else {
-            current[pos] = '(';
-            generateAll(current, pos+1, result);
-            current[pos] = ')';
-            generateAll(current, pos+1, result);
+            tmp[level] = ')';
+            dfs(ans, tmp, left, right + 1, level + 1, n);
         }
     }
 
-    public boolean valid(char[] current) {
-        int balance = 0;
-        for (char c: current) {
-            if (c == '(') balance++;
-            else balance--;
-            if (balance < 0) return false;
+    /**
+     * 23. 合并K个排序链表
+     * 合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
+     *
+     * 示例:
+     * 输入:
+     * [
+     *   1->4->5,
+     *   1->3->4,
+     *   2->6
+     * ]
+     * 输出: 1->1->2->3->4->4->5->6
+     */
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists==null||lists.length==0){
+            return null;
         }
-        return (balance == 0);
+        if(lists.length==1){
+            return lists[0];
+        }
+        return process(lists, 0, lists.length - 1);
+    }
+
+    public  ListNode process(ListNode[] lists, int left, int right) {
+        if(left==right){
+            return lists[left];
+        }
+        int mid=left+((right-left)>>1);
+        ListNode head1 = process(lists, left, mid);
+        ListNode head2 = process(lists, mid + 1,right);
+        return merge(head1, head2);
+    }
+
+    public  ListNode merge( ListNode head1, ListNode head2) {
+        ListNode dummy = new ListNode(0);
+        ListNode temp = dummy;
+        while(head1!=null&&head2!=null){
+            if(head1.val<=head2.val){
+                temp.next = head1;
+                head1 = head1.next;
+            }else{
+                temp.next=head2;
+                head2 = head2.next;
+            }
+            temp = temp.next;
+        }
+        temp.next = head1 != null ? head1 : head2;
+        return dummy.next;
+    }
+
+    /**
+     * 24. 两两交换链表中的节点
+     * 给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
+     * 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+     *
+     * 示例:
+     * 给定 1->2->3->4, 你应该返回 2->1->4->3.
+     */
+    public ListNode swapPairs(ListNode head) {
+        // If the list has no node or has only one node left.
+        if ((head == null) || (head.next == null)) {
+            return head;
+        }
+
+        // Nodes to be swapped
+        ListNode firstNode = head;
+        ListNode secondNode = head.next;
+
+        // Swapping
+        firstNode.next  = swapPairs(secondNode.next);
+        secondNode.next = firstNode;
+
+        // Now the head is the second node
+        return secondNode;
     }
 
     /**

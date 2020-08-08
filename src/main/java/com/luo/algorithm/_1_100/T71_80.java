@@ -1,7 +1,5 @@
 package com.luo.algorithm._1_100;
 
-import java.util.HashMap;
-
 public class T71_80 {
 
     /**
@@ -18,54 +16,40 @@ public class T71_80 {
      * @return 包含 T 所有字符的最小子串
      */
     public String minWindow(String s, String t) {
-        HashMap<Character, Integer> map = new HashMap<>();
-        for (int i = 0; i < t.length(); i++) {
-            map.put(t.charAt(i), map.getOrDefault(t.charAt(i), 0) + 1);
+        // new一个256位的数组
+        int[] count = new int[123];
+        // 统计t中所有字符
+        for(char c : t.toCharArray()){
+            count[c] ++;
         }
-        int left = 0, right = 0;
-        int k = 0, m = 0;
-        int min_length = s.length();
-        HashMap<Character, Integer> map2 = new HashMap<>();
-        while (true) {
-            while (right < s.length()) {
-                map2.put(s.charAt(right), map2.getOrDefault(s.charAt(right), 0) + 1);
-                if (compare_hashMap(map, map2)) {
-                    if (min_length > right - left) {
-                        min_length = right - left;
-                        k = left;
-                        m = right;
-                    }
-                    break;
-                } else {
-                    right++;
-                }
-            }
-            if (right == s.length()) break;
-            while (left <= right) {
-                map2.put(s.charAt(left), map2.get(s.charAt(left)) - 1);
-                left++;
-                if (compare_hashMap(map, map2)) {
-                    if (min_length > right - left) {
-                        min_length = right - left;
-                        k = left;
-                        m = right;
-                    }
-                } else {
-                    right++;
-                    break;
-                }
+        // len是t中char有几种
+        int len = 0;
+        for(int i : count){
+            if(i != 0){
+                len++;
             }
         }
-        if (min_length == s.length()) return "";
-        return s.substring(k, m + 1);
-    }
+        int p1 = 0, p2 = 0;
+        int a1 = 0, a2 = s.length( )+ 1;
+        char[] chars = s.toCharArray();
+        while(p2 < chars.length){
+            count[chars[p2]]--;
+            if(count[chars[p2]] == 0){
+                len--;
+            }
+            p2++;
+            if(len == 0){
+                while( p1 < p2 && count[chars[p1]] < 0){
+                    count[chars[p1]]++;
+                    p1++;
+                }
+                if( p2 - p1 < a2-a1){
+                    a2 = p2;
+                    a1 = p1;
+                }
+            }
 
-    private boolean compare_hashMap(HashMap<Character, Integer> map1, HashMap<Character, Integer> map2) {
-        for (Character c : map1.keySet()) {
-            if (map1.get(c) - map2.getOrDefault(c, 0) > 0) {
-                return false;
-            }
         }
-        return true;
+        return a2-a1>s.length()? "" :s.substring(a1,a2);
     }
 }

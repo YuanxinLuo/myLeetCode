@@ -6,18 +6,19 @@ public class Test91_100 {
     T91_100 test = new T91_100();
 
     @Test
-    public void test91(){
+    public void test91() {
         System.out.println(test.numDecodings("12"));
         System.out.println(test.numDecodings("226"));
     }
+
     @Test
-    public void test92(){
+    public void test92() {
         ListNode head = new ListNode(1);
         head.next = new ListNode(2);
         head.next.next = new ListNode(3);
         head.next.next.next = new ListNode(4);
         head.next.next.next.next = new ListNode(5);
-        System.out.println(test.reverseBetween(head,2,4));
+        System.out.println(test.reverseBetween(head, 2, 4));
     }
 
     @Test
@@ -73,6 +74,20 @@ public class Test91_100 {
         System.out.println(test.isValidBST(node));
     }
 
+    @Test
+    public void test99() {
+        TreeNode r1 = new TreeNode(1);
+        r1.left = new TreeNode(3);
+        r1.left.right = new TreeNode(2);
+        test.recoverTree(r1);
+        System.out.println(r1);
+        TreeNode r2 = new TreeNode(3);
+        r2.left = new TreeNode(1);
+        r2.right = new TreeNode(4);
+        r2.right.left = new TreeNode(2);
+        test.recoverTree(r2);
+        System.out.println(r2);
+    }
 
     @Test
     public void test100() {

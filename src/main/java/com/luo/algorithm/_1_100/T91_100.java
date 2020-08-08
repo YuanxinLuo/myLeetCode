@@ -8,18 +8,18 @@ public class T91_100 {
     /**
      * 91. 解码方法
      * 一条包含字母 A-Z 的消息通过以下方式进行了编码：
-     *
+     * <p>
      * 'A' -> 1
      * 'B' -> 2
      * ...
      * 'Z' -> 26
      * 给定一个只包含数字的非空字符串，请计算解码方法的总数。
-     *
+     * <p>
      * 示例 1:
      * 输入: "12"
      * 输出: 2
      * 解释: 它可以解码为 "AB"（1 2）或者 "L"（12）。
-     *
+     * <p>
      * 示例 2:
      * 输入: "226"
      * 输出: 3
@@ -52,6 +52,7 @@ public class T91_100 {
         }
         return dp[len];
     }
+
     /**
      * 92. 反转链表 II
      * 反转从位置 m 到 n 的链表。请使用一趟扫描完成反转。
@@ -94,6 +95,7 @@ public class T91_100 {
         tail.next = cur;
         return head;
     }
+
     /**
      * 93. 复原IP地址
      * 给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。
@@ -167,18 +169,18 @@ public class T91_100 {
     /**
      * 94. 二叉树的中序遍历
      * 给定一个二叉树，返回它的中序 遍历。
-     *
+     * <p>
      * 示例:
      * 输入: [1,null,2,3]
-     *    1
-     *     \
-     *      2
-     *     /
-     *    3
+     * 1
+     * \
+     * 2
+     * /
+     * 3
      * 输出: [1,3,2]
      */
     public List<Integer> inorderTraversal(TreeNode root) {
-        List < Integer > res = new ArrayList < > ();
+        List<Integer> res = new ArrayList<>();
         TreeNode curr = root;
         TreeNode pre;
         while (curr != null) {
@@ -349,6 +351,69 @@ public class T91_100 {
             return false;
         }
         return validate(node.left, minValue, node.val) && validate(node.right, node.val, maxValue);
+    }
+
+    /**
+     * 99. 恢复二叉搜索树
+     * 二叉搜索树中的两个节点被错误地交换。
+     * 请在不改变其结构的情况下，恢复这棵树。
+     * <p>
+     * 示例 1:
+     * 输入: [1,3,null,null,2]
+     * <p>
+     * 1
+     * /
+     * 3
+     * \
+     * 2
+     * 输出: [3,1,null,null,2]
+     * <p>
+     * 3
+     * /
+     * 1
+     * \
+     * 2
+     * <p>
+     * 示例 2:
+     * 输入: [3,1,4,null,null,2]
+     * 3
+     * / \
+     * 1   4
+     * /
+     * 2
+     * 输出: [2,1,4,null,null,3]
+     * <p>
+     * 2
+     * / \
+     * 1   4
+     * /
+     * 3
+     *
+     * @param root
+     */
+    TreeNode firstNode = null;
+    TreeNode secondNode = null;
+    TreeNode preNode = new TreeNode(Integer.MIN_VALUE);
+    public void recoverTree(TreeNode root) {
+        in_order(root);
+        int temp = firstNode.val;
+        firstNode.val = secondNode.val;
+        secondNode.val = temp;
+    }
+
+    private void in_order(TreeNode root){
+        if(root == null){
+            return;
+        }
+        in_order(root.left);
+        if(firstNode == null && preNode.val > root.val){
+            firstNode = preNode;
+        }
+        if(firstNode != null && preNode.val > root.val){
+            secondNode = root;
+        }
+        preNode = root;
+        in_order(root.right);
     }
 
     /**
