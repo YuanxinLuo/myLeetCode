@@ -2,6 +2,7 @@ package com.luo.offer;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Offer41_50 {
 
@@ -146,6 +147,114 @@ public class Offer41_50 {
         return r;
     }
 
+    /**
+     * 剑指 Offer 47. 礼物的最大价值
+     * 在一个 m*n 的棋盘的每一格都放有一个礼物，每个礼物都有一定的价值（价值大于 0）。
+     * 你可以从棋盘的左上角开始拿格子里的礼物，并每次向右或者向下移动一格、直到到达棋盘的右下角。
+     * 给定一个棋盘及其上面的礼物的价值，请计算你最多能拿到多少价值的礼物？
+     *
+     * 示例 1:
+     * 输入:
+     * [
+     *   [1,3,1],
+     *   [1,5,1],
+     *   [4,2,1]
+     * ]
+     * 输出: 12
+     * 解释: 路径 1→3→5→2→1 可以拿到最多价值的礼物
+     * @param grid
+     * @return
+     */
+    public int maxValue(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                if(i == 0 && j == 0) continue;
+                if(i == 0) grid[i][j] += grid[i][j - 1] ;
+                else if(j == 0) grid[i][j] += grid[i - 1][j];
+                else grid[i][j] += Math.max(grid[i][j - 1], grid[i - 1][j]);
+            }
+        }
+        return grid[m - 1][n - 1];
+    }
+
+    /**
+     * 剑指 Offer 48. 最长不含重复字符的子字符串
+     * 请从字符串中找出一个最长的不包含重复字符的子字符串，计算该最长子字符串的长度。
+     *
+     * 示例 1:
+     * 输入: "abcabcbb"
+     * 输出: 3
+     * 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+     *
+     * 示例 2:
+     * 输入: "bbbbb"
+     * 输出: 1
+     * 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+     *
+     * 示例 3:
+     * 输入: "pwwkew"
+     * 输出: 3
+     * 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+     *      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+     */
+    public int lengthOfLongestSubstring(String s) {
+        if (s == null || s.length() == 0)
+            return 0;
+        if (s.length() == 1)
+            return 1;
+        char[] chs = s.toCharArray();
+
+        int curLen = 0;
+        int maxLen = 0;
+        // 要考虑所有字符，ASCII 长度 128
+        int[] pos = new int[128];
+        // 给 pos 赋初值 -1
+        for (int i = 0; i < pos.length; i++){
+            pos[i] = -1;
+        }
+
+        for (int i = 0; i < chs.length; i++){
+            int prePos = pos[chs[i] - ' ']; // 该字符上次出现在字符串中的位置
+
+            if (prePos < 0 || i - prePos > curLen){
+                ++curLen;
+            } else {
+                // 记录 最大值，因为这一次更新是根据 i - prePos 的值，curLen 会减小，
+                // 如果没有重复的字符，就没有这个操作，所以最后返回时还要判断 curLen 和 maxLen的大小
+                if (curLen > maxLen)
+                    maxLen = curLen;
+                curLen = i - prePos;
+            }
+            pos[chs[i] - ' '] = i;
+        }
+
+        return (maxLen > curLen) ? maxLen : curLen;
+    }
+
+    /**
+     * 剑指 Offer 49. 丑数
+     * 我们把只包含质因子 2、3 和 5 的数称作丑数（Ugly Number）。
+     * 求按从小到大的顺序的第 n 个丑数。
+     *
+     * 示例:
+     * 输入: n = 10
+     * 输出: 12
+     * 解释: 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 是前 10 个丑数。
+     */
+    public int nthUglyNumber(int n) {
+        int a = 0, b = 0, c = 0;
+        int[] dp = new int[n];
+        dp[0] = 1;
+        for(int i = 1; i < n; i++) {
+            int n2 = dp[a] * 2, n3 = dp[b] * 3, n5 = dp[c] * 5;
+            dp[i] = Math.min(Math.min(n2, n3), n5);
+            if(dp[i] == n2) a++;
+            if(dp[i] == n3) b++;
+            if(dp[i] == n5) c++;
+        }
+        return dp[n - 1];
+    }
     /**
      * 剑指 Offer 50. 第一个只出现一次的字符
      * 在字符串 s 中找出第一个只出现一次的字符。如果没有，返回一个单空格。 s 只包含小写字母。

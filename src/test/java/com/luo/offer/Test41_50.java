@@ -37,6 +37,23 @@ public class Test41_50 {
     }
 
     @Test
+    public void test47() {
+        System.out.println(t.maxValue(new int[][]{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}));
+    }
+
+    @Test
+    public void test48(){
+        System.out.println(t.lengthOfLongestSubstring("abcabcbb"));
+        System.out.println(t.lengthOfLongestSubstring("bbbbb"));
+        System.out.println(t.lengthOfLongestSubstring("pwwkew"));
+    }
+
+    @Test
+    public void test49(){
+        System.out.println(t.nthUglyNumber(10));
+    }
+
+    @Test
     public void test50() {
         System.out.println(t.firstUniqChar("abaccdeff"));
         System.out.println(t.firstUniqChar(""));

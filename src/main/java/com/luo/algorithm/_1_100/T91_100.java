@@ -105,64 +105,32 @@ public class T91_100 {
      * 输入: "25525511135"
      * 输出: ["255.255.11.135", "255.255.111.35"]
      */
-    int n;
-    String s;
-    LinkedList<String> segments = new LinkedList<String>();
-    ArrayList<String> output = new ArrayList<String>();
+    private List<String> result = new ArrayList<>();
+    private char[] tmp;
 
     public List<String> restoreIpAddresses(String s) {
-        n = s.length();
-        this.s = s;
-        backtrack(-1, 3);
-        return output;
+        tmp = new char[s.length() + 3];
+        backtrace(s, 0, 0);
+        return result;
     }
 
-    private boolean valid(String segment) {
-    /*
-    Check if the current segment is valid :
-    1. less or equal to 255
-    2. the first character could be '0'
-    only if the segment is equal to '0'
-    */
-        int m = segment.length();
-        if (m > 3)
-            return false;
-        return (segment.charAt(0) != '0') ? (Integer.valueOf(segment) <= 255) : (m == 1);
-    }
-
-    private void update_output(int curr_pos) {
-    /*
-    Append the current list of segments
-    to the list of solutions
-    */
-        String segment = s.substring(curr_pos + 1, n);
-        if (valid(segment)) {
-            segments.add(segment);
-            output.add(String.join(".", segments));
-            segments.removeLast();
+    private void backtrace(String s, int start, int step) {
+        int n = s.length();
+        if (n - start < 4 - step || n - start > (4 - step) * 3) return;
+        if (step == 4) {
+            result.add(new String(tmp));
+            return;
         }
-    }
-
-    private void backtrack(int prev_pos, int dots) {
-        /*
-        prev_pos : the position of the previously placed dot
-        dots : number of dots to place
-        */
-        // The current dot curr_pos could be placed
-        // in a range from prev_pos + 1 to prev_pos + 4.
-        // The dot couldn't be placed
-        // after the last character in the string.
-        int max_pos = Math.min(n - 1, prev_pos + 4);
-        for (int curr_pos = prev_pos + 1; curr_pos < max_pos; curr_pos++) {
-            String segment = s.substring(prev_pos + 1, curr_pos + 1);
-            if (valid(segment)) {
-                segments.add(segment);  // place dot
-                if (dots - 1 == 0)      // if all 3 dots are placed
-                    update_output(curr_pos);  // add the solution to output
-                else
-                    backtrack(curr_pos, dots - 1);  // continue to place dots
-                segments.removeLast();  // remove the last placed dot
-            }
+        if (step > 0) tmp[start + step - 1] = '.';
+        tmp[start + step] = s.charAt(start);
+        backtrace(s, start + 1, step + 1);
+        if (s.charAt(start) == '0' || start >= n - 1) return;
+        tmp[start + step + 1] = s.charAt(start + 1);
+        backtrace(s, start + 2, step + 1);
+        if (start + 2 >= n) return;
+        tmp[start + step + 2] = s.charAt(start + 2);
+        if ((s.charAt(start) - '0') * 100 + (s.charAt(start + 1) - '0') * 10 + s.charAt(start + 2) - '0' <= 255) {
+            backtrace(s, start + 3, step + 1);
         }
     }
 
