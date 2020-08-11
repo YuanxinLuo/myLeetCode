@@ -50,7 +50,43 @@ public class Test121_130 {
     }
 
     @Test
+    public void test127() {
+        List<String> list = new ArrayList<>();
+        list.add("hot");
+        list.add("dot");
+        list.add("dog");
+        list.add("lot");
+        list.add("log");
+        list.add("cog");
+        System.out.println(t.ladderLength("hit", "cog", list));
+        System.out.println(t.ladderLength("hit", "dot", list));
+    }
+
+    @Test
     public void test128() {
         System.out.println(t.longestConsecutive(new int[]{100, 4, 200, 1, 3, 2}));
+    }
+
+    @Test
+    public void test129() {
+        TreeNode r1 = new TreeNode(1);
+        r1.left = new TreeNode(2);
+        r1.right = new TreeNode(3);
+        System.out.println(t.sumNumbers(r1));
+        TreeNode r2 = new TreeNode(4);
+        r2.left = new TreeNode(9);
+        r2.right = new TreeNode(0);
+        r2.left.left = new TreeNode(5);
+        r2.left.right = new TreeNode(1);
+        System.out.println(t.sumNumbers(r2));
+    }
+
+    @Test
+    public void test130() {
+        char[][] board = {{'X', 'X', 'X', 'X'}, {'X', 'O', 'O', 'X'}, {'X', 'X', 'O', 'X'}, {'X', 'O', 'X', 'X'}};
+        t.solve(board);
+        for (char[] chars : board) {
+            System.out.println(Arrays.toString(chars));
+        }
     }
 }

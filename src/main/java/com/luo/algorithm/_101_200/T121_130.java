@@ -201,6 +201,69 @@ public class T121_130 {
     }
 
     /**
+     * 127. 单词接龙
+     * 给定两个单词（beginWord 和 endWord）和一个字典，找到从 beginWord 到 endWord 的最短转换序列的长度。转换需遵循如下规则：
+     * <p>
+     * 每次转换只能改变一个字母。
+     * 转换过程中的中间单词必须是字典中的单词。
+     * 说明:
+     * <p>
+     * 如果不存在这样的转换序列，返回 0。
+     * 所有单词具有相同的长度。
+     * 所有单词只由小写字母组成。
+     * 字典中不存在重复的单词。
+     * 你可以假设 beginWord 和 endWord 是非空的，且二者不相同。
+     * <p>
+     * 示例 1:
+     * 输入:
+     * beginWord = "hit",
+     * endWord = "cog",
+     * wordList = ["hot","dot","dog","lot","log","cog"]
+     * <p>
+     * 输出: 5
+     * 解释: 一个最短转换序列是 "hit" -> "hot" -> "dot" -> "dog" -> "cog", 返回它的长度 5。
+     * <p>
+     * 示例 2:
+     * 输入:
+     * beginWord = "hit"
+     * endWord = "cog"
+     * wordList = ["hot","dot","dog","lot","log"]
+     * <p>
+     * 解释: endWord "cog" 不在字典中，所以无法进行转换。
+     */
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> beginSet = new HashSet<>();
+        Set<String> endSet = new HashSet<>();
+        beginSet.add(beginWord);
+        endSet.add(endWord);
+        Set<String> dict = new HashSet<>(wordList);
+        if(!dict.contains(endWord)) return 0;
+        return search(beginSet, endSet, dict, 1);
+    }
+
+    private int search(Set<String> beginSet, Set<String> endSet, Set<String> dict, int cnt){
+        if(beginSet.isEmpty() || endSet.isEmpty()) return 0;
+        cnt++;
+        dict.removeAll(beginSet);
+        Set<String> nextSet = new HashSet<>();
+        for(String str : beginSet){
+            char[] chs = str.toCharArray();
+            for(int i = 0; i < chs.length; i++){
+                char c = chs[i];
+                for(char j = 'a'; j <= 'z'; j++){
+                    chs[i] = j;
+                    String tmp = new String(chs);
+                    if(!dict.contains(tmp)) continue;
+                    if(endSet.contains(tmp)) return cnt;
+                    nextSet.add(tmp);
+                }
+                chs[i] = c;
+            }
+        }
+        return nextSet.size() > endSet.size() ? search(endSet, nextSet, dict, cnt) : search(nextSet, endSet, dict, cnt);
+    }
+
+    /**
      * 128. 最长连续序列
      * 给定一个未排序的整数数组，找出最长连续序列的长度。
      * <p>
@@ -233,5 +296,107 @@ public class T121_130 {
         }
 
         return ans;
+    }
+
+    /**
+     * 129. 求根到叶子节点数字之和
+     * 给定一个二叉树，它的每个结点都存放一个 0-9 的数字，每条从根到叶子节点的路径都代表一个数字。
+     * 例如，从根到叶子节点路径 1->2->3 代表数字 123。
+     * 计算从根到叶子节点生成的所有数字之和。
+     * 说明: 叶子节点是指没有子节点的节点。
+     * <p>
+     * 示例 1:
+     * <p>
+     * 输入: [1,2,3]
+     * 1
+     * / \
+     * 2   3
+     * 输出: 25
+     * 解释:
+     * 从根到叶子节点路径 1->2 代表数字 12.
+     * 从根到叶子节点路径 1->3 代表数字 13.
+     * 因此，数字总和 = 12 + 13 = 25.
+     * 示例 2:
+     * <p>
+     * 输入: [4,9,0,5,1]
+     * 4
+     * / \
+     * 9   0
+     * / \
+     * 5   1
+     * 输出: 1026
+     * 解释:
+     * 从根到叶子节点路径 4->9->5 代表数字 495.
+     * 从根到叶子节点路径 4->9->1 代表数字 491.
+     * 从根到叶子节点路径 4->0 代表数字 40.
+     * 因此，数字总和 = 495 + 491 + 40 = 1026.
+     */
+    public int sumNumbers(TreeNode root) {
+        return helper(root, 0);
+    }
+
+    public int helper(TreeNode root, int i) {
+        if (root == null) return 0;
+        int temp = i * 10 + root.val;
+        if (root.left == null && root.right == null)
+            return temp;
+        return helper(root.left, temp) + helper(root.right, temp);
+    }
+
+    /**
+     * 130. 被围绕的区域
+     * 给定一个二维的矩阵，包含 'X' 和 'O'（字母 O）。
+     * 找到所有被 'X' 围绕的区域，并将这些区域里所有的 'O' 用 'X' 填充。
+     * <p>
+     * 示例:
+     * X X X X
+     * X O O X
+     * X X O X
+     * X O X X
+     * 运行你的函数后，矩阵变为：
+     * <p>
+     * X X X X
+     * X X X X
+     * X X X X
+     * X O X X
+     *
+     * @param board
+     */
+    int m, n;
+
+    public void solve(char[][] board) {
+        n = board.length;
+        if (n == 0) {
+            return;
+        }
+        m = board[0].length;
+        for (int i = 0; i < n; i++) {
+            dfs(board, i, 0);
+            dfs(board, i, m - 1);
+        }
+        for (int i = 1; i < m - 1; i++) {
+            dfs(board, 0, i);
+            dfs(board, n - 1, i);
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (board[i][j] == 'A') {
+                    board[i][j] = 'O';
+                } else if (board[i][j] == 'O') {
+                    board[i][j] = 'X';
+                }
+            }
+        }
+    }
+
+    public void dfs(char[][] board, int x, int y) {
+        if (x < 0 || x >= n || y < 0 || y >= m || board[x][y] != 'O') {
+            return;
+        }
+        board[x][y] = 'A';
+        dfs(board, x + 1, y);
+        dfs(board, x - 1, y);
+        dfs(board, x, y + 1);
+        dfs(board, x, y - 1);
     }
 }
