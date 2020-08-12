@@ -1,6 +1,5 @@
 package com.luo.algorithm._101_200;
 
-import com.luo.offer.ListNode;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -8,6 +7,21 @@ import java.util.List;
 
 public class Test131_140 {
     T131_140 t = new T131_140();
+
+    @Test
+    public void test131() {
+        System.out.println(t.partition("aab"));
+    }
+
+    @Test
+    public void test132() {
+        System.out.println(t.minCut("aab"));
+    }
+
+    @Test
+    public void test133() {
+        System.out.println(t.cloneGraph(new Node()));
+    }
 
     @Test
     public void test136() {
