@@ -2,6 +2,8 @@ package com.luo.algorithm._1_100;
 
 import org.junit.Test;
 
+import java.util.List;
+
 public class Test41_50 {
     T41_50 t = new T41_50();
 
@@ -13,6 +15,12 @@ public class Test41_50 {
     }
 
     @Test
+    public void test43() {
+        System.out.println(t.multiply("2", "3"));
+        System.out.println(t.multiply("123", "456"));
+    }
+
+    @Test
     public void test45() {
         int[] nums = {2, 3, 1, 1, 4};
         System.out.println(t.jump(nums));
@@ -20,6 +28,19 @@ public class Test41_50 {
         int[] nums2 = {1, 1, 4, 5, 6};
         System.out.println(t.jump(nums2));
     }
+
+    @Test
+    public void test46() {
+        List<List<Integer>> permute = t.permute(new int[]{1, 2, 3});
+        System.out.println(permute);
+    }
+
+    @Test
+    public void test47() {
+        List<List<Integer>> permute = t.permuteUnique(new int[]{1, 2, 3});
+        System.out.println(permute);
+    }
+
 
     @Test
     public void test50() {

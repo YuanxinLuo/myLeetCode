@@ -1,5 +1,7 @@
 package com.luo.algorithm._1_100;
 
+import java.util.*;
+
 public class T41_50 {
     /**
      * 41. 缺失的第一个正数
@@ -38,6 +40,44 @@ public class T41_50 {
     }
 
     /**
+     * 43. 字符串相乘
+     * 给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式。
+     * <p>
+     * 示例 1:
+     * 输入: num1 = "2", num2 = "3"
+     * 输出: "6"
+     * <p>
+     * 示例 2:
+     * 输入: num1 = "123", num2 = "456"
+     * 输出: "56088"
+     */
+    public String multiply(String num1, String num2) {
+        if (num1.equals("0") || num2.equals("0")) {
+            return "0";
+        }
+        int m = num1.length(), n = num2.length();
+        int[] ansArr = new int[m + n];
+        for (int i = m - 1; i >= 0; i--) {
+            int x = num1.charAt(i) - '0';
+            for (int j = n - 1; j >= 0; j--) {
+                int y = num2.charAt(j) - '0';
+                ansArr[i + j + 1] += x * y;
+            }
+        }
+        for (int i = m + n - 1; i > 0; i--) {
+            ansArr[i - 1] += ansArr[i] / 10;
+            ansArr[i] %= 10;
+        }
+        int index = ansArr[0] == 0 ? 1 : 0;
+        StringBuffer ans = new StringBuffer();
+        while (index < m + n) {
+            ans.append(ansArr[index]);
+            index++;
+        }
+        return ans.toString();
+    }
+
+    /**
      * 45. 跳跃游戏 II
      * 给定一个非负整数数组，你最初位于数组的第一个位置。
      * 数组中的每个元素代表你在该位置可以跳跃的最大长度。
@@ -68,6 +108,113 @@ public class T41_50 {
             steps++;
         }
         return steps;
+    }
+
+    /**
+     * 46. 全排列
+     * 给定一个 没有重复 数字的序列，返回其所有可能的全排列。
+     * <p>
+     * 示例:
+     * 输入: [1,2,3]
+     * 输出:
+     * [
+     * [1,2,3],
+     * [1,3,2],
+     * [2,1,3],
+     * [2,3,1],
+     * [3,1,2],
+     * [3,2,1]
+     * ]
+     */
+    List<List<Integer>> res = null;
+    public List<List<Integer>> permute(int[] nums) {
+        res = new ArrayList<>();
+        permute(nums, 0);
+        return res;
+    }
+
+    private void permute(int[] nums, int i) {
+        int l = nums.length;
+        if (i >= l) {
+            List<Integer> r = new ArrayList<>();
+            for (int k = 0; k < l; k++) {
+                r.add(nums[k]);
+            }
+            res.add(r);
+            return;
+        }
+
+        permute(nums, i + 1);
+
+        for (int k = i + 1; k < l; k++) {
+            swap(nums, i, k);
+            permute(nums, i + 1);
+            swap(nums, i, k);
+        }
+    }
+
+    private void swap(int[] nums, int i, int k) {
+        int j = nums[i];
+        nums[i] = nums[k];
+        nums[k] = j;
+    }
+
+    /**
+     * 47. 全排列 II
+     * 给定一个可包含重复数字的序列，返回所有不重复的全排列。
+     *
+     * 示例:
+     *
+     * 输入: [1,1,2]
+     * 输出:
+     * [
+     *   [1,1,2],
+     *   [1,2,1],
+     *   [2,1,1]
+     * ]
+     */
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        int len = nums.length;
+        List<List<Integer>> res = new ArrayList<>();
+        if (len == 0) {
+            return res;
+        }
+
+        // 排序（升序或者降序都可以），排序是剪枝的前提
+        Arrays.sort(nums);
+
+        boolean[] used = new boolean[len];
+        // 使用 Deque 是 Java 官方 Stack 类的建议
+        Deque<Integer> path = new ArrayDeque<>(len);
+        dfs(nums, len, 0, used, path, res);
+        return res;
+    }
+
+    private void dfs(int[] nums, int len, int depth, boolean[] used, Deque<Integer> path, List<List<Integer>> res) {
+        if (depth == len) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+
+        for (int i = 0; i < len; ++i) {
+            if (used[i]) {
+                continue;
+            }
+
+            // 剪枝条件：i > 0 是为了保证 nums[i - 1] 有意义
+            // 写 !used[i - 1] 是因为 nums[i - 1] 在深度优先遍历的过程中刚刚被撤销选择
+            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
+                continue;
+            }
+
+            path.addLast(nums[i]);
+            used[i] = true;
+
+            dfs(nums, len, depth + 1, used, path, res);
+            // 回溯部分的代码，和 dfs 之前的代码是对称的
+            used[i] = false;
+            path.removeLast();
+        }
     }
 
     /**
