@@ -4,6 +4,41 @@ import java.util.*;
 
 public class Offer31_40 {
     /**
+     * 剑指 Offer 32 - I. 从上到下打印二叉树
+     * 从上到下打印出二叉树的每个节点，同一层的节点按照从左到右的顺序打印。
+     *
+     *
+     *
+     * 例如:
+     * 给定二叉树: [3,9,20,null,null,15,7],
+     *
+     *     3
+     *    / \
+     *   9  20
+     *     /  \
+     *    15   7
+     * 返回：
+     *
+     * [3,9,20,15,7]
+     * @param root
+     * @return
+     */
+    public int[] levelOrder1(TreeNode root) {
+        if(root == null) return new int[0];
+        Queue<TreeNode> queue = new LinkedList<TreeNode>(){{ add(root); }};
+        ArrayList<Integer> ans = new ArrayList<>();
+        while(!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            ans.add(node.val);
+            if(node.left != null) queue.add(node.left);
+            if(node.right != null) queue.add(node.right);
+        }
+        int[] res = new int[ans.size()];
+        for(int i = 0; i < ans.size(); i++)
+            res[i] = ans.get(i);
+        return res;
+    }
+    /**
      * 剑指 Offer 32 - II. 从上到下打印二叉树 II
      * 从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
      * <p>
@@ -23,7 +58,7 @@ public class Offer31_40 {
      * [15,7]
      * ]
      */
-    public List<List<Integer>> levelOrder(TreeNode root) {
+    public List<List<Integer>> levelOrder2(TreeNode root) {
         Queue<TreeNode> queue = new LinkedList<>();
         List<List<Integer>> res = new ArrayList<>();
         if (root != null) queue.add(root);

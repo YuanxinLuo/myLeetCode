@@ -8,6 +8,11 @@ public class Test51_60 {
     Offer51_60 t = new Offer51_60();
 
     @Test
+    public void test51() {
+        System.out.println(t.reversePairs(new int[]{7, 5, 6, 4}));
+    }
+
+    @Test
     public void test52() {
         ListNode a1 = new ListNode(4);
         a1.next = new ListNode(1);

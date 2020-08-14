@@ -9,13 +9,23 @@ public class Test31_40 {
     Offer31_40 t = new Offer31_40();
 
     @Test
+    public void test32I(){
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(9);
+        root.right = new TreeNode(20);
+        root.right.left = new TreeNode(15);
+        root.right.right = new TreeNode(7);
+        System.out.println(Arrays.toString(t.levelOrder1(root)));
+    }
+
+    @Test
     public void test32II() {
         TreeNode root = new TreeNode(3);
         root.left = new TreeNode(9);
         root.right = new TreeNode(20);
         root.right.left = new TreeNode(15);
         root.right.right = new TreeNode(7);
-        List<List<Integer>> lists = t.levelOrder(root);
+        List<List<Integer>> lists = t.levelOrder2(root);
         for (int i = 0; i < lists.size(); i++) {
             System.out.println(Arrays.toString(lists.get(i).toArray()));
         }
