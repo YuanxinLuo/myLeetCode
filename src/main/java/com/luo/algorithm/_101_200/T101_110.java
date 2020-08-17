@@ -84,6 +84,51 @@ public class T101_110 {
     }
 
     /**
+     * 103. 二叉树的锯齿形层次遍历
+     * 给定一个二叉树，返回其节点值的锯齿形层次遍历。（即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）。
+     * <p>
+     * 例如：
+     * 给定二叉树 [3,9,20,null,null,15,7],
+     * <p>
+     * 3
+     * / \
+     * 9  20
+     * /  \
+     * 15   7
+     * 返回锯齿形层次遍历如下：
+     * <p>
+     * [
+     * [3],
+     * [20,9],
+     * [15,7]
+     * ]
+     */
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<List<Integer>>();
+        }
+        List<List<Integer>> results = new ArrayList<List<Integer>>();
+        DFS(root, 0, results);
+        return results;
+    }
+
+    private void DFS(TreeNode node, int level, List<List<Integer>> results) {
+        if (level >= results.size()) {
+            LinkedList<Integer> newLevel = new LinkedList<Integer>();
+            newLevel.add(node.val);
+            results.add(newLevel);
+        } else {
+            if (level % 2 == 0)
+                results.get(level).add(node.val);
+            else
+                results.get(level).add(0, node.val);
+        }
+
+        if (node.left != null) DFS(node.left, level + 1, results);
+        if (node.right != null) DFS(node.right, level + 1, results);
+    }
+
+    /**
      * 104. 二叉树的最大深度
      * 给定一个二叉树，找出其最大深度。
      * <p>
@@ -143,6 +188,51 @@ public class T101_110 {
     }
 
     /**
+     * 106. 从中序与后序遍历序列构造二叉树
+     * 根据一棵树的中序遍历与后序遍历构造二叉树。
+     * <p>
+     * 注意:
+     * 你可以假设树中没有重复的元素。
+     * <p>
+     * 例如，给出
+     * <p>
+     * 中序遍历 inorder = [9,3,15,20,7]
+     * 后序遍历 postorder = [9,15,7,20,3]
+     * 返回如下的二叉树：
+     * <p>
+     * 3
+     * / \
+     * 9  20
+     * /  \
+     * 15   7
+     *
+     * @param inorder
+     * @param postorder
+     * @return
+     */
+    Map<Integer, Integer> map = new HashMap<>();
+
+    public TreeNode buildTree106(int[] inorder, int[] postorder) {
+        for (int i = 0; i < inorder.length; i++)
+            map.put(inorder[i], i);
+        return helper(inorder, postorder, 0, inorder.length - 1, 0, postorder.length - 1);
+    }
+
+    private TreeNode helper(int[] in, int[] post, int inL, int inR, int postL, int postR) {
+        if (inL > inR)  //说明数组无效
+            return null;
+
+        TreeNode root = new TreeNode(post[postR]);//利用后序的最后一个节点创建新的树的根节点
+        int postRootVal = post[postR];    //后序遍历的最后一个节点post_last_node
+        int inMid = map.get(postRootVal); //后序遍历节点post_last_node在中序遍历中的位置（利用map直接以O(1)的复杂度取出索引）
+        int inLeftNum = inMid - inL;        //中序遍历的左子树的个数
+
+        root.left = helper(in, post, inL, inMid - 1, postL, postL + inLeftNum - 1);//递归构建左子树
+        root.right = helper(in, post, inMid + 1, inR, postL + inLeftNum, postR - 1);//递归构建右子树
+        return root;
+    }
+
+    /**
      * 107. 二叉树的层次遍历 II
      * 给定一个二叉树，返回其节点值自底向上的层次遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）
      * 例如：
@@ -193,63 +283,105 @@ public class T101_110 {
     /**
      * 108. 将有序数组转换为二叉搜索树
      * 将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。
-     *
+     * <p>
      * 本题中，一个高度平衡二叉树是指一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1。
-     *
+     * <p>
      * 示例:
      * 给定有序数组: [-10,-3,0,5,9],
-     *
+     * <p>
      * 一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：
+     * <p>
+     * 0
+     * / \
+     * -3   9
+     * /   /
+     * -10  5
      *
-     *       0
-     *      / \
-     *    -3   9
-     *    /   /
-     *  -10  5
      * @param nums
      * @return
      */
     public TreeNode sortedArrayToBST(int[] nums) {
-        return buildBST(nums,0,nums.length-1);
+        return buildBST(nums, 0, nums.length - 1);
     }
-    private TreeNode buildBST(int[] nums ,int begin,int end){
-        if(begin > end) return null;
+
+    private TreeNode buildBST(int[] nums, int begin, int end) {
+        if (begin > end) return null;
         int mid = (begin + end + 1) / 2;
         TreeNode root = new TreeNode(nums[mid]);
-        root.left = buildBST(nums, begin,mid - 1);
-        root.right = buildBST(nums,mid + 1, end);
+        root.left = buildBST(nums, begin, mid - 1);
+        root.right = buildBST(nums, mid + 1, end);
         return root;
     }
 
+    /**
+     * 109. 有序链表转换二叉搜索树
+     * 给定一个单链表，其中的元素按升序排序，将其转换为高度平衡的二叉搜索树。
+     * <p>
+     * 本题中，一个高度平衡二叉树是指一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1。
+     * <p>
+     * 示例:
+     * <p>
+     * 给定的有序链表： [-10, -3, 0, 5, 9],
+     * <p>
+     * 一个可能的答案是：[0, -3, 9, -10, null, 5], 它可以表示下面这个高度平衡二叉搜索树：
+     * <p>
+     * 0
+     * / \
+     * -3   9
+     * /   /
+     * -10  5
+     */
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head==null){
+            return null;
+        }
+        else if (head.next==null){
+            return new TreeNode(head.val);
+        }
+        ListNode pre=head;
+        ListNode p=pre.next;
+        ListNode q=p.next;
+        while (q!=null&&q.next!=null){
+            pre=pre.next;
+            p=pre.next;
+            q=q.next.next;
+        }
+        pre.next=null;
+        TreeNode root=new TreeNode(p.val);
+        root.left=sortedListToBST(head);
+        root.right=sortedListToBST(p.next);
+        return root;
+    }
 
     /**
      * 110. 平衡二叉树
      * 给定一个二叉树，判断它是否是高度平衡的二叉树。
-     *
+     * <p>
      * 本题中，一棵高度平衡二叉树定义为：
-     *
+     * <p>
      * 一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过1。
-     *
+     * <p>
      * 示例 1:
      * 给定二叉树 [3,9,20,null,null,15,7]
-     *
-     *     3
-     *    / \
-     *   9  20
-     *     /  \
-     *    15   7
+     * <p>
+     * 3
+     * / \
+     * 9  20
+     * /  \
+     * 15   7
      * 返回 true 。
-     *
+     * <p>
      * 示例 2:
      * 给定二叉树 [1,2,2,3,3,null,null,4,4]
+     * <p>
+     * 1
+     * / \
+     * 2   2
+     * / \
+     * 3   3
+     * / \
+     * 4   4
      *
-     *        1
-     *       / \
-     *      2   2
-     *     / \
-     *    3   3
-     *   / \
-     *  4   4
      * @param root
      * @return
      */
@@ -258,9 +390,9 @@ public class T101_110 {
     }
 
     private int height(TreeNode root) {
-        if(root ==null) return 0;
+        if (root == null) return 0;
         int lh = height(root.left), rh = height(root.right);
-        if(lh >= 0 && rh >= 0 && Math.abs(lh-rh) <= 1) return Math.max(lh,rh) + 1;
+        if (lh >= 0 && rh >= 0 && Math.abs(lh - rh) <= 1) return Math.max(lh, rh) + 1;
         return -1;
     }
 }

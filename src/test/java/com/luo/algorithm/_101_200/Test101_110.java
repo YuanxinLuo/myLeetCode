@@ -1,7 +1,6 @@
 package com.luo.algorithm._101_200;
 
 import org.junit.Test;
-import sun.reflect.generics.tree.Tree;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +47,16 @@ public class Test101_110 {
     }
 
     @Test
+    public void test103(){
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(9);
+        root.right = new TreeNode(20);
+        root.right.left = new TreeNode(15);
+        root.right.right = new TreeNode(7);
+        System.out.println(t.zigzagLevelOrder(root));
+    }
+
+    @Test
     public void test104() {
         TreeNode root = new TreeNode(3);
         root.left = new TreeNode(9);
@@ -64,6 +73,16 @@ public class Test101_110 {
         TreeNode root = t.buildTree(pre, in);
         System.out.println(root);
     }
+
+    @Test
+    public void test106() {
+        int[] pre = {3, 9, 20, 15, 7};
+        int[] in = {9, 3, 15, 20, 7};
+        TreeNode root = t.buildTree106(pre, in);
+        System.out.println(root);
+    }
+
+
 
     @Test
     public void test107() {
@@ -83,6 +102,16 @@ public class Test101_110 {
         int[] nums = {-10, -3, 0, 5, 9};
         TreeNode root = t.sortedArrayToBST(nums);
         System.out.println(root);
+    }
+
+    @Test
+    public void test109(){
+        ListNode head = new ListNode(-10);
+        head.next = new ListNode(-3);
+        head.next.next = new ListNode(0);
+        head.next.next.next = new ListNode(5);
+        head.next.next.next.next = new ListNode(9);
+        System.out.println(t.sortedListToBST(head));
     }
 
     @Test
