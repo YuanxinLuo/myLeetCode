@@ -4,6 +4,43 @@ import java.util.*;
 
 public class Offer31_40 {
     /**
+     * 剑指 Offer 31. 栈的压入、弹出序列
+     * 输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否为该栈的弹出顺序。
+     * 假设压入栈的所有数字均不相等。例如，序列 {1,2,3,4,5} 是某栈的压栈序列，序列 {4,5,3,2,1} 是该压栈序列对应的一个弹出序列，
+     * 但 {4,3,5,1,2} 就不可能是该压栈序列的弹出序列。
+     *
+     *
+     * 示例 1：
+     * 输入：pushed = [1,2,3,4,5], popped = [4,5,3,2,1]
+     * 输出：true
+     * 解释：我们可以按以下顺序执行：
+     * push(1), push(2), push(3), push(4), pop() -> 4,
+     * push(5), pop() -> 5, pop() -> 3, pop() -> 2, pop() -> 1
+     *
+     * 示例 2：
+     * 输入：pushed = [1,2,3,4,5], popped = [4,3,5,1,2]
+     * 输出：false
+     * 解释：1 不能在 2 之前弹出。
+     */
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        if(pushed == null) return popped == null;
+        if(pushed.length == 0) return popped != null && popped.length == 0;
+        int n = pushed.length;
+        int[] stack = new int[n];
+        int stackPtr = -1;
+        int pushedPtr = 0;
+        int poppedPtr = 0;
+        for(int i = 0; i < n; i++) {
+            stack[++stackPtr] = pushed[i];
+
+            while(stackPtr>=0 && stack[stackPtr] == popped[poppedPtr]) {
+                stackPtr--;
+                poppedPtr++;
+            }
+        }
+        return stackPtr == -1;
+    }
+    /**
      * 剑指 Offer 32 - I. 从上到下打印二叉树
      * 从上到下打印出二叉树的每个节点，同一层的节点按照从左到右的顺序打印。
      *
@@ -73,6 +110,126 @@ public class Offer31_40 {
             res.add(tmp);
         }
         return res;
+    }
+
+    /**
+     * 剑指 Offer 32 - III. 从上到下打印二叉树 III
+     * 请实现一个函数按照之字形顺序打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右到左的顺序打印，第三行再按照从左到右的顺序打印，其他行以此类推。
+     *
+     * 例如:
+     * 给定二叉树: [3,9,20,null,null,15,7],
+     *
+     *     3
+     *    / \
+     *   9  20
+     *     /  \
+     *    15   7
+     * 返回其层次遍历结果：
+     *
+     * [
+     *   [3],
+     *   [20,9],
+     *   [15,7]
+     * ]
+     */
+    public List<List<Integer>> levelOrder3(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        dfs(root, 0, ans);
+        return ans;
+    }
+
+    private void dfs(TreeNode root, int d, List<List<Integer>> ans) {
+        if(root == null) return;
+
+        if(d == ans.size()) {
+            ans.add(new LinkedList<>());
+        }
+
+        LinkedList<Integer> items = (LinkedList<Integer>) ans.get(d);
+        if (d % 2 == 0) {
+            items.add(root.val);
+        } else {
+            items.addFirst(root.val);
+        }
+
+        dfs(root.left, d + 1, ans);
+        dfs(root.right, d + 1, ans);
+    }
+
+    /**
+     * 剑指 Offer 33. 二叉搜索树的后序遍历序列
+     * 输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历结果。
+     * 如果是则返回 true，否则返回 false。假设输入的数组的任意两个数字都互不相同。
+     *
+     * 参考以下这颗二叉搜索树：
+     *
+     *      5
+     *     / \
+     *    2   6
+     *   / \
+     *  1   3
+     * 示例 1：
+     * 输入: [1,6,3,2,5]
+     * 输出: false
+     *
+     * 示例 2：
+     * 输入: [1,3,2,6,5]
+     * 输出: true
+     */
+    public boolean verifyPostorder(int[] postorder) {
+        return recur(postorder, 0, postorder.length - 1);
+    }
+    boolean recur(int[] postorder, int i, int j) {
+        if(i >= j) return true;
+        int p = i;
+        while(postorder[p] < postorder[j]) p++;
+        int m = p;
+        while(postorder[p] > postorder[j]) p++;
+        return p == j && recur(postorder, i, m - 1) && recur(postorder, m, j - 1);
+    }
+
+    /**
+     * 剑指 Offer 34. 二叉树中和为某一值的路径
+     * 输入一棵二叉树和一个整数，打印出二叉树中节点值的和为输入整数的所有路径。
+     * 从树的根节点开始往下一直到叶节点所经过的节点形成一条路径。
+     *
+     * 示例:
+     * 给定如下二叉树，以及目标和 sum = 22，
+     *
+     *               5
+     *              / \
+     *             4   8
+     *            /   / \
+     *           11  13  4
+     *          /  \    / \
+     *         7    2  5   1
+     * 返回:
+     *
+     * [
+     *    [5,4,11,2],
+     *    [5,8,4,5]
+     * ]
+     */
+    LinkedList<List<Integer>> res = new LinkedList();
+    LinkedList<Integer> path = new LinkedList();
+
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        recur(root,sum);
+        return res;
+    }
+
+    void recur(TreeNode root, int tar){
+        if(root == null){
+            return;
+        }
+        path.add(root.val);
+        tar-=root.val;
+        if(tar == 0 && root.left == null && root.right == null){
+            res.add(new LinkedList(path));
+        }
+        recur(root.left,tar);
+        recur(root.right,tar);
+        path.removeLast();
     }
 
     /**
