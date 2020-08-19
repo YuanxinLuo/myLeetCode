@@ -70,6 +70,31 @@ public class Test31_40 {
     }
 
     @Test
+    public void test35() {
+        Node h1 = new Node(7);
+        h1.next = new Node(13);
+        h1.next.next = new Node(11);
+        h1.next.next.next = new Node(10);
+        h1.next.next.next.next = new Node(1);
+        System.out.println(t.copyRandomList(h1));
+    }
+
+    @Test
+    public void test36() {
+        Node2 n = new Node2(4);
+        n.left = new Node2(2);
+        n.right = new Node2(5);
+        n.left.left = new Node2(1);
+        n.left.right = new Node2(3);
+        System.out.println(t.treeToDoublyList(n));
+    }
+
+    @Test
+    public void test38() {
+        System.out.println(t.permutation("abc"));
+    }
+
+    @Test
     public void test39() {
         System.out.println(t.majorityElement(new int[]{1, 2, 3, 2, 2, 2, 5, 4, 2}));
     }
