@@ -1,9 +1,41 @@
 package com.luo.algorithm._101_200;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class T111_120 {
+    /**
+     * 111. 二叉树的最小深度
+     * 给定一个二叉树，找出其最小深度。
+     * 最小深度是从根节点到最近叶子节点的最短路径上的节点数量。
+     * 说明: 叶子节点是指没有子节点的节点。
+     *
+     * 示例:
+     * 给定二叉树 [3,9,20,null,null,15,7],
+     *
+     *     3
+     *    / \
+     *   9  20
+     *     /  \
+     *    15   7
+     */
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+        int min_depth = Integer.MAX_VALUE;
+        if (root.left != null) {
+            min_depth = Math.min(minDepth(root.left), min_depth);
+        }
+        if (root.right != null) {
+            min_depth = Math.min(minDepth(root.right), min_depth);
+        }
+        return min_depth + 1;
+    }
 
     /**
      * 112. 路径总和
@@ -37,6 +69,87 @@ public class T111_120 {
         return f(root.left, sum, mem) || f(root.right, sum, mem);
     }
 
+    /**
+     * 113. 路径总和 II
+     * 给定一个二叉树和一个目标和，找到所有从根节点到叶子节点路径总和等于给定目标和的路径。
+     * 说明: 叶子节点是指没有子节点的节点。
+     * 示例:
+     * 给定如下二叉树，以及目标和 sum = 22，
+     *
+     *               5
+     *              / \
+     *             4   8
+     *            /   / \
+     *           11  13  4
+     *          /  \    / \
+     *         7    2  5   1
+     * 返回:
+     * [
+     *    [5,4,11,2],
+     *    [5,8,4,5]
+     * ]
+     */
+    List<List<Integer>> res = new ArrayList();//全局变量来获取所有的结果路径
+
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        LinkedList<Integer> temp = new LinkedList<>();// 定义一个有序list来存储路径
+        helper(root, sum, temp);
+        return res;
+    }
+
+    public void helper(TreeNode node, int sum, LinkedList<Integer> temp) {
+        if (node == null) {
+            return;
+        }
+        temp.addLast(node.val);// 记录路径
+        if (node.left == null && node.right == null && sum == node.val) {
+            res.add(new ArrayList(temp));
+        }
+        helper(node.left, sum - node.val, temp);
+        helper(node.right, sum - node.val, temp);
+        temp.removeLast();// 重点，遍历完后，需要把当前节点remove出去，因为用的是同一个list对象来存所有的路径
+    }
+
+    /**
+     * 114. 二叉树展开为链表
+     * 给定一个二叉树，原地将它展开为一个单链表。
+     *
+     * 例如，给定二叉树
+     *     1
+     *    / \
+     *   2   5
+     *  / \   \
+     * 3   4   6
+     * 将其展开为：
+     *
+     * 1
+     *  \
+     *   2
+     *    \
+     *     3
+     *      \
+     *       4
+     *        \
+     *         5
+     *          \
+     *           6
+     */
+    public void flatten(TreeNode root) {
+        TreeNode cur = root;
+        while(cur!=null){
+            if(cur.left!=null){
+                TreeNode next = cur.left;
+                TreeNode pre = next;
+                while(pre.right!=null){
+                    pre  = pre.right;
+                }
+                pre.right = cur.right;
+                cur.left = null;
+                cur.right = next;
+            }
+            cur = cur.right;
+        }
+    }
     /**
      * 118. 杨辉三角
      * 给定一个非负整数 numRows，生成杨辉三角的前 numRows 行。
