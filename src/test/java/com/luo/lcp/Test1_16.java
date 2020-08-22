@@ -38,4 +38,23 @@ public class Test1_16 {
         System.out.println(lcp.minimalSteps(new String[]{"S#O", "M.#", "M.T"}));
         System.out.println(lcp.minimalSteps(new String[]{"S#O", "M.T", "M.."}));
     }
+
+    @Test
+    public void test14() {
+        System.out.println(lcp.splitArray(new int[]{2, 3, 3, 2, 3, 3}));
+        System.out.println(lcp.splitArray(new int[]{2, 3, 5, 7}));
+    }
+
+    @Test
+    public void test15() {
+        System.out.println(Arrays.toString(lcp.visitOrder(new int[][]{{1, 3}, {2, 4}, {3, 3}, {2, 1}}, "LR")));
+        System.out.println(Arrays.toString(lcp.visitOrder(new int[][]{{1, 1}, {1, 4}, {3, 2}, {2, 1}}, "LL")));
+    }
+
+    @Test
+    public void test16() {
+        System.out.println(lcp.maxWeight(new int[][]{{0, 1}, {1, 2}, {0, 2}}, new int[]{1, 2, 3}));
+        System.out.println(lcp.maxWeight(new int[][]{{0, 2}, {2, 1}}, new int[]{1, 2, 5}));
+        System.out.println(lcp.maxWeight(new int[][]{{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}, {1, 1}, {1, 2}, {1, 3}, {1, 4}, {1, 5}}, new int[]{7, 8, 6, 8, 9, 7}));
+    }
 }

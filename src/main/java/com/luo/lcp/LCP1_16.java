@@ -28,14 +28,14 @@ public class LCP1_16 {
      * LCP 02. 分式化简
      * 有一个同学在学习分式。他需要将一个连分数化成最简分数，你能帮助他吗？
      * 连分数是形如上图的分式。在本题中，所有系数都是大于等于0的整数。
-     *
+     * <p>
      * 输入的cont代表连分数的系数（cont[0]代表上图的a0，以此类推）。返回一个长度为2的数组[n, m]，使得连分数的值等于n / m，且n, m最大公约数为1。
-     *
+     * <p>
      * 示例 1：
      * 输入：cont = [3, 2, 0, 2]
      * 输出：[13, 4]
      * 解释：原连分数等价于3 + (1 / (2 + (1 / (0 + 1 / 2))))。注意[26, 8], [-13, -4]都不是正确答案。
-     *
+     * <p>
      * 示例 2：
      * 输入：cont = [0, 0, 3]
      * 输出：[3, 1]
@@ -44,14 +44,16 @@ public class LCP1_16 {
     public int[] fraction(int[] cont) {
         return recursive(cont, 0);
     }
+
     private int[] recursive(int[] count, int index) {
         if (index == count.length - 1) {
             return new int[]{count[index], 1};
         }
 
-        int[] nextRes = recursive(count, index+1);
+        int[] nextRes = recursive(count, index + 1);
         return new int[]{count[index] * nextRes[0] + nextRes[1], nextRes[0]};
     }
+
     /**
      * LCP 11. 期望个数统计
      * 某互联网公司一年一度的春招开始了，一共有 n 名面试者入选。
@@ -323,5 +325,157 @@ public class LCP1_16 {
 
     int bit(int x, int i) {
         return (x >> i) & 1;
+    }
+
+    /**
+     * LCP 14. 切分数组
+     * 给定一个整数数组 nums ，小李想将 nums 切割成若干个非空子数组，使得每个子数组最左边的数和最右边的数的最大公约数大于 1 。
+     * 为了减少他的工作量，请求出最少可以切成多少个子数组。
+     * <p>
+     * 示例 1：
+     * 输入：nums = [2,3,3,2,3,3]
+     * 输出：2
+     * 解释：最优切割为 [2,3,3,2] 和 [3,3] 。第一个子数组头尾数字的最大公约数为 2 ，第二个子数组头尾数字的最大公约数为 3 。
+     * <p>
+     * 示例 2：
+     * 输入：nums = [2,3,5,7]
+     * 输出：4
+     * 解释：只有一种可行的切割：[2], [3], [5], [7]
+     */
+    public int splitArray(int[] nums) {
+        init();
+        int[] ans = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            int n = nums[i];
+            ans[i] = i > 0 ? ans[i - 1] + 1 : 1;
+            while (n > 1) {
+                int factor = minPrime[n];
+                int minIndex = -1;
+                if (primeMinIndex.containsKey(factor)) {
+                    minIndex = primeMinIndex.get(factor);
+                } else {
+                    minIndex = i;
+                    primeMinIndex.put(factor, minIndex);
+                }
+                if (minIndex > 0) {
+                    ans[i] = Math.min(ans[i], ans[minIndex - 1] + 1);
+                } else {
+                    ans[i] = 1;
+                }
+                if (ans[i] < ans[minIndex]) {
+                    primeMinIndex.put(factor, i);
+                }
+                n = n / factor;
+            }
+        }
+        return ans[nums.length - 1];
+    }
+
+    private int[] minPrime = new int[1000000 + 1];
+
+    private Map<Integer, Integer> primeMinIndex = new HashMap<>();
+
+    private void init() {
+        for (int i = 2; i < minPrime.length; i++) {
+            if (minPrime[i] < 2) {
+                for (int j = i; j < minPrime.length; j += i) {
+                    minPrime[j] = i;
+                }
+            }
+        }
+    }
+
+    /**
+     * LCP 15. 游乐园的迷宫
+     * 小王来到了游乐园，她玩的第一个项目是模拟推销员。
+     * 有一个二维平面地图，其中散布着 N 个推销点，编号 0 到 N-1，不存在三点共线的情况。
+     * 每两点之间有一条直线相连。游戏没有规定起点和终点，但限定了每次转角的方向。
+     * 首先，小王需要先选择两个点分别作为起点和终点，然后从起点开始访问剩余 N-2 个点恰好一次并回到终点。
+     * 访问的顺序需要满足一串给定的长度为 N-2 由 L 和 R 组成的字符串 direction，表示从起点出发之后在每个顶点上转角的方向。
+     * 根据这个提示，小王希望你能够帮她找到一个可行的遍历顺序，输出顺序下标（若有多个方案，输出任意一种）。
+     * 可以证明这样的遍历顺序一定是存在的。
+     */
+    public int[] visitOrder(int[][] points, String direction) {
+        haveResFlag=false;
+        ans=new int[points.length];ansIdx=0;
+        dfs(new boolean[points.length],points,direction);
+        return ans;
+    }
+    private boolean haveResFlag;
+    private int ansIdx;
+    private int[]ans;
+
+    private void dfs(boolean[]visited,int[][]points,String direction){
+        if(ansIdx==visited.length){
+            haveResFlag=true;
+            return;
+        }
+        for(int i=0;i<visited.length;i++){
+            if(visited[i])continue;
+            if(haveResFlag)return;
+            if(ansIdx<2||getDirection(points[ans[ansIdx-2]],points[ans[ansIdx-1]],points[i])==direction.charAt(ansIdx-2)){//满足这样的条件才行
+                visited[i]=true;
+                ans[ansIdx]=i;
+                ansIdx++;
+                dfs(visited,points,direction);
+                visited[i]=false;
+                ansIdx--;
+            }
+        }
+    }
+
+    //判断AB->BC是左转还是右转
+    private char getDirection(int[]A,int[]B,int[]C){
+        if(A[0]==B[0]){
+            if(B[1]>A[1]){
+                if(C[0]<A[0])return 'L';
+                else return 'R';
+            }else{
+                if(C[0]<A[0])return 'R';
+                else return 'L';
+            }
+        }else{
+            double angle1=Math.atan2(B[1]-A[1],B[0]-A[0])*180/Math.PI;
+            angle1=(angle1+360)%360;
+            double angle2=Math.atan2(C[1]-B[1],C[0]-B[0])*180/Math.PI;
+            angle2=(angle2+360)%360;
+            if((angle2>=angle1&&angle2<=angle1+180||(angle1+180>360&&angle2<=(angle1+180)%360))){
+                return 'L';
+            }else{
+                return 'R';
+            }
+        }
+    }
+
+    /**
+     * LCP 16. 游乐园的游览计划
+     * 又到了一年一度的春游时间，小吴计划去游乐场游玩 1 天，游乐场总共有 N 个游乐项目，编号从 0 到 N-1。
+     * 小吴给每个游乐项目定义了一个非负整数值 value[i] 表示自己的喜爱值。
+     * 两个游乐项目之间会有双向路径相连，整个游乐场总共有 M 条双向路径，保存在二维数组 edges中。
+     * 小吴计划选择一个游乐项目 A 作为这一天游玩的重点项目。
+     * 上午小吴准备游玩重点项目 A 以及与项目 A 相邻的两个项目 B、C （项目A、B与C要求是不同的项目，且项目B与项目C要求相邻），并返回 A ，即存在一条 A-B-C-A 的路径。
+     * 下午，小吴决定再游玩重点项目 A以及与A相邻的两个项目 B'、C'，（项目A、B'与C'要求是不同的项目，且项目B'与项目C'要求相邻），并返回 A ，即存在一条 A-B'-C'-A 的路径。
+     * 下午游玩项目 B'、C' 可与上午游玩项目B、C存在重复项目。
+     * 小吴希望提前安排好游玩路径，使得喜爱值之和最大。请你返回满足游玩路径选取条件的最大喜爱值之和，如果没有这样的路径，返回 0。
+     * 注意：一天中重复游玩同一个项目并不能重复增加喜爱值了。例如：上下午游玩路径分别是 A-B-C-A与A-C-D-A 那么只能获得 value[A] + value[B] + value[C] + value[D] 的总和。
+     *
+     * 示例 1：
+     * 输入：edges = [[0,1],[1,2],[0,2]], value = [1,2,3]
+     * 输出：6
+     * 解释：喜爱值之和最高的方案之一是 0->1->2->0 与 0->2->1->0 。重复游玩同一点不重复计入喜爱值，返回1+2+3=6
+     *
+     * 示例 2：
+     * 输入：edges = [[0,2],[2,1]], value = [1,2,5]
+     * 输出：0
+     * 解释：无满足要求的游玩路径，返回 0
+     *
+     * 示例 3：
+     * 输入：edges = [[0,1],[0,2],[0,3],[0,4],[0,5],[1,3],[2,4],[2,5],[3,4],[3,5],[4,5]], value = [7,8,6,8,9,7]
+     * 输出：39
+     * 解释：喜爱值之和最高的方案之一是 3->0->1->3 与 3->4->5->3 。喜爱值最高为 7+8+8+9+7=39
+     */
+    public int maxWeight(int[][] edges, int[] value) {
+
+        return 0;
     }
 }
