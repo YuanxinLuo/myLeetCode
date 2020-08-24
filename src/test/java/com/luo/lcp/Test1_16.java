@@ -20,6 +20,20 @@ public class Test1_16 {
     }
 
     @Test
+    public void test03() {
+        System.out.println(lcp.robot("URR", new int[][]{}, 3, 2));
+        System.out.println(lcp.robot("URR", new int[][]{{2, 2}}, 3, 2));
+        System.out.println(lcp.robot("URR", new int[][]{{4, 2}}, 3, 2));
+
+    }
+
+    @Test
+    public void test06() {
+        System.out.println(lcp.minCount(new int[]{4, 2, 1}));
+        System.out.println(lcp.minCount(new int[]{2, 3, 10}));
+    }
+
+    @Test
     public void test11() {
         System.out.println(lcp.expectNumber(new int[]{1, 2, 3}));
         System.out.println(lcp.expectNumber(new int[]{1, 1}));

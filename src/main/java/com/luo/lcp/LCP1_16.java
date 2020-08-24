@@ -55,6 +55,113 @@ public class LCP1_16 {
     }
 
     /**
+     * LCP 03. 机器人大冒险
+     * 力扣团队买了一个可编程机器人，机器人初始位置在原点(0, 0)。小伙伴事先给机器人输入一串指令command，机器人就会无限循环这条指令的步骤进行移动。指令有两种：
+     * U: 向y轴正方向移动一格
+     * R: 向x轴正方向移动一格。
+     * 不幸的是，在 xy 平面上还有一些障碍物，他们的坐标用obstacles表示。机器人一旦碰到障碍物就会被损毁。
+     * 给定终点坐标(x, y)，返回机器人能否完好地到达终点。如果能，返回true；否则返回false。
+     *
+     * 示例 1：
+     * 输入：command = "URR", obstacles = [], x = 3, y = 2
+     * 输出：true
+     * 解释：U(0, 1) -> R(1, 1) -> R(2, 1) -> U(2, 2) -> R(3, 2)。
+     * 示例 2：
+     * 输入：command = "URR", obstacles = [[2, 2]], x = 3, y = 2
+     * 输出：false
+     * 解释：机器人在到达终点前会碰到(2, 2)的障碍物。
+     * 示例 3：
+     * 输入：command = "URR", obstacles = [[4, 2]], x = 3, y = 2
+     * 输出：true
+     * 解释：到达终点后，再碰到障碍物也不影响返回结果。
+     */
+    public boolean robot(String command, int[][] obstacles, int x, int y) {
+        int lx = 0, ly = 0;
+        int ox = 0, oy = 0;
+        for (char c : command.toCharArray()) {
+            if (c == 'U')
+                ly++;
+            else
+                lx++;
+        }
+        //先判断每个障碍物是否在路径上！
+        for (int[] obstacle : obstacles) {
+            if(obstacles[0].length == 0) break;
+            int px = 0, py = 0;
+            int ox2 = 0;
+            int oy2 = 0;
+            ox = obstacle[0];
+            oy = obstacle[1];
+            if (ox > x || oy > y) {
+                continue;
+            } else {
+                if ((ox/lx)<=(oy/ly)){
+                    oy2 = oy-ly*(ox/lx);
+                    ox2 = ox-lx*(ox/lx);
+                    //if (ox2<0) ox2 = 0;
+                }else {
+                    oy2 = oy-ly*(oy/ly);
+                    ox2 = ox-lx*(oy/ly);
+                    //if (oy2<0) oy2 = 0;
+                }
+            }
+            for (char c : command.toCharArray()) {
+                if (px == ox2 && py == oy2) {
+                    return false;
+                }
+                if (c == 'U') {
+                    py++;
+                } else {
+                    px++;
+                }
+            }
+        }
+        //判断能否到达终点
+        int x1 = 0, y1 = 0;
+        if (x/lx<=y/ly){
+            y1 = y - ly*(x/lx);
+            x1 = x - lx*(x/lx);
+        }else {
+            y1 = y - ly*(y/ly);
+            x1 = x - lx*(y/ly);
+        }
+        int x2 = 0, y2 = 0;
+        for (char c : command.toCharArray()) {
+            if (x2 == x1 && y2 == y1) return true;
+
+            if (c == 'U')
+                y2++;
+            else
+                x2++;
+            if (x2 > x1 || y2 > y1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * LCP 06. 拿硬币
+     * 桌上有 n 堆力扣币，每堆的数量保存在数组 coins 中。
+     * 我们每次可以选择任意一堆，拿走其中的一枚或者两枚，求拿完所有力扣币的最少次数。
+     *
+     * 示例 1：
+     * 输入：[4,2,1]
+     * 输出：4
+     * 解释：第一堆力扣币最少需要拿 2 次，第二堆最少需要拿 1 次，第三堆最少需要拿 1 次，总共 4 次即可拿完。
+     *
+     * 示例 2：
+     * 输入：[2,3,10]
+     * 输出：8
+     */
+    public int minCount(int[] coins) {
+        int r = 0;
+        for(int i = 0; i < coins.length; ++i){
+            r += (coins[i] + 1)/2;
+        }
+        return r;
+    }
+    /**
      * LCP 11. 期望个数统计
      * 某互联网公司一年一度的春招开始了，一共有 n 名面试者入选。
      * 每名面试者都会提交一份简历，公司会根据提供的简历资料产生一个预估的能力值，数值越大代表越有可能通过面试。
