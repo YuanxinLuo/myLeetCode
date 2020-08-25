@@ -28,9 +28,21 @@ public class Test1_16 {
     }
 
     @Test
+    public void test04() {
+        System.out.println(lcp.domino(2, 3, new int[][]{{1, 0}, {1, 1}}));
+        System.out.println(lcp.domino(3, 3, new int[][]{}));
+    }
+
+    @Test
     public void test06() {
         System.out.println(lcp.minCount(new int[]{4, 2, 1}));
         System.out.println(lcp.minCount(new int[]{2, 3, 10}));
+    }
+
+    @Test
+    public void test07() {
+        System.out.println(lcp.numWays(5, new int[][]{{0, 2}, {2, 1}, {3, 4}, {2, 3}, {1, 4}, {2, 0}, {0, 4}}, 3));
+        System.out.println(lcp.numWays(3, new int[][]{{0, 2}, {2, 1}}, 2));
     }
 
     @Test

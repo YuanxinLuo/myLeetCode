@@ -61,7 +61,7 @@ public class LCP1_16 {
      * R: 向x轴正方向移动一格。
      * 不幸的是，在 xy 平面上还有一些障碍物，他们的坐标用obstacles表示。机器人一旦碰到障碍物就会被损毁。
      * 给定终点坐标(x, y)，返回机器人能否完好地到达终点。如果能，返回true；否则返回false。
-     *
+     * <p>
      * 示例 1：
      * 输入：command = "URR", obstacles = [], x = 3, y = 2
      * 输出：true
@@ -86,7 +86,7 @@ public class LCP1_16 {
         }
         //先判断每个障碍物是否在路径上！
         for (int[] obstacle : obstacles) {
-            if(obstacles[0].length == 0) break;
+            if (obstacles[0].length == 0) break;
             int px = 0, py = 0;
             int ox2 = 0;
             int oy2 = 0;
@@ -95,13 +95,13 @@ public class LCP1_16 {
             if (ox > x || oy > y) {
                 continue;
             } else {
-                if ((ox/lx)<=(oy/ly)){
-                    oy2 = oy-ly*(ox/lx);
-                    ox2 = ox-lx*(ox/lx);
+                if ((ox / lx) <= (oy / ly)) {
+                    oy2 = oy - ly * (ox / lx);
+                    ox2 = ox - lx * (ox / lx);
                     //if (ox2<0) ox2 = 0;
-                }else {
-                    oy2 = oy-ly*(oy/ly);
-                    ox2 = ox-lx*(oy/ly);
+                } else {
+                    oy2 = oy - ly * (oy / ly);
+                    ox2 = ox - lx * (oy / ly);
                     //if (oy2<0) oy2 = 0;
                 }
             }
@@ -118,12 +118,12 @@ public class LCP1_16 {
         }
         //判断能否到达终点
         int x1 = 0, y1 = 0;
-        if (x/lx<=y/ly){
-            y1 = y - ly*(x/lx);
-            x1 = x - lx*(x/lx);
-        }else {
-            y1 = y - ly*(y/ly);
-            x1 = x - lx*(y/ly);
+        if (x / lx <= y / ly) {
+            y1 = y - ly * (x / lx);
+            x1 = x - lx * (x / lx);
+        } else {
+            y1 = y - ly * (y / ly);
+            x1 = x - lx * (y / ly);
         }
         int x2 = 0, y2 = 0;
         for (char c : command.toCharArray()) {
@@ -141,26 +141,137 @@ public class LCP1_16 {
     }
 
     /**
+     * LCP 04. 覆盖
+     * 你有一块棋盘，棋盘上有一些格子已经坏掉了。你还有无穷块大小为1 * 2的多米诺骨牌，你想把这些骨牌不重叠地覆盖在完好的格子上，
+     * 请找出你最多能在棋盘上放多少块骨牌？这些骨牌可以横着或者竖着放。
+     * <p>
+     * 输入：n, m代表棋盘的大小；broken是一个b * 2的二维数组，其中每个元素代表棋盘上每一个坏掉的格子的位置。
+     * 输出：一个整数，代表最多能在棋盘上放的骨牌数。
+     * <p>
+     * 示例 1：
+     * 输入：n = 2, m = 3, broken = [[1, 0], [1, 1]]
+     * 输出：2
+     * <p>
+     * 示例 2：
+     * 输入：n = 3, m = 3, broken = []
+     * 输出：4
+     */
+    public int domino(int n, int m, int[][] broken) {
+        int tot = n * m;
+        boolean[][] graph = new boolean[n][m];
+        for (int[] p : broken) {
+            graph[p[0]][p[1]] = true;
+        }
+        int[] match = new int[tot];
+        Arrays.fill(match, -1);
+        boolean[] visited = new boolean[tot];
+        int res = 0;
+        // loop all even points.
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if ((i + j) % 2 == 1 || graph[i][j]) {
+                    continue;
+                }
+                Arrays.fill(visited, false);
+                if (find(graph, match, visited, i, j)) {
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+
+    // match the current even points with other odd points
+    private boolean find(boolean[][] graph, int[] match, boolean[] visited, int x, int y) {
+        int m = graph.length, n = graph[0].length;
+        int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
+        // check the connected odd points to (x,y);
+        for (int d = 0; d < 4; d++) {
+            int nx = x + dx[d];
+            int ny = y + dy[d];
+
+            if (nx >= 0 && nx < m && ny >= 0 && ny < n && !graph[nx][ny]) {
+                int index = nx * n + ny;
+                if (visited[index]) continue;
+                visited[index] = true;
+                if (match[index] == -1 || find(graph, match, visited, match[index] / n, match[index] % n)) {
+                    match[index] = x * n + y;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * LCP 06. 拿硬币
      * 桌上有 n 堆力扣币，每堆的数量保存在数组 coins 中。
      * 我们每次可以选择任意一堆，拿走其中的一枚或者两枚，求拿完所有力扣币的最少次数。
-     *
+     * <p>
      * 示例 1：
      * 输入：[4,2,1]
      * 输出：4
      * 解释：第一堆力扣币最少需要拿 2 次，第二堆最少需要拿 1 次，第三堆最少需要拿 1 次，总共 4 次即可拿完。
-     *
+     * <p>
      * 示例 2：
      * 输入：[2,3,10]
      * 输出：8
      */
     public int minCount(int[] coins) {
         int r = 0;
-        for(int i = 0; i < coins.length; ++i){
-            r += (coins[i] + 1)/2;
+        for (int i = 0; i < coins.length; ++i) {
+            r += (coins[i] + 1) / 2;
         }
         return r;
     }
+
+    /**
+     * LCP 07. 传递信息
+     * 小朋友 A 在和 ta 的小伙伴们玩传信息游戏，游戏规则如下：
+     * <p>
+     * 有 n 名玩家，所有玩家编号分别为 0 ～ n-1，其中小朋友 A 的编号为 0
+     * 每个玩家都有固定的若干个可传信息的其他玩家（也可能没有）。传信息的关系是单向的（比如 A 可以向 B 传信息，但 B 不能向 A 传信息）。
+     * 每轮信息必须需要传递给另一个人，且信息可重复经过同一个人
+     * 给定总玩家数 n，以及按 [玩家编号,对应可传递玩家编号] 关系组成的二维数组 relation。返回信息从小 A (编号 0 ) 经过 k 轮传递到编号为 n-1 的小伙伴处的方案数；
+     * 若不能到达，返回 0。
+     * <p>
+     * 示例 1：
+     * 输入：n = 5, relation = [[0,2],[2,1],[3,4],[2,3],[1,4],[2,0],[0,4]], k = 3
+     * 输出：3
+     * 解释：信息从小 A 编号 0 处开始，经 3 轮传递，到达编号 4。共有 3 种方案，分别是 0->2->0->4， 0->2->1->4， 0->2->3->4。
+     * <p>
+     * 示例 2：
+     * 输入：n = 3, relation = [[0,2],[2,1]], k = 2
+     * 输出：0
+     * 解释：信息不能从小 A 处经过 2 轮传递到编号 2
+     */
+    public int numWays(int n, int[][] relation, int k) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] temp : relation) {
+            if (!map.containsKey(temp[0]))
+                map.put(temp[0], new ArrayList<>());
+            map.get(temp[0]).add(temp[1]);
+        }
+        count = 0;
+        backTracking(map, k, n, 0, 0);
+        return count;
+    }
+
+    private int count;
+
+    private void backTracking(Map<Integer, List<Integer>> map, int k, int n, int cur, int curPerson) {
+        if (cur == k) {
+            if (curPerson == n - 1)
+                count++;
+            return;
+        }
+        if (!map.containsKey(curPerson))
+            return;
+        for (int i : map.get(curPerson)) {
+            backTracking(map, k, n, cur + 1, i);
+        }
+    }
+
     /**
      * LCP 11. 期望个数统计
      * 某互联网公司一年一度的春招开始了，一共有 n 名面试者入选。
@@ -503,52 +614,54 @@ public class LCP1_16 {
      * 可以证明这样的遍历顺序一定是存在的。
      */
     public int[] visitOrder(int[][] points, String direction) {
-        haveResFlag=false;
-        ans=new int[points.length];ansIdx=0;
-        dfs(new boolean[points.length],points,direction);
+        haveResFlag = false;
+        ans = new int[points.length];
+        ansIdx = 0;
+        dfs(new boolean[points.length], points, direction);
         return ans;
     }
+
     private boolean haveResFlag;
     private int ansIdx;
-    private int[]ans;
+    private int[] ans;
 
-    private void dfs(boolean[]visited,int[][]points,String direction){
-        if(ansIdx==visited.length){
-            haveResFlag=true;
+    private void dfs(boolean[] visited, int[][] points, String direction) {
+        if (ansIdx == visited.length) {
+            haveResFlag = true;
             return;
         }
-        for(int i=0;i<visited.length;i++){
-            if(visited[i])continue;
-            if(haveResFlag)return;
-            if(ansIdx<2||getDirection(points[ans[ansIdx-2]],points[ans[ansIdx-1]],points[i])==direction.charAt(ansIdx-2)){//满足这样的条件才行
-                visited[i]=true;
-                ans[ansIdx]=i;
+        for (int i = 0; i < visited.length; i++) {
+            if (visited[i]) continue;
+            if (haveResFlag) return;
+            if (ansIdx < 2 || getDirection(points[ans[ansIdx - 2]], points[ans[ansIdx - 1]], points[i]) == direction.charAt(ansIdx - 2)) {//满足这样的条件才行
+                visited[i] = true;
+                ans[ansIdx] = i;
                 ansIdx++;
-                dfs(visited,points,direction);
-                visited[i]=false;
+                dfs(visited, points, direction);
+                visited[i] = false;
                 ansIdx--;
             }
         }
     }
 
     //判断AB->BC是左转还是右转
-    private char getDirection(int[]A,int[]B,int[]C){
-        if(A[0]==B[0]){
-            if(B[1]>A[1]){
-                if(C[0]<A[0])return 'L';
+    private char getDirection(int[] A, int[] B, int[] C) {
+        if (A[0] == B[0]) {
+            if (B[1] > A[1]) {
+                if (C[0] < A[0]) return 'L';
                 else return 'R';
-            }else{
-                if(C[0]<A[0])return 'R';
+            } else {
+                if (C[0] < A[0]) return 'R';
                 else return 'L';
             }
-        }else{
-            double angle1=Math.atan2(B[1]-A[1],B[0]-A[0])*180/Math.PI;
-            angle1=(angle1+360)%360;
-            double angle2=Math.atan2(C[1]-B[1],C[0]-B[0])*180/Math.PI;
-            angle2=(angle2+360)%360;
-            if((angle2>=angle1&&angle2<=angle1+180||(angle1+180>360&&angle2<=(angle1+180)%360))){
+        } else {
+            double angle1 = Math.atan2(B[1] - A[1], B[0] - A[0]) * 180 / Math.PI;
+            angle1 = (angle1 + 360) % 360;
+            double angle2 = Math.atan2(C[1] - B[1], C[0] - B[0]) * 180 / Math.PI;
+            angle2 = (angle2 + 360) % 360;
+            if ((angle2 >= angle1 && angle2 <= angle1 + 180 || (angle1 + 180 > 360 && angle2 <= (angle1 + 180) % 360))) {
                 return 'L';
-            }else{
+            } else {
                 return 'R';
             }
         }
@@ -565,17 +678,17 @@ public class LCP1_16 {
      * 下午游玩项目 B'、C' 可与上午游玩项目B、C存在重复项目。
      * 小吴希望提前安排好游玩路径，使得喜爱值之和最大。请你返回满足游玩路径选取条件的最大喜爱值之和，如果没有这样的路径，返回 0。
      * 注意：一天中重复游玩同一个项目并不能重复增加喜爱值了。例如：上下午游玩路径分别是 A-B-C-A与A-C-D-A 那么只能获得 value[A] + value[B] + value[C] + value[D] 的总和。
-     *
+     * <p>
      * 示例 1：
      * 输入：edges = [[0,1],[1,2],[0,2]], value = [1,2,3]
      * 输出：6
      * 解释：喜爱值之和最高的方案之一是 0->1->2->0 与 0->2->1->0 。重复游玩同一点不重复计入喜爱值，返回1+2+3=6
-     *
+     * <p>
      * 示例 2：
      * 输入：edges = [[0,2],[2,1]], value = [1,2,5]
      * 输出：0
      * 解释：无满足要求的游玩路径，返回 0
-     *
+     * <p>
      * 示例 3：
      * 输入：edges = [[0,1],[0,2],[0,3],[0,4],[0,5],[1,3],[2,4],[2,5],[3,4],[3,5],[4,5]], value = [7,8,6,8,9,7]
      * 输出：39
