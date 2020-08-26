@@ -204,6 +204,46 @@ public class LCP1_16 {
     }
 
     /**
+     * LCP 05. 发 LeetCoin
+     * 力扣决定给一个刷题团队发LeetCoin作为奖励。同时，为了监控给大家发了多少LeetCoin，力扣有时候也会进行查询。
+     * <p>
+     * <p>
+     * <p>
+     * 该刷题团队的管理模式可以用一棵树表示：
+     * <p>
+     * 团队只有一个负责人，编号为1。除了该负责人外，每个人有且仅有一个领导（负责人没有领导）；
+     * 不存在循环管理的情况，如A管理B，B管理C，C管理A。
+     * <p>
+     * 力扣想进行的操作有以下三种：
+     * <p>
+     * 给团队的一个成员（也可以是负责人）发一定数量的LeetCoin；
+     * 给团队的一个成员（也可以是负责人），以及他/她管理的所有人（即他/她的下属、他/她下属的下属，……），发一定数量的LeetCoin；
+     * 查询某一个成员（也可以是负责人），以及他/她管理的所有人被发到的LeetCoin之和。
+     * 输入：
+     * N表示团队成员的个数（编号为1～N，负责人为1）；
+     * leadership是大小为(N - 1) * 2的二维数组，其中每个元素[a, b]代表b是a的下属；
+     * operations是一个长度为Q的二维数组，代表以时间排序的操作，格式如下：
+     * operations[i][0] = 1: 代表第一种操作，operations[i][1]代表成员的编号，operations[i][2]代表LeetCoin的数量；
+     * operations[i][0] = 2: 代表第二种操作，operations[i][1]代表成员的编号，operations[i][2]代表LeetCoin的数量；
+     * operations[i][0] = 3: 代表第三种操作，operations[i][1]代表成员的编号；
+     * 输出：
+     * <p>
+     * 返回一个数组，数组里是每次查询的返回值（发LeetCoin的操作不需要任何返回值）。由于发的LeetCoin很多，请把每次查询的结果模1e9+7 (1000000007)。
+     * <p>
+     * 示例 1：
+     * <p>
+     * 输入：N = 6, leadership = [[1, 2], [1, 6], [2, 3], [2, 5], [1, 4]], operations = [[1, 1, 500], [2, 2, 50], [3, 1], [2, 6, 15], [3, 1]]
+     * 输出：[650, 665]
+     * 解释：团队的管理关系见下图。
+     * 第一次查询时，每个成员得到的LeetCoin的数量分别为（按编号顺序）：500, 50, 50, 0, 50, 0;
+     * 第二次查询时，每个成员得到的LeetCoin的数量分别为（按编号顺序）：500, 50, 50, 0, 50, 15.
+     */
+    public int[] bonus(int n, int[][] leadership, int[][] operations) {
+
+        return null;
+    }
+
+    /**
      * LCP 06. 拿硬币
      * 桌上有 n 堆力扣币，每堆的数量保存在数组 coins 中。
      * 我们每次可以选择任意一堆，拿走其中的一枚或者两枚，求拿完所有力扣币的最少次数。
@@ -270,6 +310,64 @@ public class LCP1_16 {
         for (int i : map.get(curPerson)) {
             backTracking(map, k, n, cur + 1, i);
         }
+    }
+
+    /**
+     * LCP 08. 剧情触发时间
+     * 在战略游戏中，玩家往往需要发展自己的势力来触发各种新的剧情。一个势力的主要属性有三种，分别是文明等级（C），资源储备（R）以及人口数量（H）。在游戏开始时（第 0 天），三种属性的值均为 0。
+     * 随着游戏进程的进行，每一天玩家的三种属性都会对应增加，我们用一个二维数组 increase 来表示每天的增加情况。这个二维数组的每个元素是一个长度为 3 的一维数组，例如 [[1,2,1],[3,4,2]] 表示第一天三种属性分别增加 1,2,1 而第二天分别增加 3,4,2。
+     * 所有剧情的触发条件也用一个二维数组 requirements 表示。这个二维数组的每个元素是一个长度为 3 的一维数组，对于某个剧情的触发条件 c[i], r[i], h[i]，如果当前 C >= c[i] 且 R >= r[i] 且 H >= h[i] ，则剧情会被触发。
+     * 根据所给信息，请计算每个剧情的触发时间，并以一个数组返回。如果某个剧情不会被触发，则该剧情对应的触发时间为 -1 。
+     * <p>
+     * 示例 1：
+     * 输入： increase = [[2,8,4],[2,5,0],[10,9,8]] requirements = [[2,11,3],[15,10,7],[9,17,12],[8,1,14]]
+     * 输出: [2,-1,3,-1]
+     * 解释：
+     * 初始时，C = 0，R = 0，H = 0
+     * 第 1 天，C = 2，R = 8，H = 4
+     * 第 2 天，C = 4，R = 13，H = 4，此时触发剧情 0
+     * 第 3 天，C = 14，R = 22，H = 12，此时触发剧情 2
+     * 剧情 1 和 3 无法触发。
+     * <p>
+     * 示例 2：
+     * 输入： increase = [[0,4,5],[4,8,8],[8,6,1],[10,10,0]] requirements = [[12,11,16],[20,2,6],[9,2,6],[10,18,3],[8,14,9]]
+     * 输出: [-1,4,3,3,3]
+     * <p>
+     * 示例 3：
+     * 输入： increase = [[1,1,1]] requirements = [[0,0,0]]
+     * 输出: [0]
+     */
+    public int[] getTriggerTime(int[][] increase, int[][] requirements) {
+        int[] ans = new int[requirements.length];
+        int[] c = new int[100001];
+        int[] r = new int[100001];
+        int[] h = new int[100001];
+        int c_index = 1, r_index = 1, h_index = 1;
+        c[0] = 1;
+        r[0] = 1;
+        h[0] = 1;
+        for (int i = 0;i < increase.length;i++) {
+            int day = i + 2;
+            while (increase[i][0]-- > 0) {
+                c[c_index++] = day;
+            }
+            while (increase[i][1]-- > 0) {
+                r[r_index++] = day;
+            }
+            while (increase[i][2]-- > 0) {
+                h[h_index++] = day;
+            }
+        }
+
+        for (int i = 0;i < requirements.length;i++) {
+            if (c[requirements[i][0]] > 0 && r[requirements[i][1]] > 0 && h[requirements[i][2]] > 0) {
+                ans[i] = Math.max(Math.max(c[requirements[i][0]],r[requirements[i][1]]), h[requirements[i][2]]) - 1;
+            } else {
+                ans[i] = -1;
+            }
+        }
+
+        return ans;
     }
 
     /**

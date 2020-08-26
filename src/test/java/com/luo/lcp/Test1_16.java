@@ -34,6 +34,12 @@ public class Test1_16 {
     }
 
     @Test
+    public void test05() {
+        int[] bonus = lcp.bonus(6, new int[][]{{1, 2}, {1, 6}, {2, 3}, {2, 5}, {1, 4}}, new int[][]{{1, 1, 500}, {2, 2, 500}, {3, 1}, {2, 6, 15}, {3, 1}});
+        System.out.println(Arrays.toString(bonus));
+    }
+
+    @Test
     public void test06() {
         System.out.println(lcp.minCount(new int[]{4, 2, 1}));
         System.out.println(lcp.minCount(new int[]{2, 3, 10}));
@@ -43,6 +49,16 @@ public class Test1_16 {
     public void test07() {
         System.out.println(lcp.numWays(5, new int[][]{{0, 2}, {2, 1}, {3, 4}, {2, 3}, {1, 4}, {2, 0}, {0, 4}}, 3));
         System.out.println(lcp.numWays(3, new int[][]{{0, 2}, {2, 1}}, 2));
+    }
+
+    @Test
+    public void test08() {
+        int[] t1 = lcp.getTriggerTime(new int[][]{{2, 8, 4}, {2, 5, 0}, {10, 9, 8}}, new int[][]{{2, 11, 3}, {15, 10, 7}, {7, 17, 12}, {8, 1, 14}});
+        System.out.println(Arrays.toString(t1));
+        int[] t2 = lcp.getTriggerTime(new int[][]{{0, 4, 5}, {4, 8, 8}, {8, 6, 1}, {10, 10, 0}}, new int[][]{{12, 11, 16}, {10, 2, 6}, {9, 2, 6}, {10, 18, 3}, {8, 14, 9}});
+        System.out.println(Arrays.toString(t2));
+        int[] t3 = lcp.getTriggerTime(new int[][]{{1, 1, 1}}, new int[][]{{0, 0, 0}});
+        System.out.println(Arrays.toString(t3));
     }
 
     @Test

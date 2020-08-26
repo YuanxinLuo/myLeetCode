@@ -30,6 +30,12 @@ public class Test01 {
     }
 
     @Test
+    public void test0105() {
+        System.out.println(t.oneEditAway("pale", "ple"));
+        System.out.println(t.oneEditAway("pales", "pal"));
+    }
+
+    @Test
     public void test0106() {
         System.out.println(t.compressString("aabcccccaaa"));
         System.out.println(t.compressString("abbccd"));
