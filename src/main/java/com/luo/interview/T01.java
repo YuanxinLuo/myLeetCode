@@ -191,6 +191,123 @@ public class T01 {
     }
 
     /**
+     * 面试题 01.07. 旋转矩阵
+     * 给你一幅由 N × N 矩阵表示的图像，其中每个像素的大小为 4 字节。请你设计一种算法，将图像旋转 90 度。
+     * <p>
+     * 不占用额外内存空间能否做到？
+     * <p>
+     * 示例 1:
+     * 给定 matrix =
+     * [
+     * [1,2,3],
+     * [4,5,6],
+     * [7,8,9]
+     * ],
+     * <p>
+     * 原地旋转输入矩阵，使其变为:
+     * [
+     * [7,4,1],
+     * [8,5,2],
+     * [9,6,3]
+     * ]
+     * <p>
+     * 示例 2:
+     * 给定 matrix =
+     * [
+     * [ 5, 1, 9,11],
+     * [ 2, 4, 8,10],
+     * [13, 3, 6, 7],
+     * [15,14,12,16]
+     * ],
+     * <p>
+     * 原地旋转输入矩阵，使其变为:
+     * [
+     * [15,13, 2, 5],
+     * [14, 3, 4, 1],
+     * [12, 6, 8, 9],
+     * [16, 7,10,11]
+     * ]
+     */
+    public void rotate(int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = i + 1; j < n; j++) {
+                swap(matrix, i, j);
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n / 2; j++) {
+                swap(matrix, i, j, n - 1 - j);
+            }
+        }
+    }
+
+    private void swap(int[][] matrix, int i, int j) {
+        int temp = matrix[i][j];
+        matrix[i][j] = matrix[j][i];
+        matrix[j][i] = temp;
+    }
+
+    private void swap(int[][] matrix, int i, int j1, int j2) {
+        int temp = matrix[i][j1];
+        matrix[i][j1] = matrix[i][j2];
+        matrix[i][j2] = temp;
+    }
+
+    /**
+     * 面试题 01.08. 零矩阵
+     * 编写一种算法，若M × N矩阵中某个元素为0，则将其所在的行与列清零。
+     *
+     * 示例 1：
+     * 输入：
+     * [
+     *   [1,1,1],
+     *   [1,0,1],
+     *   [1,1,1]
+     * ]
+     * 输出：
+     * [
+     *   [1,0,1],
+     *   [0,0,0],
+     *   [1,0,1]
+     * ]
+     *
+     * 示例 2：
+     * 输入：
+     * [
+     *   [0,1,2,0],
+     *   [3,4,5,2],
+     *   [1,3,1,5]
+     * ]
+     * 输出：
+     * [
+     *   [0,0,0,0],
+     *   [0,4,5,0],
+     *   [0,3,1,0]
+     * ]
+     */
+    public void setZeroes(int[][] matrix) {
+        if (matrix.length == 0) return;
+        int m = matrix.length, n = matrix[0].length;
+        boolean[] I = new boolean[m];
+        boolean[] J = new boolean[n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    I[i] = true;
+                    J[j] = true;
+                }
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (I[i] || J[j]) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+    /**
      * 面试题 01.09. 字符串轮转
      * 字符串轮转。给定两个字符串s1和s2，请编写代码检查s2是否为s1旋转而成（比如，waterbottle是erbottlewat旋转后的字符串）。
      * <p>
