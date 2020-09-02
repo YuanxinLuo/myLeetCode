@@ -101,4 +101,21 @@ public class Test21_30 {
         System.out.println(t.removeElement(nums2, val2));
     }
 
+    @Test
+    public void test28() {
+        System.out.println(t.strStr("hello", "ll"));
+        System.out.println(t.strStr("aaaaa", "bba"));
+    }
+
+    @Test
+    public void test29() {
+        System.out.println(t.divide(10, 3));
+        System.out.println(t.divide(7, -3));
+    }
+
+    @Test
+    public void test30() {
+        System.out.println(t.findSubstring("barfoothefoobarman", new String[]{"foo", "bar"}));
+        System.out.println(t.findSubstring("wordgoodgoodgoodbestword", new String[]{"word", "good", "best", "word"}));
+    }
 }

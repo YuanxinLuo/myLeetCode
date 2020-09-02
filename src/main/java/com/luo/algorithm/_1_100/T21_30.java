@@ -1,7 +1,9 @@
 package com.luo.algorithm._1_100;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class T21_30 {
     /**
@@ -45,19 +47,19 @@ public class T21_30 {
     /**
      * 22. 括号生成
      * 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
-     *
-     *
-     *
+     * <p>
+     * <p>
+     * <p>
      * 示例：
-     *
+     * <p>
      * 输入：n = 3
      * 输出：[
-     *        "((()))",
-     *        "(()())",
-     *        "(())()",
-     *        "()(())",
-     *        "()()()"
-     *      ]
+     * "((()))",
+     * "(()())",
+     * "(())()",
+     * "()(())",
+     * "()()()"
+     * ]
      */
     public List<String> generateParenthesis(int n) {
         List<String> ans = new ArrayList<>();
@@ -91,45 +93,45 @@ public class T21_30 {
     /**
      * 23. 合并K个排序链表
      * 合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
-     *
+     * <p>
      * 示例:
      * 输入:
      * [
-     *   1->4->5,
-     *   1->3->4,
-     *   2->6
+     * 1->4->5,
+     * 1->3->4,
+     * 2->6
      * ]
      * 输出: 1->1->2->3->4->4->5->6
      */
     public ListNode mergeKLists(ListNode[] lists) {
-        if(lists==null||lists.length==0){
+        if (lists == null || lists.length == 0) {
             return null;
         }
-        if(lists.length==1){
+        if (lists.length == 1) {
             return lists[0];
         }
         return process(lists, 0, lists.length - 1);
     }
 
-    public  ListNode process(ListNode[] lists, int left, int right) {
-        if(left==right){
+    public ListNode process(ListNode[] lists, int left, int right) {
+        if (left == right) {
             return lists[left];
         }
-        int mid=left+((right-left)>>1);
+        int mid = left + ((right - left) >> 1);
         ListNode head1 = process(lists, left, mid);
-        ListNode head2 = process(lists, mid + 1,right);
+        ListNode head2 = process(lists, mid + 1, right);
         return merge(head1, head2);
     }
 
-    public  ListNode merge( ListNode head1, ListNode head2) {
+    public ListNode merge(ListNode head1, ListNode head2) {
         ListNode dummy = new ListNode(0);
         ListNode temp = dummy;
-        while(head1!=null&&head2!=null){
-            if(head1.val<=head2.val){
+        while (head1 != null && head2 != null) {
+            if (head1.val <= head2.val) {
                 temp.next = head1;
                 head1 = head1.next;
-            }else{
-                temp.next=head2;
+            } else {
+                temp.next = head2;
                 head2 = head2.next;
             }
             temp = temp.next;
@@ -142,7 +144,7 @@ public class T21_30 {
      * 24. 两两交换链表中的节点
      * 给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
      * 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
-     *
+     * <p>
      * 示例:
      * 给定 1->2->3->4, 你应该返回 2->1->4->3.
      */
@@ -157,7 +159,7 @@ public class T21_30 {
         ListNode secondNode = head.next;
 
         // Swapping
-        firstNode.next  = swapPairs(secondNode.next);
+        firstNode.next = swapPairs(secondNode.next);
         secondNode.next = firstNode;
 
         // Now the head is the second node
@@ -322,4 +324,89 @@ public class T21_30 {
         return haystack.indexOf(needle);
     }
 
+    /**
+     * 29. 两数相除
+     * 给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
+     * 返回被除数 dividend 除以除数 divisor 得到的商。
+     * 整数除法的结果应当截去（truncate）其小数部分，例如：truncate(8.345) = 8 以及 truncate(-2.7335) = -2
+     * <p>
+     * 示例 1:
+     * 输入: dividend = 10, divisor = 3
+     * 输出: 3
+     * 解释: 10/3 = truncate(3.33333..) = truncate(3) = 3
+     * <p>
+     * 示例 2:
+     * 输入: dividend = 7, divisor = -3
+     * 输出: -2
+     * 解释: 7/-3 = truncate(-2.33333..) = -2
+     */
+    public int divide(int dividend, int divisor) {
+        boolean sign = (dividend > 0) ^ (divisor > 0);
+        int result = 0;
+        if (dividend > 0) {
+            dividend = -dividend;
+        }
+        if (divisor > 0) divisor = -divisor;
+        while (dividend <= divisor) {
+            int temp_result = -1;
+            int temp_divisor = divisor;
+            while (dividend <= (temp_divisor << 1)) {
+                if (temp_divisor <= (Integer.MIN_VALUE >> 1)) break;
+                temp_result = temp_result << 1;
+                temp_divisor = temp_divisor << 1;
+            }
+            dividend = dividend - temp_divisor;
+            result += temp_result;
+        }
+        if (!sign) {
+            if (result <= Integer.MIN_VALUE) return Integer.MAX_VALUE;
+            result = -result;
+        }
+        return result;
+    }
+
+    /**
+     * 30. 串联所有单词的子串
+     * 给定一个字符串 s 和一些长度相同的单词 words。找出 s 中恰好可以由 words 中所有单词串联形成的子串的起始位置。
+     * 注意子串要与 words 中的单词完全匹配，中间不能有其他字符，但不需要考虑 words 中单词串联的顺序。
+     * <p>
+     * 示例 1：
+     * 输入：
+     * s = "barfoothefoobarman",
+     * words = ["foo","bar"]
+     * 输出：[0,9]
+     * 解释：
+     * 从索引 0 和 9 开始的子串分别是 "barfoo" 和 "foobar" 。
+     * 输出的顺序不重要, [9,0] 也是有效答案。
+     * <p>
+     * 示例 2：
+     * 输入：
+     * s = "wordgoodgoodgoodbestword",
+     * words = ["word","good","best","word"]
+     * 输出：[]
+     */
+    public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> v = new ArrayList<>();
+        if (s.length() * words.length == 0) return v;
+        int len = words[0].length();
+        if (s.length() < words.length * len) return v;
+        Map<String, Integer> m = new HashMap<>();
+        for (String i : words) {
+            m.put(i, 1 + m.getOrDefault(i, 0));
+        }
+        int i = 0;
+        while (i < s.length()) {
+            int flag = i;
+            Map<String, Integer> temp = new HashMap<>();
+            int j = 0;
+            while (i + len <= s.length() && m.containsKey(s.substring(i, i + len)) && j < words.length) {
+                temp.put(s.substring(i, i + len), 1 + temp.getOrDefault(s.substring(i, i + len), 0));
+                i += len;
+                j++;
+            }
+            if (m.equals(temp)) v.add(i - words.length * len);
+            i = flag + 1;
+        }
+        return v;
+    }
 }
