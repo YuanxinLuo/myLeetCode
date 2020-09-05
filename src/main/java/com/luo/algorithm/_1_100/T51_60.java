@@ -236,14 +236,71 @@ public class T51_60 {
      * @return
      */
     public boolean canJump(int[] nums) {
-        int n=nums.length;
-        int last=0;
-        for(int i=1;i<n;i++){
-            while(last<i&&last+nums[last]<i)
+        int n = nums.length;
+        int last = 0;
+        for (int i = 1; i < n; i++) {
+            while (last < i && last + nums[last] < i)
                 last++;
-            if(last==i) return false;
+            if (last == i) return false;
         }
         return true;
+    }
+
+    /**
+     * 56. 合并区间
+     * 给出一个区间的集合，请合并所有重叠的区间。
+     * <p>
+     * 示例 1:
+     * 输入: intervals = [[1,3],[2,6],[8,10],[15,18]]
+     * 输出: [[1,6],[8,10],[15,18]]
+     * 解释: 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
+     * <p>
+     * 示例 2:
+     * 输入: intervals = [[1,4],[4,5]]
+     * 输出: [[1,5]]
+     * 解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。
+     */
+    public int[][] merge(int[][] intervals) {
+        if (intervals.length < 2) return intervals;
+        qs(intervals, 0, intervals.length - 1);
+        int m = 0;
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[i - 1][1] >= intervals[i][0]) {
+                intervals[i][0] = intervals[i - 1][0];
+                if (intervals[i - 1][1] >= intervals[i][1])
+                    intervals[i][1] = intervals[i - 1][1];
+                m++;
+            }
+        }
+        int[][] md = new int[intervals.length - m][2];
+        int l = intervals[0][0], p = 0, i = 1;
+        md[p] = new int[]{l, intervals[0][1]};
+        for (; i < intervals.length; i++) {
+            if (l == intervals[i][0]) {
+                if (intervals[i][1] > md[p][1])
+                    md[p][1] = intervals[i][1];
+            } else {
+                l = intervals[i][0];
+                md[++p] = new int[]{l, intervals[i][1]};
+            }
+        }
+        return md;
+    }
+
+    private void qs(int[][] s, int l, int r) {
+        if (l < r) {
+            int[] p = s[l];
+            int i = l, j = r;
+            while (i < j) {
+                while (i < j && s[j][0] > p[0]) j--;
+                if (i < j) s[i++] = s[j];
+                while (i < j && s[i][0] < p[0]) i++;
+                if (i < j) s[j--] = s[i];
+            }
+            s[i] = p;
+            qs(s, l, i - 1);
+            qs(s, i + 1, r);
+        }
     }
 
     /**
@@ -269,29 +326,81 @@ public class T51_60 {
      * 59. 螺旋矩阵 II
      * 给定一个正整数 n，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。
      * 示例:
-     *
+     * <p>
      * 输入: 3
      * 输出:
      * [
-     *  [ 1, 2, 3 ],
-     *  [ 8, 9, 4 ],
-     *  [ 7, 6, 5 ]
+     * [ 1, 2, 3 ],
+     * [ 8, 9, 4 ],
+     * [ 7, 6, 5 ]
      * ]
      */
     public int[][] generateMatrix(int n) {
         int l = 0, r = n - 1, t = 0, b = n - 1;
         int[][] mat = new int[n][n];
         int num = 1, tar = n * n;
-        while(num <= tar){
-            for(int i = l; i <= r; i++) mat[t][i] = num++; // left to right.
+        while (num <= tar) {
+            for (int i = l; i <= r; i++) mat[t][i] = num++; // left to right.
             t++;
-            for(int i = t; i <= b; i++) mat[i][r] = num++; // top to bottom.
+            for (int i = t; i <= b; i++) mat[i][r] = num++; // top to bottom.
             r--;
-            for(int i = r; i >= l; i--) mat[b][i] = num++; // right to left.
+            for (int i = r; i >= l; i--) mat[b][i] = num++; // right to left.
             b--;
-            for(int i = b; i >= t; i--) mat[i][l] = num++; // bottom to top.
+            for (int i = b; i >= t; i--) mat[i][l] = num++; // bottom to top.
             l++;
         }
         return mat;
+    }
+
+    /**
+     * 60. 第k个排列
+     * 给出集合 [1,2,3,…,n]，其所有元素共有 n! 种排列。
+     * <p>
+     * 按大小顺序列出所有排列情况，并一一标记，当 n = 3 时, 所有排列如下：
+     * <p>
+     * "123"
+     * "132"
+     * "213"
+     * "231"
+     * "312"
+     * "321"
+     * 给定 n 和 k，返回第 k 个排列。
+     * <p>
+     * 说明：
+     * 给定 n 的范围是 [1, 9]。
+     * 给定 k 的范围是[1,  n!]。
+     * <p>
+     * 示例 1:
+     * 输入: n = 3, k = 3
+     * 输出: "213"
+     * <p>
+     * 示例 2:
+     * 输入: n = 4, k = 9
+     * 输出: "2314"
+     */
+    public String getPermutation(int n, int k) {
+        int[] factorial = new int[n];
+        factorial[0] = 1;
+        for (int i = 1; i < n; ++i) {
+            factorial[i] = factorial[i - 1] * i;
+        }
+
+        --k;
+        StringBuffer ans = new StringBuffer();
+        int[] valid = new int[n + 1];
+        Arrays.fill(valid, 1);
+        for (int i = 1; i <= n; ++i) {
+            int order = k / factorial[n - i] + 1;
+            for (int j = 1; j <= n; ++j) {
+                order -= valid[j];
+                if (order == 0) {
+                    ans.append(j);
+                    valid[j] = 0;
+                    break;
+                }
+            }
+            k %= factorial[n - i];
+        }
+        return ans.toString();
     }
 }

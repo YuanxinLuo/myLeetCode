@@ -36,14 +36,31 @@ public class Test51_60 {
     }
 
     @Test
+    public void test56() {
+        Arrays.stream(t.merge(new int[][]{{1, 3}, {2, 6}, {8, 10}, {15, 18}})).forEach(i -> {
+            System.out.println(Arrays.toString(i));
+        });
+
+        Arrays.stream(t.merge(new int[][]{{1, 4}, {4, 5}})).forEach(i -> {
+            System.out.println(Arrays.toString(i));
+        });
+    }
+
+    @Test
     public void test58() {
         System.out.println(t.lengthOfLastWord("Hello world"));
         System.out.println(t.lengthOfLastWord(" "));
     }
 
     @Test
-    public void test59(){
+    public void test59() {
         int[][] ints = t.generateMatrix(3);
-        Arrays.stream(ints).forEach(i-> System.out.println(Arrays.toString(i)));
+        Arrays.stream(ints).forEach(i -> System.out.println(Arrays.toString(i)));
+    }
+
+    @Test
+    public void test60() {
+        System.out.println(t.getPermutation(3, 3));
+        System.out.println(t.getPermutation(4, 9));
     }
 }
