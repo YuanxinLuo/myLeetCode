@@ -62,6 +62,12 @@ public class Test111_120 {
     }
 
     @Test
+    public void test115() {
+        System.out.println(t.numDistinct("rabbbit", "rabbit"));
+        System.out.println(t.numDistinct("babgbag", "bag"));
+    }
+
+    @Test
     public void test118() {
         System.out.println(t.generate(5));
     }

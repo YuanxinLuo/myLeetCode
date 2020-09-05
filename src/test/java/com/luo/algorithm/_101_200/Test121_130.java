@@ -9,6 +9,25 @@ import java.util.List;
 public class Test121_130 {
     T121_130 t = new T121_130();
 
+    @Test
+    public void test121() {
+        System.out.println(t.maxProfit(new int[]{7, 1, 5, 3, 6, 4}));
+        System.out.println(t.maxProfit(new int[]{7, 6, 4, 3, 1}));
+    }
+
+    @Test
+    public void test122() {
+        System.out.println(t.maxProfit2(new int[]{7, 1, 5, 3, 6, 4}));
+        System.out.println(t.maxProfit2(new int[]{1, 2, 3, 4, 5}));
+        System.out.println(t.maxProfit2(new int[]{7, 6, 4, 3, 1}));
+    }
+
+    @Test
+    public void test123() {
+        System.out.println(t.maxProfit3(new int[]{3, 3, 5, 0, 0, 3, 1, 4}));
+        System.out.println(t.maxProfit3(new int[]{1, 2, 3, 4, 5}));
+        System.out.println(t.maxProfit3(new int[]{7, 6, 4, 3, 1}));
+    }
 
     @Test
     public void test124() {

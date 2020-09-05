@@ -1,6 +1,7 @@
 package com.luo.algorithm._101_200;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -150,6 +151,78 @@ public class T111_120 {
             cur = cur.right;
         }
     }
+
+    /**
+     * 115. 不同的子序列
+     * 给定一个字符串 S 和一个字符串 T，计算在 S 的子序列中 T 出现的个数。
+     * 一个字符串的一个子序列是指，通过删除一些（也可以不删除）字符且不干扰剩余字符相对位置所组成的新字符串。（例如，"ACE" 是 "ABCDE" 的一个子序列，而 "AEC" 不是）
+     * 题目数据保证答案符合 32 位带符号整数范围。
+     *
+     * 示例 1：
+     * 输入：S = "rabbbit", T = "rabbit"
+     * 输出：3
+     * 解释：
+     * 如下图所示, 有 3 种可以从 S 中得到 "rabbit" 的方案。
+     * (上箭头符号 ^ 表示选取的字母)
+     *
+     * rabbbit
+     * ^^^^ ^^
+     * rabbbit
+     * ^^ ^^^^
+     * rabbbit
+     * ^^^ ^^^
+     * 示例 2：
+     * 输入：S = "babgbag", T = "bag"
+     * 输出：5
+     * 解释：
+     * 如下图所示, 有 5 种可以从 S 中得到 "bag" 的方案。
+     * (上箭头符号 ^ 表示选取的字母)
+     * babgbag
+     * ^^ ^
+     * babgbag
+     * ^^    ^
+     * babgbag
+     * ^    ^^
+     * babgbag
+     *   ^  ^^
+     * babgbag
+     *     ^^^
+     */
+    public int numDistinct(String s, String t) {
+        // dp[0]表示空串
+        int[] dp = new int[t.length() + 1];
+        // dp[0]永远是1，因为不管S多长，都只能找到一个空串，与T相等
+        dp[0] = 1;
+
+        //t的字典
+        int[] map = new int[128];
+        Arrays.fill(map, -1);
+
+        //从尾部遍历的时候可以遍历 next类似链表 无重复值时为-1，
+        //有重复时例如从rabbit的b开始索引在map[b] = 2 next[2] 指向下一个b的索引为3
+        // for (int j = t.length() - 1; j >= 0; j--) {
+        //     if (t.charAt(j) == s.charAt(i)) {
+        //        dp[j + 1] += dp[j];
+        //     }
+        // }
+        //这段代码的寻址就可以从map[s.charAt(i)] 找到索引j 在用next[j] 一直找和 s.charAt(i)相等的字符 其他的就可以跳过了
+        //所以这个代码的优化 关键要理解 上面的一维倒算
+        int[] nexts = new int[t.length()];
+        for(int i = 0 ; i < t.length(); i++){
+            int c = t.charAt(i);
+            nexts[i] = map[c];
+            map[c] = i;
+        }
+
+        for (int i = 0; i < s.length(); i++){
+            char c = s.charAt(i);
+            for(int j = map[c]; j >= 0; j = nexts[j]){
+                dp[j + 1] += dp[j];
+            }
+        }
+        return dp[t.length()];
+    }
+
     /**
      * 118. 杨辉三角
      * 给定一个非负整数 numRows，生成杨辉三角的前 numRows 行。

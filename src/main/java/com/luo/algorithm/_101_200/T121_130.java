@@ -4,6 +4,122 @@ import java.util.*;
 
 public class T121_130 {
     /**
+     * 121. 买卖股票的最佳时机
+     * 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+     * 如果你最多只允许完成一笔交易（即买入和卖出一支股票一次），设计一个算法来计算你所能获取的最大利润。
+     * 注意：你不能在买入股票前卖出股票。
+     * <p>
+     * 示例 1:
+     * 输入: [7,1,5,3,6,4]
+     * 输出: 5
+     * 解释: 在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。
+     * 注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。
+     * 示例 2:
+     * 输入: [7,6,4,3,1]
+     * 输出: 0
+     * 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
+     */
+    public int maxProfit(int[] prices) {
+        int i = Integer.MAX_VALUE;
+        int j = 0;
+        for (int k = 0; k < prices.length; k++) {
+            if (prices[k] < i) {
+                i = prices[k];
+            } else if (prices[k] - i > j) {
+                j = prices[k] - i;
+            }
+        }
+        return j;
+    }
+
+    /**
+     * 122. 买卖股票的最佳时机 II
+     * 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+     * 设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
+     * 注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+     * <p>
+     * 示例 1:
+     * 输入: [7,1,5,3,6,4]
+     * 输出: 7
+     * 解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     * 随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
+     * <p>
+     * 示例 2:
+     * 输入: [1,2,3,4,5]
+     * 输出: 4
+     * 解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     * 注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。
+     * 因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
+     * <p>
+     * 示例 3:
+     * 输入: [7,6,4,3,1]
+     * 输出: 0
+     * 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
+     */
+    public int maxProfit2(int[] prices) {
+        int i = 0;
+        int valley = prices[0];
+        int peak = prices[0];
+        int maxprofit = 0;
+        while (i < prices.length - 1) {
+            while (i < prices.length - 1 && prices[i] >= prices[i + 1])
+                i++;
+            valley = prices[i];
+            while (i < prices.length - 1 && prices[i] <= prices[i + 1])
+                i++;
+            peak = prices[i];
+            maxprofit += peak - valley;
+        }
+        return maxprofit;
+    }
+
+    /**
+     * 123. 买卖股票的最佳时机 III
+     * 给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格。
+     * 设计一个算法来计算你所能获取的最大利润。你最多可以完成 两笔 交易。
+     * 注意: 你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+     * <p>
+     * 示例 1:
+     * 输入: [3,3,5,0,0,3,1,4]
+     * 输出: 6
+     * 解释: 在第 4 天（股票价格 = 0）的时候买入，在第 6 天（股票价格 = 3）的时候卖出，这笔交易所能获得利润 = 3-0 = 3 。
+     * 随后，在第 7 天（股票价格 = 1）的时候买入，在第 8 天 （股票价格 = 4）的时候卖出，这笔交易所能获得利润 = 4-1 = 3 。
+     * <p>
+     * 示例 2:
+     * 输入: [1,2,3,4,5]
+     * 输出: 4
+     * 解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     * 注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。
+     * 因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
+     * <p>
+     * 示例 3:
+     * 输入: [7,6,4,3,1]
+     * 输出: 0
+     * 解释: 在这个情况下, 没有交易完成, 所以最大利润为 0。
+     */
+    public int maxProfit3(int[] prices) {
+        if(prices.length<2){
+            return 0;
+        }
+
+        int n = prices.length;
+        int max_k = 2;
+        int[] dp_i_k_0 = new int[max_k + 1];
+        int[] dp_i_k_1 = new int[max_k + 1];
+
+        Arrays.fill(dp_i_k_1,-prices[0]);
+
+        for(int i = 0; i<n; i++){
+            for(int j = max_k; j>0; j--){
+                dp_i_k_0[j] = Math.max(dp_i_k_0[j],dp_i_k_1[j] + prices[i]);
+                dp_i_k_1[j] = Math.max(dp_i_k_1[j],dp_i_k_0[j-1] - prices[i]);
+            }
+        }
+        return dp_i_k_0[max_k];
+
+    }
+
+    /**
      * 124. 二叉树中的最大路径和
      * 给定一个非空二叉树，返回其最大路径和。
      * 本题中，路径被定义为一条从树中任意节点出发，达到任意节点的序列。该路径至少包含一个节点，且不一定经过根节点。
@@ -237,24 +353,24 @@ public class T121_130 {
         beginSet.add(beginWord);
         endSet.add(endWord);
         Set<String> dict = new HashSet<>(wordList);
-        if(!dict.contains(endWord)) return 0;
+        if (!dict.contains(endWord)) return 0;
         return search(beginSet, endSet, dict, 1);
     }
 
-    private int search(Set<String> beginSet, Set<String> endSet, Set<String> dict, int cnt){
-        if(beginSet.isEmpty() || endSet.isEmpty()) return 0;
+    private int search(Set<String> beginSet, Set<String> endSet, Set<String> dict, int cnt) {
+        if (beginSet.isEmpty() || endSet.isEmpty()) return 0;
         cnt++;
         dict.removeAll(beginSet);
         Set<String> nextSet = new HashSet<>();
-        for(String str : beginSet){
+        for (String str : beginSet) {
             char[] chs = str.toCharArray();
-            for(int i = 0; i < chs.length; i++){
+            for (int i = 0; i < chs.length; i++) {
                 char c = chs[i];
-                for(char j = 'a'; j <= 'z'; j++){
+                for (char j = 'a'; j <= 'z'; j++) {
                     chs[i] = j;
                     String tmp = new String(chs);
-                    if(!dict.contains(tmp)) continue;
-                    if(endSet.contains(tmp)) return cnt;
+                    if (!dict.contains(tmp)) continue;
+                    if (endSet.contains(tmp)) return cnt;
                     nextSet.add(tmp);
                 }
                 chs[i] = c;
