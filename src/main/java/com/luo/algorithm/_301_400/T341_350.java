@@ -1,9 +1,6 @@
 package com.luo.algorithm._301_400;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class T341_350 {
 
@@ -155,6 +152,90 @@ public class T341_350 {
         // 这里要直接用 return 语句返回，不要返回 true 或者 false
         return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u'
                 || ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U';
+    }
+
+    /**
+     * 347. 前 K 个高频元素
+     * 给定一个非空的整数数组，返回其中出现频率前 k 高的元素。
+     * 示例 1:
+     * 输入: nums = [1,1,1,2,2,3], k = 2
+     * 输出: [1,2]
+     * <p>
+     * 示例 2:
+     * 输入: nums = [1], k = 1
+     * 输出: [1]
+     */
+    public int[] topKFrequent(int[] nums, int k) {
+        if(nums.length==1) return nums;
+        Arrays.sort(nums);
+        int mark1=0;
+        int mark2=nums[0];
+        int[] count = new int[nums.length];
+        count[0]=1;
+        for(int i=1;i<nums.length;++i){
+            if(nums[i]==mark2){
+                count[mark1]++;
+            }else{
+                count[++mark1]++;
+                mark2 = nums[i];
+            }
+        }
+        int sum = count[0];
+        int i=1;
+        for(;i<nums.length &&count[i]!=0;++i){
+            nums[i] = nums[sum];
+            sum+=count[i];
+        }
+        for(int j=i;j<nums.length;++j){
+            nums[j]=0;
+        }
+        mySort(nums,count,0,i-1);
+        int[] ans = new int[k];
+        for(int j=0;j<k;++j){
+            ans[j] = nums[j];
+        }
+        return ans;
+    }
+
+    private void mySort(int[] nums,int[] count,int start,int stop){
+        if(start>=stop) return;
+        int i = start + 1;
+        int j = stop;
+        while(i<j){
+            if(count[i]>count[start]){
+                ++i;
+            }else if(count[j]<count[start]){
+                --j;
+            }else{
+                int temp = count[i];
+                count[i] = count[j];
+                count[j] = temp;
+                temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+                ++i;
+                --j;
+            }
+        }
+        if (count[i] < count[start]) {
+            int temp = count[start];
+            count[start] = count[i - 1];
+            count[i - 1] = temp;
+            temp = nums[start];
+            nums[start] = nums[i-1];
+            nums[i-1] = temp;
+            mySort(nums,count, start, i - 2);
+            mySort(nums,count, i, stop);
+        } else {
+            int temp = count[start];
+            count[start] = count[i];
+            count[i] = temp;
+            temp = nums[start];
+            nums[start] = nums[i];
+            nums[i] = temp;
+            mySort(nums,count, start, i - 1);
+            mySort(nums,count, i + 1, stop);
+        }
     }
 
     /**

@@ -9,7 +9,7 @@ public class Test341_350 {
     T341_350 t = new T341_350();
 
     @Test
-    public void test341(){
+    public void test341() {
 
     }
 
@@ -30,6 +30,12 @@ public class Test341_350 {
     public void test345() {
         System.out.println(t.reverseVowels("hello"));
         System.out.println(t.reverseVowels("leetcode"));
+    }
+
+    @Test
+    public void test347() {
+        System.out.println(Arrays.toString(t.topKFrequent(new int[]{1, 1, 1, 2, 2, 3}, 2)));
+        System.out.println(Arrays.toString(t.topKFrequent(new int[]{1}, 1)));
     }
 
     @Test
