@@ -127,6 +127,7 @@ public class T41_50 {
      * ]
      */
     List<List<Integer>> res = null;
+
     public List<List<Integer>> permute(int[] nums) {
         res = new ArrayList<>();
         permute(nums, 0);
@@ -162,15 +163,15 @@ public class T41_50 {
     /**
      * 47. 全排列 II
      * 给定一个可包含重复数字的序列，返回所有不重复的全排列。
-     *
+     * <p>
      * 示例:
-     *
+     * <p>
      * 输入: [1,1,2]
      * 输出:
      * [
-     *   [1,1,2],
-     *   [1,2,1],
-     *   [2,1,1]
+     * [1,1,2],
+     * [1,2,1],
+     * [2,1,1]
      * ]
      */
     public List<List<Integer>> permuteUnique(int[] nums) {
@@ -217,6 +218,91 @@ public class T41_50 {
         }
     }
 
+    /**
+     * 48. 旋转图像
+     * 给定一个 n × n 的二维矩阵表示一个图像。
+     * 将图像顺时针旋转 90 度。
+     * 说明：
+     * 你必须在原地旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要使用另一个矩阵来旋转图像。
+     * <p>
+     * 示例 1:
+     * 给定 matrix =
+     * [
+     * [1,2,3],
+     * [4,5,6],
+     * [7,8,9]
+     * ],
+     * <p>
+     * 原地旋转输入矩阵，使其变为:
+     * [
+     * [7,4,1],
+     * [8,5,2],
+     * [9,6,3]
+     * ]
+     * <p>
+     * 示例 2:
+     * 给定 matrix =
+     * [
+     * [ 5, 1, 9,11],
+     * [ 2, 4, 8,10],
+     * [13, 3, 6, 7],
+     * [15,14,12,16]
+     * ],
+     * <p>
+     * 原地旋转输入矩阵，使其变为:
+     * [
+     * [15,13, 2, 5],
+     * [14, 3, 4, 1],
+     * [12, 6, 8, 9],
+     * [16, 7,10,11]
+     * ]
+     */
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+
+        // transpose matrix
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                int tmp = matrix[j][i];
+                matrix[j][i] = matrix[i][j];
+                matrix[i][j] = tmp;
+            }
+        }
+        // reverse each row
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n / 2; j++) {
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[i][n - j - 1];
+                matrix[i][n - j - 1] = tmp;
+            }
+        }
+    }
+
+    /**
+     * 49. 字母异位词分组
+     * 给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。
+     *
+     * 示例:
+     * 输入: ["eat", "tea", "tan", "ate", "nat", "bat"]
+     * 输出:
+     * [
+     *   ["ate","eat","tea"],
+     *   ["nat","tan"],
+     *   ["bat"]
+     * ]
+     */
+    public List<List<String>> groupAnagrams(String[] strs) {
+        if (strs.length == 0) return new ArrayList();
+        Map<String, List> ans = new HashMap<String, List>();
+        for (String s : strs) {
+            char[] ca = s.toCharArray();
+            Arrays.sort(ca);
+            String key = String.valueOf(ca);
+            if (!ans.containsKey(key)) ans.put(key, new ArrayList());
+            ans.get(key).add(s);
+        }
+        return new ArrayList(ans.values());
+    }
     /**
      * 50. Pow(x, n)
      * 实现 pow(x, n) ，即计算 x 的 n 次幂函数。

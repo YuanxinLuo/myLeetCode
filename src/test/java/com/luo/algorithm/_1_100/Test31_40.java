@@ -22,6 +22,12 @@ public class Test31_40 {
     }
 
     @Test
+    public void test32(){
+        System.out.println(t.longestValidParentheses("(()"));
+        System.out.println(t.longestValidParentheses(")()())"));
+    }
+
+    @Test
     public void test33() {
         int[] n1 = {4, 5, 6, 7, 0, 1, 2};
         System.out.println(t.search(n1, 0));
@@ -70,6 +76,25 @@ public class Test31_40 {
                 {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
         };
         System.out.println(t.isValidSudoku(b2));
+    }
+
+    @Test
+    public void test37(){
+        char[][] b1 = {
+                {'5','3','.','.','7','.','.','.','.'},
+                {'6','.','.','1','9','5','.','.','.'},
+                {'.','9','8','.','.','.','.','6','.'},
+                {'8','.','.','.','6','.','.','.','3'},
+                {'4','.','.','8','.','3','.','.','1'},
+                {'7','.','.','.','2','.','.','.','6'},
+                {'.','6','.','.','.','.','2','8','.'},
+                {'.','.','.','4','1','9','.','.','5'},
+                {'.','.','.','.','8','.','.','7','9'}
+        };
+        t.solveSudoku(b1);
+        Arrays.stream(b1).forEach(b->{
+            System.out.println(Arrays.toString(b));
+        });
     }
 
     @Test

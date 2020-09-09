@@ -2,6 +2,7 @@ package com.luo.algorithm._1_100;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Test41_50 {
@@ -41,6 +42,18 @@ public class Test41_50 {
         System.out.println(permute);
     }
 
+    @Test
+    public void test48() {
+        int[][] m1 = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        Arrays.stream(m1).forEach(m -> System.out.println(Arrays.toString(m)));
+        int[][] m2 = {{5, 1, 9, 11}, {2, 4, 8, 10}, {13, 3, 6, 7}, {15, 14, 12, 16}};
+        Arrays.stream(m2).forEach(m -> System.out.println(Arrays.toString(m)));
+    }
+
+    @Test
+    public void test49() {
+        System.out.println(t.groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"}));
+    }
 
     @Test
     public void test50() {

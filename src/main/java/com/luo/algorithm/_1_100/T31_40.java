@@ -1,6 +1,8 @@
 package com.luo.algorithm._1_100;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class T31_40 {
     /**
@@ -44,6 +46,36 @@ public class T31_40 {
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
+    }
+
+    /**
+     * 32. 最长有效括号
+     * 给定一个只包含 '(' 和 ')' 的字符串，找出最长的包含有效括号的子串的长度。
+     * <p>
+     * 示例 1:
+     * 输入: "(()"
+     * 输出: 2
+     * 解释: 最长有效括号子串为 "()"
+     * <p>
+     * 示例 2:
+     * 输入: ")()())"
+     * 输出: 4
+     * 解释: 最长有效括号子串为 "()()"
+     */
+    public int longestValidParentheses(String s) {
+        int max = 0;
+        int dp[] = new int[s.length()];
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == ')') {
+                if (s.charAt(i - 1) == '(') {
+                    dp[i] = (i >= 2 ? dp[i - 2] : 0) + 2;
+                } else if (i - dp[i - 1] > 0 && s.charAt(i - dp[i - 1] - 1) == '(') {
+                    dp[i] = dp[i - 1] + ((i - dp[i - 1]) >= 2 ? dp[i - dp[i - 1] - 2] : 0) + 2;
+                }
+                max = Math.max(max, dp[i]);
+            }
+        }
+        return max;
     }
 
     /**
@@ -234,6 +266,59 @@ public class T31_40 {
     }
 
     /**
+     * 37. 解数独
+     * 编写一个程序，通过已填充的空格来解决数独问题。
+     *
+     * 一个数独的解法需遵循如下规则：
+     *
+     * 数字 1-9 在每一行只能出现一次。
+     * 数字 1-9 在每一列只能出现一次。
+     * 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
+     */
+    public void solveSudoku(char[][] board) {
+        boolean[][] rows_visited = new boolean[9][10];
+        boolean[][] cols_visited = new boolean[9][10];
+        boolean[][] boxs_visited = new boolean[9][10];
+        for(int i=0; i<board.length; ++i){
+            for(int j=0; j<board[0].length; ++j){
+                if(board[i][j]!='.'){
+                    int num = board[i][j] - '0';
+                    rows_visited[i][num] = true;
+                    cols_visited[j][num] = true;
+                    int box_idx = i/3*3 + j/3;
+                    boxs_visited[box_idx][num] = true;
+                }
+            }
+        }
+        backtracking(board, rows_visited, cols_visited, boxs_visited, 0, 0);
+    }
+    private boolean backtracking(char[][] board, boolean[][] rows_visited, boolean[][] cols_visited, boolean[][] boxs_visited, int row, int col){
+        if(col==9){
+            row+=1;
+            col=0;
+        }
+        if(row==9){
+            return true;
+        }
+        if(board[row][col]!='.'){
+            return backtracking(board, rows_visited, cols_visited, boxs_visited, row, col+1);
+        }
+        int box_idx = row/3*3+col/3;
+        for(int i=1; i<=9; ++i){
+            if(!rows_visited[row][i] && !cols_visited[col][i] && !boxs_visited[box_idx][i]){
+                board[row][col] = (char)(i+'0');
+                rows_visited[row][i] = cols_visited[col][i] = boxs_visited[box_idx][i] = true;
+                boolean isVisited = backtracking(board, rows_visited, cols_visited, boxs_visited, row, col+1);
+                if(isVisited) {
+                    return true;
+                }
+                board[row][col] = '.';
+                rows_visited[row][i] = cols_visited[col][i] = boxs_visited[box_idx][i] = false;
+            }
+        }
+        return false;
+    }
+    /**
      * 38. 外观数列
      * 「外观数列」是一个整数序列，从数字 1 开始，序列中的每一项都是对前一项的描述。前五项如下：
      * <p>
@@ -373,17 +458,18 @@ public class T31_40 {
         this.combinationSum2DFS(candidates, target, 0, new ArrayList<Integer>(), res);
         return res;
     }
-    public void combinationSum2DFS(int[] candidates, int target, int begin, List<Integer> tmp, List<List<Integer>> res){
-        if(target == 0){
+
+    public void combinationSum2DFS(int[] candidates, int target, int begin, List<Integer> tmp, List<List<Integer>> res) {
+        if (target == 0) {
             res.add(new ArrayList(tmp));
             return;
         }
-        for(int i = begin; i < candidates.length; i++){
-            if( i > begin && candidates[i] == candidates[i - 1]) continue;
-            if(target - candidates[i] < 0) break;
+        for (int i = begin; i < candidates.length; i++) {
+            if (i > begin && candidates[i] == candidates[i - 1]) continue;
+            if (target - candidates[i] < 0) break;
             tmp.add(candidates[i]);
             this.combinationSum2DFS(candidates, target - candidates[i], i + 1, tmp, res);
-            if(tmp.size() > 0) tmp.remove(tmp.size() - 1);
+            if (tmp.size() > 0) tmp.remove(tmp.size() - 1);
         }
     }
 }
