@@ -16,9 +16,23 @@ public class Test41_50 {
     }
 
     @Test
+    public void test42() {
+        System.out.println(t.trap(new int[]{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}));
+    }
+
+    @Test
     public void test43() {
         System.out.println(t.multiply("2", "3"));
         System.out.println(t.multiply("123", "456"));
+    }
+
+    @Test
+    public void test44() {
+        System.out.println(t.isMatch("aa", "a"));
+        System.out.println(t.isMatch("aa", "*"));
+        System.out.println(t.isMatch("cb", "?a"));
+        System.out.println(t.isMatch("adceb", "*a*b"));
+        System.out.println(t.isMatch("acdcb", "a*c?b"));
     }
 
     @Test

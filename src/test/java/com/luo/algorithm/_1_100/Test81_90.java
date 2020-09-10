@@ -37,4 +37,15 @@ public class Test81_90 {
         t.merge(nums1, m, nums2, n);
         System.out.println(Arrays.toString(nums1));
     }
+
+    @Test
+    public void test89() {
+        System.out.println(t.grayCode(2));
+        System.out.println(t.grayCode(0));
+    }
+
+    @Test
+    public void test90() {
+        System.out.println(t.subsetsWithDup(new int[]{1, 2, 2}));
+    }
 }

@@ -40,6 +40,51 @@ public class T41_50 {
     }
 
     /**
+     * 42. 接雨水
+     * 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+     * 上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。
+     * <p>
+     * 示例:
+     * 输入: [0,1,0,2,1,0,1,3,2,1,2,1]
+     * 输出: 6
+     */
+    public int trap(int[] height) {
+        if (height.length <= 2)
+            return 0;
+        //找到最高的柱子的下标 maxIndex
+        int max = 0;
+        int maxIndex = 0;
+        for (int i = 0; i <= height.length - 1; i++) {
+            if (height[i] > max) {
+                max = height[i];
+                maxIndex = i;
+            }
+        }
+        int water = 0;
+        //统计最高柱子左边能接的雨水数量
+        int b = 0;
+        for (int a = 0; a <= maxIndex; a++) {
+            if (height[a] < height[b]) {
+                water = water + (height[b] - height[a]);
+            }
+            if (height[a] > height[b]) {
+                b = a;
+            }
+        }
+        //统计最高柱子右边能接的雨水数量
+        b = height.length - 1;
+        for (int a = height.length - 1; a >= maxIndex; a--) {
+            if (height[a] < height[b]) {
+                water = water + (height[b] - height[a]);
+            }
+            if (height[a] > height[b]) {
+                b = a;
+            }
+        }
+        return water;
+    }
+
+    /**
      * 43. 字符串相乘
      * 给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式。
      * <p>
@@ -77,6 +122,98 @@ public class T41_50 {
         return ans.toString();
     }
 
+    /**
+     * 44. 通配符匹配
+     * 给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持 '?' 和 '*' 的通配符匹配。
+     * '?' 可以匹配任何单个字符。
+     * '*' 可以匹配任意字符串（包括空字符串）。
+     * 两个字符串完全匹配才算匹配成功。
+     * 说明:
+     *
+     * s 可能为空，且只包含从 a-z 的小写字母。
+     * p 可能为空，且只包含从 a-z 的小写字母，以及字符 ? 和 *。
+     * 示例 1:
+     * 输入:
+     * s = "aa"
+     * p = "a"
+     * 输出: false
+     * 解释: "a" 无法匹配 "aa" 整个字符串。
+     *
+     * 示例 2:
+     * 输入:
+     * s = "aa"
+     * p = "*"
+     * 输出: true
+     * 解释: '*' 可以匹配任意字符串。
+     *
+     * 示例 3:
+     * 输入:
+     * s = "cb"
+     * p = "?a"
+     * 输出: false
+     * 解释: '?' 可以匹配 'c', 但第二个 'a' 无法匹配 'b'。
+     *
+     * 示例 4:
+     * 输入:
+     * s = "adceb"
+     * p = "*a*b"
+     * 输出: true
+     * 解释: 第一个 '*' 可以匹配空字符串, 第二个 '*' 可以匹配字符串 "dce".
+     *
+     * 示例 5:
+     * 输入:
+     * s = "acdcb"
+     * p = "a*c?b"
+     * 输出: false
+     */
+    public boolean isMatch(String s, String p) {
+        int sRi = s.length(), pRi = p.length();
+        while(sRi > 0 && pRi > 0 && p.charAt(pRi - 1) != '*') {
+            if(charMatch(s.charAt(sRi - 1), p.charAt(pRi - 1))) {
+                --sRi;
+                --pRi;
+            } else {
+                return false;
+            }
+        }
+
+        if(pRi == 0) {
+            return sRi == 0;
+        }
+
+        int sIndex = 0, pIndex = 0;
+        int sRecord = -1, pRecord = -1;
+
+        while(sIndex < sRi && pIndex < pRi) {
+            if(p.charAt(pIndex) == '*') {
+                ++pIndex;
+                sRecord = sIndex;
+                pRecord = pIndex;
+            } else if(charMatch(s.charAt(sIndex), p.charAt(pIndex))) {
+                ++sIndex;
+                ++pIndex;
+            } else if(sRecord != -1 && sRecord + 1 < sRi) {
+                ++sRecord;
+                sIndex = sRecord;
+                pIndex = pRecord;
+            } else {
+                return false;
+            }
+        }
+        return allStars(p, pIndex, pRi);
+    }
+
+    private boolean allStars(String str, int le, int ri) {
+        for (int i = le; i < ri; i++) {
+            if(str.charAt(i) != '*')
+                return false;
+        }
+        return true;
+    }
+
+    private boolean charMatch(char u, char v) {
+        return  v == '?' || u == v ;
+    }
     /**
      * 45. 跳跃游戏 II
      * 给定一个非负整数数组，你最初位于数组的第一个位置。
@@ -281,14 +418,14 @@ public class T41_50 {
     /**
      * 49. 字母异位词分组
      * 给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。
-     *
+     * <p>
      * 示例:
      * 输入: ["eat", "tea", "tan", "ate", "nat", "bat"]
      * 输出:
      * [
-     *   ["ate","eat","tea"],
-     *   ["nat","tan"],
-     *   ["bat"]
+     * ["ate","eat","tea"],
+     * ["nat","tan"],
+     * ["bat"]
      * ]
      */
     public List<List<String>> groupAnagrams(String[] strs) {
@@ -303,6 +440,7 @@ public class T41_50 {
         }
         return new ArrayList(ans.values());
     }
+
     /**
      * 50. Pow(x, n)
      * 实现 pow(x, n) ，即计算 x 的 n 次幂函数。

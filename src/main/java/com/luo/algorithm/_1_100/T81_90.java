@@ -1,5 +1,10 @@
 package com.luo.algorithm._1_100;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 public class T81_90 {
 
     /**
@@ -91,5 +96,88 @@ public class T81_90 {
         for (int t = 0; t < j + 1; t++) {
             nums1[t] = nums2[t];
         }
+    }
+
+    /**
+     * 89. 格雷编码
+     * 格雷编码是一个二进制数字系统，在该系统中，两个连续的数值仅有一个位数的差异。
+     * 给定一个代表编码总位数的非负整数 n，打印其格雷编码序列。即使有多个不同答案，你也只需要返回其中一种。
+     * 格雷编码序列必须以 0 开头。
+     * <p>
+     * <p>
+     * 示例 1:
+     * 输入: 2
+     * 输出: [0,1,3,2]
+     * 解释:
+     * 00 - 0
+     * 01 - 1
+     * 11 - 3
+     * 10 - 2
+     * <p>
+     * 对于给定的 n，其格雷编码序列并不唯一。
+     * 例如，[0,2,3,1] 也是一个有效的格雷编码序列。
+     * <p>
+     * 00 - 0
+     * 10 - 2
+     * 11 - 3
+     * 01 - 1
+     * <p>
+     * 示例 2:
+     * 输入: 0
+     * 输出: [0]
+     * 解释: 我们定义格雷编码序列必须以 0 开头。
+     * 给定编码总位数为 n 的格雷编码序列，其长度为 2n。当 n = 0 时，长度为 20 = 1。
+     * 因此，当 n = 0 时，其格雷编码序列为 [0]。
+     */
+    public List<Integer> grayCode(int n) {
+        List<Integer> result = new LinkedList<>();
+        for (int i = 0; i < 1 << n; i++) result.add(i ^ i >> 1);
+        return result;
+    }
+
+    /**
+     * 90. 子集 II
+     * 给定一个可能包含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
+     * <p>
+     * 说明：解集不能包含重复的子集。
+     * <p>
+     * 示例:
+     * <p>
+     * 输入: [1,2,2]
+     * 输出:
+     * [
+     * [2],
+     * [1],
+     * [1,2,2],
+     * [2,2],
+     * [1,2],
+     * []
+     * ]
+     */
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        res.add(new ArrayList<>());
+        if(nums == null || nums.length == 0) return res;
+        Arrays.sort(nums);
+        List<Integer> tmp = new ArrayList<>();
+        tmp.add(nums[0]);
+        res.add(tmp);
+        if(nums.length == 1) return res;
+
+        int lastLen = 1;
+
+        for(int i = 1; i < nums.length; i++){
+            int size = res.size();
+            if(nums[i] != nums[i-1]){
+                lastLen = size;
+            }
+
+            for(int j = size - lastLen; j < size; j++){
+                List<Integer> inner = new ArrayList(res.get(j));
+                inner.add(nums[i]);
+                res.add(inner);
+            }
+        }
+        return res;
     }
 }
