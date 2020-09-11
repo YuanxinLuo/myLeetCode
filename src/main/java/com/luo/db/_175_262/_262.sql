@@ -41,3 +41,10 @@
 # | 2013-10-02 |       0.00        |
 # | 2013-10-03 |       0.50        |
 # +------------+-------------------+
+SELECT a.Request_at AS Day,
+       ROUND(AVG(a.Status != 'completed'),2) AS 'Cancellation Rate'
+FROM Trips a
+         JOIN Users b ON (a.Driver_Id = b.Users_Id AND b.Banned = 'No')
+         JOIN Users c ON (a.Client_Id = c.Users_Id AND c.Banned = 'No')
+WHERE (a.Request_at BETWEEN '2013-10-01' AND '2013-10-03')
+GROUP BY 1

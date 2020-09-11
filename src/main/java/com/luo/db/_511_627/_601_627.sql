@@ -1,4 +1,40 @@
-
+# 601. 体育馆的人流量
+# SQL架构
+# X 市建了一个新的体育馆，每日人流量信息被记录在这三列信息中：序号 (id)、日期 (visit_date)、 人流量 (people)。
+#
+# 请编写一个查询语句，找出人流量的高峰期。高峰期时，至少连续三行记录中的人流量不少于100。
+#
+# 例如，表 stadium：
+#
+# +------+------------+-----------+
+# | id   | visit_date | people    |
+# +------+------------+-----------+
+# | 1    | 2017-01-01 | 10        |
+# | 2    | 2017-01-02 | 109       |
+# | 3    | 2017-01-03 | 150       |
+# | 4    | 2017-01-04 | 99        |
+# | 5    | 2017-01-05 | 145       |
+# | 6    | 2017-01-06 | 1455      |
+# | 7    | 2017-01-07 | 199       |
+# | 8    | 2017-01-08 | 188       |
+# +------+------------+-----------+
+# 对于上面的示例数据，输出为：
+#
+# +------+------------+-----------+
+# | id   | visit_date | people    |
+# +------+------------+-----------+
+# | 5    | 2017-01-05 | 145       |
+# | 6    | 2017-01-06 | 1455      |
+# | 7    | 2017-01-07 | 199       |
+# | 8    | 2017-01-08 | 188       |
+# +------+------------+-----------+
+SELECT DISTINCT a.*
+FROM stadium a, stadium b, stadium c
+WHERE (a.people >= 100 AND b.people >= 100 AND c.people >= 100)
+  AND ((a.id - b.id = 1 AND a.id - c.id = 2 AND b.id - c.id = 1) -- a,b,c
+    OR (b.id - a.id = 1 AND b.id - c.id = 2 AND a.id - c.id = 1) -- b,a,c
+    OR (c.id - b.id = 1 AND c.id - a.id = 2 AND b.id - a.id = 1)) -- c,b,a
+ORDER BY a.id;
 
 
 
@@ -29,11 +65,45 @@
 # |   5     | House card|   Interesting|   9.1     |
 # |   1     | War       |   great 3D   |   8.9     |
 # +---------+-----------+--------------+-----------+
-select id,movie,description,rating
+select id, movie, description, rating
 from cinema
-where description != 'boring' and id % 2 = 1
+where description != 'boring'
+  and id % 2 = 1
 order by rating desc;
 
+
+# 626. 换座位
+# 小美是一所中学的信息科技老师，她有一张 seat 座位表，平时用来储存学生名字和与他们相对应的座位 id。
+# 其中纵列的 id 是连续递增的
+# 小美想改变相邻俩学生的座位。
+# 你能不能帮她写一个 SQL query 来输出小美想要的结果呢？
+#
+#
+# 示例：
+#
+# +---------+---------+
+# |    id   | student |
+# +---------+---------+
+# |    1    | Abbot   |
+# |    2    | Doris   |
+# |    3    | Emerson |
+# |    4    | Green   |
+# |    5    | Jeames  |
+# +---------+---------+
+# 假如数据输入的是上表，则输出结果如下：
+#
+# +---------+---------+
+# |    id   | student |
+# +---------+---------+
+# |    1    | Doris   |
+# |    2    | Abbot   |
+# |    3    | Green   |
+# |    4    | Emerson |
+# |    5    | Jeames  |
+# +---------+---------+
+SELECT if(id % 2 = 0, id - 1, if(id = (SELECT MAX(id) FROM seat), id, id + 1)) as id, student
+FROM seat
+ORDER BY id;
 
 
 # 627. 交换工资
@@ -58,4 +128,5 @@ order by rating desc;
 #     | 2  | B    | m   | 1500   |
 #     | 3  | C    | f   | 5500   |
 #     | 4  | D    | m   | 500    |
-update salary set sex = case when sex='m' then 'f' else 'm' end;
+update salary
+set sex = case when sex = 'm' then 'f' else 'm' end;
