@@ -41,6 +41,11 @@ public class Test631_640 {
     }
 
     @Test
+    public void test636() {
+        System.out.println(Arrays.toString(t.exclusiveTime(2, Arrays.asList("0:start:0", "1:start:2", "1:end:5", "0:end:6"))));
+    }
+
+    @Test
     public void test637() {
         TreeNode root = new TreeNode(3);
         root.left = new TreeNode(9);
@@ -48,5 +53,26 @@ public class Test631_640 {
         root.right.left = new TreeNode(15);
         root.right.right = new TreeNode(7);
         System.out.println(t.averageOfLevels(root));
+    }
+
+    @Test
+    public void test638() {
+        System.out.println(t.shoppingOffers(Arrays.asList(2, 5), Arrays.asList(Arrays.asList(3, 0, 5), Arrays.asList(1, 2, 10)), Arrays.asList(3, 2)));
+    }
+
+    @Test
+    public void test639() {
+        System.out.println(t.numDecodings("*"));
+        System.out.println(t.numDecodings("1*"));
+    }
+
+
+    @Test
+    public void test640() {
+        System.out.println(t.solveEquation("x+5-3+x=6+x-2"));
+        System.out.println(t.solveEquation("x=x"));
+        System.out.println(t.solveEquation("2x=x"));
+        System.out.println(t.solveEquation("2x+3x-6x=x+2"));
+        System.out.println(t.solveEquation("x=x+2"));
     }
 }
