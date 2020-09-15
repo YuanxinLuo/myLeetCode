@@ -24,11 +24,29 @@ public class Test131_140 {
     }
 
     @Test
+    public void test134() {
+        System.out.println(t.canCompleteCircuit(new int[]{1, 2, 3, 4, 5}, new int[]{3, 4, 5, 1, 2}));
+        System.out.println(t.canCompleteCircuit(new int[]{2, 3, 4}, new int[]{3, 4, 3}));
+    }
+
+    @Test
+    public void test135() {
+        System.out.println(t.candy(new int[]{1, 0, 2}));
+        System.out.println(t.candy(new int[]{1, 2, 2}));
+    }
+
+    @Test
     public void test136() {
         int[] nums1 = {2, 2, 1};
         int[] nums2 = {4, 1, 2, 1, 2};
         System.out.println(t.singleNumber(nums1));
         System.out.println(t.singleNumber(nums2));
+    }
+
+    @Test
+    public void test137() {
+        System.out.println(t.singleNumber2(new int[]{2, 2, 3, 2}));
+        System.out.println(t.singleNumber2(new int[]{0, 1, 0, 1, 0, 1, 99}));
     }
 
     @Test

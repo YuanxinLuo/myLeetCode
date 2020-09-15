@@ -213,6 +213,103 @@ public class T131_140 {
     }
 
     /**
+     * 134. 加油站
+     * 在一条环路上有 N 个加油站，其中第 i 个加油站有汽油 gas[i] 升。
+     * 你有一辆油箱容量无限的的汽车，从第 i 个加油站开往第 i+1 个加油站需要消耗汽油 cost[i] 升。你从其中的一个加油站出发，开始时油箱为空。
+     * 如果你可以绕环路行驶一周，则返回出发时加油站的编号，否则返回 -1。
+     * <p>
+     * 说明:
+     * <p>
+     * 如果题目有解，该答案即为唯一答案。
+     * 输入数组均为非空数组，且长度相同。
+     * 输入数组中的元素均为非负数。
+     * 示例 1:
+     * 输入:
+     * gas  = [1,2,3,4,5]
+     * cost = [3,4,5,1,2]
+     * 输出: 3
+     * 解释:
+     * 从 3 号加油站(索引为 3 处)出发，可获得 4 升汽油。此时油箱有 = 0 + 4 = 4 升汽油
+     * 开往 4 号加油站，此时油箱有 4 - 1 + 5 = 8 升汽油
+     * 开往 0 号加油站，此时油箱有 8 - 2 + 1 = 7 升汽油
+     * 开往 1 号加油站，此时油箱有 7 - 3 + 2 = 6 升汽油
+     * 开往 2 号加油站，此时油箱有 6 - 4 + 3 = 5 升汽油
+     * 开往 3 号加油站，你需要消耗 5 升汽油，正好足够你返回到 3 号加油站。
+     * 因此，3 可为起始索引。
+     * <p>
+     * 示例 2:
+     * 输入:
+     * gas  = [2,3,4]
+     * cost = [3,4,3]
+     * 输出: -1
+     * 解释:
+     * 你不能从 0 号或 1 号加油站出发，因为没有足够的汽油可以让你行驶到下一个加油站。
+     * 我们从 2 号加油站出发，可以获得 4 升汽油。 此时油箱有 = 0 + 4 = 4 升汽油
+     * 开往 0 号加油站，此时油箱有 4 - 3 + 2 = 3 升汽油
+     * 开往 1 号加油站，此时油箱有 3 - 3 + 3 = 3 升汽油
+     * 你无法返回 2 号加油站，因为返程需要消耗 4 升汽油，但是你的油箱只有 3 升汽油。
+     * 因此，无论怎样，你都不可能绕环路行驶一周。
+     */
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int n = gas.length;
+
+        int total_tank = 0;
+        int curr_tank = 0;
+        int starting_station = 0;
+        for (int i = 0; i < n; ++i) {
+            total_tank += gas[i] - cost[i];
+            curr_tank += gas[i] - cost[i];
+            // If one couldn't get here,
+            if (curr_tank < 0) {
+                // Pick up the next station as the starting one.
+                starting_station = i + 1;
+                // Start with an empty tank.
+                curr_tank = 0;
+            }
+        }
+        return total_tank >= 0 ? starting_station : -1;
+    }
+
+    /**
+     * 135. 分发糖果
+     * 老师想给孩子们分发糖果，有 N 个孩子站成了一条直线，老师会根据每个孩子的表现，预先给他们评分。
+     * 你需要按照以下要求，帮助老师给这些孩子分发糖果：
+     * 每个孩子至少分配到 1 个糖果。
+     * 相邻的孩子中，评分高的孩子必须获得更多的糖果。
+     * 那么这样下来，老师至少需要准备多少颗糖果呢？
+     * <p>
+     * 示例 1:
+     * 输入: [1,0,2]
+     * 输出: 5
+     * 解释: 你可以分别给这三个孩子分发 2、1、2 颗糖果。
+     * <p>
+     * 示例 2:
+     * 输入: [1,2,2]
+     * 输出: 4
+     * 解释: 你可以分别给这三个孩子分发 1、2、1 颗糖果。
+     * 第三个孩子只得到 1 颗糖果，这已满足上述两个条件。
+     */
+    public int candy(int[] ratings) {
+        int[] arr = new int[ratings.length];
+        for(int i=0;i<ratings.length;i++){
+            arr[i] = 1;
+        }
+        for(int i=1;i<ratings.length;i++){
+            if(ratings[i]>ratings[i-1])
+                arr[i] = arr[i-1]+1;
+        }
+        for(int j=ratings.length-2;j>=0;j--){
+            if(ratings[j]>ratings[j+1] && arr[j]<=arr[j+1])
+                arr[j] = arr[j+1]+1;
+        }
+        int sum = 0;
+        for(int i=0;i<arr.length;i++){
+            sum+=arr[i];
+        }
+        return sum;
+    }
+
+    /**
      * 136. 只出现一次的数字
      * 给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
      * 说明：
@@ -234,6 +331,31 @@ public class T131_140 {
             res ^= num;
         }
         return res;
+    }
+
+    /**
+     * 137. 只出现一次的数字 II
+     * 给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现了三次。找出那个只出现了一次的元素。
+     * 说明：
+     * 你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？
+     *
+     * 示例 1:
+     * 输入: [2,2,3,2]
+     * 输出: 3
+     *
+     * 示例 2:
+     * 输入: [0,1,0,1,0,1,99]
+     * 输出: 99
+     * @param nums
+     * @return
+     */
+    public int singleNumber2(int[] nums) {
+        int seenOnce = 0, seenTwice = 0;
+        for (int num : nums) {
+            seenOnce = ~seenTwice & (seenOnce ^ num);
+            seenTwice = ~seenOnce & (seenTwice ^ num);
+        }
+        return seenOnce;
     }
 
     /**
