@@ -95,10 +95,10 @@ public class T141_150 {
      * 给定一个单链表 L：L0→L1→…→Ln-1→Ln ，
      * 将其重新排列后变为： L0→Ln→L1→Ln-1→L2→Ln-2→…
      * 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
-     *
+     * <p>
      * 示例 1:
      * 给定链表 1->2->3->4, 重新排列为 1->4->2->3.
-     *
+     * <p>
      * 示例 2:
      * 给定链表 1->2->3->4->5, 重新排列为 1->5->2->4->3.
      */
@@ -132,14 +132,14 @@ public class T141_150 {
     /**
      * 144. 二叉树的前序遍历
      * 给定一个二叉树，返回它的 前序 遍历。
-     *  示例:
+     * 示例:
      * 输入: [1,null,2,3]
-     *    1
-     *     \
-     *      2
-     *     /
-     *    3
-     *
+     * 1
+     * \
+     * 2
+     * /
+     * 3
+     * <p>
      * 输出: [1,2,3]
      */
     public List<Integer> preorderTraversal(TreeNode root) {
@@ -150,8 +150,7 @@ public class T141_150 {
             if (node.left == null) {
                 output.add(node.val);
                 node = node.right;
-            }
-            else {
+            } else {
                 TreeNode predecessor = node.left;
                 while ((predecessor.right != null) && (predecessor.right != node)) {
                     predecessor = predecessor.right;
@@ -161,8 +160,7 @@ public class T141_150 {
                     output.add(node.val);
                     predecessor.right = node;
                     node = node.left;
-                }
-                else{
+                } else {
                     predecessor.right = null;
                     node = node.right;
                 }
@@ -176,12 +174,13 @@ public class T141_150 {
      * 给定一个二叉树，返回它的 后序 遍历。
      * 示例:
      * 输入: [1,null,2,3]
-     *    1
-     *     \
-     *      2
-     *     /
-     *    3
+     * 1
+     * \
+     * 2
+     * /
+     * 3
      * 输出: [3,2,1]
+     *
      * @param root
      * @return
      */
@@ -250,4 +249,228 @@ public class T141_150 {
         }
     }
 
+    /**
+     * 147. 对链表进行插入排序
+     * 对链表进行插入排序。
+     * 插入排序的动画演示如上。从第一个元素开始，该链表可以被认为已经部分排序（用黑色表示）。
+     * 每次迭代时，从输入数据中移除一个元素（用红色表示），并原地将其插入到已排好序的链表中。
+     * 插入排序算法：
+     * 插入排序是迭代的，每次只移动一个元素，直到所有元素可以形成一个有序的输出列表。
+     * 每次迭代中，插入排序只从输入数据中移除一个待排序的元素，找到它在序列中适当的位置，并将其插入。
+     * 重复直到所有输入数据插入完为止。
+     * <p>
+     * 示例 1：
+     * 输入: 4->2->1->3
+     * 输出: 1->2->3->4
+     * <p>
+     * 示例 2：
+     * 输入: -1->5->3->4->0
+     * 输出: -1->0->3->4->5
+     */
+    public ListNode insertionSortList(ListNode head) {
+        if (head == null || head.next == null)
+            return head;
+
+        ListNode dummy = new ListNode(Integer.MIN_VALUE);
+        dummy.next = head;
+        ListNode cur = head.next;
+        ListNode pre = head;
+        while (cur != null) {
+            ListNode temp = cur.next;
+            if (cur.val < pre.val) {
+                ListNode start = dummy;
+                while (cur.val > start.next.val) {
+                    start = start.next;
+                }
+                pre.next = cur.next;
+                cur.next = start.next;
+                start.next = cur;
+
+                cur = temp;
+            } else {
+                cur = cur.next;
+                pre = pre.next;
+            }
+
+        }
+        return dummy.next;
+    }
+
+    /**
+     * 148. 排序链表
+     * 在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序。
+     * <p>
+     * 示例 1:
+     * 输入: 4->2->1->3
+     * 输出: 1->2->3->4
+     * <p>
+     * 示例 2:
+     * 输入: -1->5->3->4->0
+     * 输出: -1->0->3->4->5
+     */
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null)
+            return head;
+        ListNode fast = head.next, slow = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode tmp = slow.next;
+        slow.next = null;
+        ListNode left = sortList(head);
+        ListNode right = sortList(tmp);
+        ListNode h = new ListNode(0);
+        ListNode res = h;
+        while (left != null && right != null) {
+            if (left.val < right.val) {
+                h.next = left;
+                left = left.next;
+            } else {
+                h.next = right;
+                right = right.next;
+            }
+            h = h.next;
+        }
+        h.next = left != null ? left : right;
+        return res.next;
+    }
+
+    /**
+     * 149. 直线上最多的点数
+     * 给定一个二维平面，平面上有 n 个点，求最多有多少个点在同一条直线上。
+     * <p>
+     * 示例 1:
+     * 输入: [[1,1],[2,2],[3,3]]
+     * 输出: 3
+     * 解释:
+     * ^
+     * |
+     * |        o
+     * |     o
+     * |  o
+     * +------------->
+     * 0  1  2  3  4
+     * <p>
+     * 示例 2:
+     * 输入: [[1,1],[3,2],[5,3],[4,1],[2,3],[1,4]]
+     * 输出: 4
+     * 解释:
+     * ^
+     * |
+     * |  o
+     * |     o        o
+     * |        o
+     * |  o        o
+     * +------------------->
+     * 0  1  2  3  4  5  6
+     */
+    public int maxPoints(int[][] points) {
+        int len = points.length;
+        if (len <= 2) {
+            return len;
+        }
+        int ans = 0;
+        for (int i = 0; i < len; i++) {
+            // 优化
+            if (len - i <= ans) {
+                break;
+            }
+            // 记录重复的点和当前最大数量
+            int repeat = 1;
+            int curMax = 1;
+            for (int j = i + 1; j < len; j++) {
+                // 优化
+                if (len - j + curMax <= ans) {
+                    break;
+                }
+                curMax++;
+                int x1 = points[i][0];
+                int y1 = points[i][1];
+                int x2 = points[j][0];
+                int y2 = points[j][1];
+                // 如果有重复的点
+                if (x1 == x2 && y1 == y2) {
+                    repeat++;
+                    // 更新最大数量
+                    ans = Math.max(ans, curMax);
+                    continue;
+                }
+                for (int k = j + 1; k < len; k++) {
+                    // 优化
+                    if (len - k + curMax <= ans) {
+                        break;
+                    }
+                    int x3 = points[k][0];
+                    int y3 = points[k][1];
+                    // 求除法斜率改为求乘法
+                    if ((long) (y2 - y1) * (x3 - x2) == (long) (y3 - y2) * (x2 - x1)) {
+                        curMax++;
+                    }
+                }
+                ans = Math.max(ans, curMax);
+                curMax = repeat;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 150. 逆波兰表达式求值
+     * 根据 逆波兰表示法，求表达式的值。
+     * 有效的运算符包括 +, -, *, / 。每个运算对象可以是整数，也可以是另一个逆波兰表达式。
+     * <p>
+     * 说明：
+     * 整数除法只保留整数部分。
+     * 给定逆波兰表达式总是有效的。换句话说，表达式总会得出有效数值且不存在除数为 0 的情况。
+     * <p>
+     * 示例 1：
+     * 输入: ["2", "1", "+", "3", "*"]
+     * 输出: 9
+     * 解释: 该算式转化为常见的中缀算术表达式为：((2 + 1) * 3) = 9
+     * <p>
+     * 示例 2：
+     * 输入: ["4", "13", "5", "/", "+"]
+     * 输出: 6
+     * 解释: 该算式转化为常见的中缀算术表达式为：(4 + (13 / 5)) = 6
+     * <p>
+     * 示例 3：
+     * 输入: ["10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"]
+     * 输出: 22
+     * 解释:
+     * 该算式转化为常见的中缀算术表达式为：
+     * ((10 * (6 / ((9 + 3) * -11))) + 17) + 5
+     * = ((10 * (6 / (12 * -11))) + 17) + 5
+     * = ((10 * (6 / -132)) + 17) + 5
+     * = ((10 * 0) + 17) + 5
+     * = (0 + 17) + 5
+     * = 17 + 5
+     * = 22
+     */
+    public int evalRPN(String[] tokens) {
+        int[] numStack = new int[tokens.length / 2 + 1];
+        int index = 0;
+        for (String s : tokens) {
+            switch (s) {
+                case "+":
+                    numStack[index - 2] += numStack[--index];
+                    break;
+                case "-":
+                    numStack[index - 2] -= numStack[--index];
+                    break;
+                case "*":
+                    numStack[index - 2] *= numStack[--index];
+                    break;
+                case "/":
+                    numStack[index - 2] /= numStack[--index];
+                    break;
+                default:
+                    // numStack[index++] = Integer.valueOf(s);
+                    //valueOf改为parseInt，减少自动拆箱装箱操作
+                    numStack[index++] = Integer.parseInt(s);
+                    break;
+            }
+        }
+        return numStack[0];
+    }
 }

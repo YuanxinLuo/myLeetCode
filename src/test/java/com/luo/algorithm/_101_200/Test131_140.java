@@ -3,6 +3,7 @@ package com.luo.algorithm._101_200;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Test131_140 {
@@ -68,6 +69,15 @@ public class Test131_140 {
         wordDict3.add("and");
         wordDict3.add("cat");
         System.out.println(t.wordBreak("catsandog", wordDict3));
+    }
+
+    @Test
+    public void test140() {
+        System.out.println(t.wordBreak140("catsanddog", Arrays.asList("cat", "cats", "and", "sand", "dog")));
+        System.out.println(t.wordBreak140("pineapplepenapple", Arrays.asList("apple", "pen", "applepen", "pine", "pineapple")));
+        System.out.println(t.wordBreak140("catsandog", Arrays.asList("cats", "dog", "sand", "and", "cat")));
+        System.out.println(t.wordBreak140("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", Arrays.asList("a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa")));
+
 
     }
 }

@@ -2,8 +2,6 @@ package com.luo.algorithm._101_200;
 
 import org.junit.Test;
 
-import java.util.List;
-
 public class Test141_150 {
 
     T141_150 t = new T141_150();
@@ -27,7 +25,7 @@ public class Test141_150 {
     }
 
     @Test
-    public void test142(){
+    public void test142() {
         ListNode h1 = new ListNode(3);
         h1.next = new ListNode(2);
         h1.next.next = new ListNode(0);
@@ -45,7 +43,7 @@ public class Test141_150 {
     }
 
     @Test
-    public void test143(){
+    public void test143() {
         ListNode h1 = new ListNode(1);
         h1.next = new ListNode(2);
         h1.next.next = new ListNode(3);
@@ -62,7 +60,7 @@ public class Test141_150 {
     }
 
     @Test
-    public void test144(){
+    public void test144() {
         TreeNode root = new TreeNode(1);
         root.right = new TreeNode(2);
         root.right.left = new TreeNode(3);
@@ -70,7 +68,7 @@ public class Test141_150 {
     }
 
     @Test
-    public void test145(){
+    public void test145() {
         TreeNode root = new TreeNode(1);
         root.right = new TreeNode(2);
         root.right.left = new TreeNode(3);
@@ -89,5 +87,51 @@ public class Test141_150 {
         System.out.println(cache.get(1));
         System.out.println(cache.get(3));
         System.out.println(cache.get(4));
+    }
+
+    @Test
+    public void test147() {
+        ListNode head = new ListNode(4);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(1);
+        head.next.next.next = new ListNode(3);
+        System.out.println(t.insertionSortList(head));
+
+        ListNode head2 = new ListNode(-1);
+        head2.next = new ListNode(5);
+        head2.next.next = new ListNode(3);
+        head2.next.next.next = new ListNode(4);
+        head2.next.next.next.next = new ListNode(0);
+        System.out.println(t.insertionSortList(head2));
+    }
+
+    @Test
+    public void test148() {
+        ListNode head = new ListNode(4);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(1);
+        head.next.next.next = new ListNode(3);
+        System.out.println(t.sortList(head));
+
+        ListNode head2 = new ListNode(-1);
+        head2.next = new ListNode(5);
+        head2.next.next = new ListNode(3);
+        head2.next.next.next = new ListNode(4);
+        head2.next.next.next.next = new ListNode(0);
+        System.out.println(t.sortList(head2));
+    }
+
+    @Test
+    public void test149() {
+        System.out.println(t.maxPoints(new int[][]{{1, 1}, {2, 2}, {3, 3}}));
+        System.out.println(t.maxPoints(new int[][]{{1, 1}, {3, 2}, {5, 3}, {4, 1}, {2, 3}, {1, 4}}));
+        System.out.println(t.maxPoints(new int[][]{{0, 0}, {94911150, 94911151}, {94911151, 94911152}}));
+    }
+
+    @Test
+    public void test150() {
+        System.out.println(t.evalRPN(new String[]{"2", "1", "+", "3", "*"}));
+        System.out.println(t.evalRPN(new String[]{"4", "13", "5", "/", "+"}));
+        System.out.println(t.evalRPN(new String[]{"10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"}));
     }
 }
