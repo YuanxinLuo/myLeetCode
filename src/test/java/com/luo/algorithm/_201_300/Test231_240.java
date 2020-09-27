@@ -8,6 +8,50 @@ public class Test231_240 {
     T231_240 t = new T231_240();
 
     @Test
+    public void test231() {
+        System.out.println(t.isPowerOfTwo(1));
+        System.out.println(t.isPowerOfTwo(16));
+        System.out.println(t.isPowerOfTwo(218));
+    }
+
+    @Test
+    public void test233() {
+        System.out.println(t.countDigitOne(13));
+        System.out.println(t.countDigitOne(824883294));
+    }
+
+    @Test
+    public void test234() {
+        ListNode l1 = new ListNode(1);
+        l1.next = new ListNode(2);
+        System.out.println(t.isPalindrome(l1));
+        ListNode l2 = new ListNode(1);
+        l2.next = new ListNode(2);
+        l2.next.next = new ListNode(2);
+        l2.next.next.next = new ListNode(1);
+        System.out.println(t.isPalindrome(l2));
+    }
+
+    @Test
+    public void test235() {
+        TreeNode r1 = new TreeNode(6);
+        r1.left = new TreeNode(2);
+        r1.right = new TreeNode(8);
+        r1.left.left = new TreeNode(0);
+        r1.left.right = new TreeNode(4);
+        r1.left.right.left = new TreeNode(3);
+        r1.left.right.right = new TreeNode(5);
+        r1.right.left = new TreeNode(7);
+        r1.right.right = new TreeNode(9);
+        TreeNode p1 = new TreeNode(2);
+        TreeNode q1 = new TreeNode(8);
+        System.out.println(t.lowestCommonAncestor235(r1, p1, q1));
+
+        TreeNode q2 = new TreeNode(4);
+        System.out.println(t.lowestCommonAncestor235(r1, p1, q2));
+    }
+
+    @Test
     public void test236() {
 
     }
