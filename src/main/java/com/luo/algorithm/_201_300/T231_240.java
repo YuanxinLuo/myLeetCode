@@ -272,7 +272,8 @@ public class T231_240 {
      * 解释：给定你链表中值为 1 的第三个节点，那么在调用了你的函数之后，该链表应变为 4 -> 5 -> 9.
      */
     public void deleteNode(ListNode node) {
-
+        node.val = node.next.val;
+        node.next = node.next.next;
     }
 
     /**
@@ -299,5 +300,91 @@ public class T231_240 {
             result[i] *= suffix;
         }
         return result;
+    }
+
+    /**
+     * 239. 滑动窗口最大值
+     * 给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
+     * 返回滑动窗口中的最大值。
+     *
+     * 示例:
+     * 输入: nums = [1,3,-1,-3,5,3,6,7], 和 k = 3
+     * 输出: [3,3,5,5,6,7]
+     * 解释:
+     *
+     *   滑动窗口的位置                最大值
+     * ---------------               -----
+     * [1  3  -1] -3  5  3  6  7       3
+     *  1 [3  -1  -3] 5  3  6  7       3
+     *  1  3 [-1  -3  5] 3  6  7       5
+     *  1  3  -1 [-3  5  3] 6  7       5
+     *  1  3  -1  -3 [5  3  6] 7       6
+     *  1  3  -1  -3  5 [3  6  7]      7
+     */
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if(k == 1)
+            return nums;
+
+        int maxIdx = 0;
+        for(int i = 0; i < k; i++) {
+            if(nums[i] > nums[maxIdx])
+                maxIdx = i;
+        }
+
+        int[] maxes = new int[nums.length - k + 1];
+        for(int li = 0; li < maxes.length; li++) {
+            int ri = li + k - 1;
+            if(maxIdx < li) {
+                maxIdx = li;
+                for(int i = li + 1; i <= ri; i++) {
+                    if(nums[i] > nums[maxIdx])
+                        maxIdx = i;
+                }
+            }else if(nums[ri] > nums[maxIdx]) {
+                maxIdx = ri;
+            }
+            maxes[li] = nums[maxIdx];
+        }
+        return maxes;
+    }
+
+    /**
+     * 240. 搜索二维矩阵 II
+     * 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：
+     *
+     * 每行的元素从左到右升序排列。
+     * 每列的元素从上到下升序排列。
+     * 示例:
+     *
+     * 现有矩阵 matrix 如下：
+     *
+     * [
+     *   [1,   4,  7, 11, 15],
+     *   [2,   5,  8, 12, 19],
+     *   [3,   6,  9, 16, 22],
+     *   [10, 13, 14, 17, 24],
+     *   [18, 21, 23, 26, 30]
+     * ]
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+
+        int row = matrix.length;
+        int column = matrix[0].length;
+
+        int r = 0, c = column - 1;
+        while (r < row && c >= 0) {
+            if (matrix[r][c] == target) {
+                return true;
+            } else if (matrix[r][c] > target) {
+                c--;
+            } else {
+                r++;
+            }
+        }
+
+        return false;
     }
 }

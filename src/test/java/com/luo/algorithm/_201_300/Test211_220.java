@@ -6,6 +6,19 @@ public class Test211_220 {
     T211_220 t = new T211_220();
 
     @Test
+    public void test211() {
+        T211_220.WordDictionary dir = t.new WordDictionary();
+        dir.addWord("bad");
+        dir.addWord("dad");
+        dir.addWord("mad");
+        dir.search("pad"); // return False
+        dir.search("bad"); // return True
+        dir.search(".ad"); // return True
+        dir.search("b.."); // return True
+
+    }
+
+    @Test
     public void test212() {
         char[][] b = {{'o', 'a', 'a', 'n'}, {'e', 't', 'a', 'e'}, {'i', 'h', 'k', 'r'}, {'i', 'f', 'l', 'v'}};
         String[] w = {"oath", "pea", "eat", "rain"};
@@ -41,6 +54,11 @@ public class Test211_220 {
         System.out.println(t.containsDuplicate(new int[]{1, 2, 3, 1}));
         System.out.println(t.containsDuplicate(new int[]{1, 2, 3, 4}));
         System.out.println(t.containsDuplicate(new int[]{1, 1, 1, 3, 3, 4, 3, 2, 4, 2}));
+    }
+
+    @Test
+    public void test218() {
+        System.out.println(t.getSkyline(new int[][]{{2, 10}, {3, 15}, {7, 12}, {12, 0}, {15, 10}, {20, 8}, {24, 0}}));
     }
 
     @Test

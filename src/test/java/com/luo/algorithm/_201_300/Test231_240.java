@@ -57,7 +57,24 @@ public class Test231_240 {
     }
 
     @Test
+    public void test237() {
+
+    }
+
+    @Test
     public void test238() {
         System.out.println(Arrays.toString(t.productExceptSelf(new int[]{1, 2, 3, 4})));
+    }
+
+    @Test
+    public void test239() {
+        System.out.println(Arrays.toString(t.maxSlidingWindow(new int[]{1, 3, -1, -3, 5, 3, 6, 7}, 3)));
+    }
+
+    @Test
+    public void test240() {
+        int[][] matrix = {{1, 4, 7, 11, 15}, {2, 5, 8, 12, 19}, {3, 6, 9, 16, 22}, {10, 13, 14, 17, 24}, {18, 21, 23, 26, 30}};
+        System.out.println(t.searchMatrix(matrix, 5));
+        System.out.println(t.searchMatrix(matrix, 20));
     }
 }
