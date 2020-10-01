@@ -346,7 +346,7 @@ public class LCP1_16 {
         c[0] = 1;
         r[0] = 1;
         h[0] = 1;
-        for (int i = 0;i < increase.length;i++) {
+        for (int i = 0; i < increase.length; i++) {
             int day = i + 2;
             while (increase[i][0]-- > 0) {
                 c[c_index++] = day;
@@ -359,9 +359,9 @@ public class LCP1_16 {
             }
         }
 
-        for (int i = 0;i < requirements.length;i++) {
+        for (int i = 0; i < requirements.length; i++) {
             if (c[requirements[i][0]] > 0 && r[requirements[i][1]] > 0 && h[requirements[i][2]] > 0) {
-                ans[i] = Math.max(Math.max(c[requirements[i][0]],r[requirements[i][1]]), h[requirements[i][2]]) - 1;
+                ans[i] = Math.max(Math.max(c[requirements[i][0]], r[requirements[i][1]]), h[requirements[i][2]]) - 1;
             } else {
                 ans[i] = -1;
             }
@@ -795,5 +795,275 @@ public class LCP1_16 {
     public int maxWeight(int[][] edges, int[] value) {
 
         return 0;
+    }
+
+    /**
+     * LCP 17. 速算机器人
+     * 小扣在秋日市集发现了一款速算机器人。店家对机器人说出两个数字（记作 x 和 y），请小扣说出计算指令：
+     * <p>
+     * "A" 运算：使 x = 2 * x + y；
+     * "B" 运算：使 y = 2 * y + x。
+     * 在本次游戏中，店家说出的数字为 x = 1 和 y = 0，小扣说出的计算指令记作仅由大写字母 A、B 组成的字符串 s，字符串中字符的顺序表示计算顺序，请返回最终 x 与 y 的和为多少。
+     * <p>
+     * 示例 1：
+     * 输入：s = "AB"
+     * 输出：4
+     */
+    public int calculate(String s) {
+        return (int) Math.pow(2, s.length());
+    }
+
+    /**
+     * LCP 18. 早餐组合
+     * 小扣在秋日市集选择了一家早餐摊位，一维整型数组 staple 中记录了每种主食的价格，一维整型数组 drinks 中记录了每种饮料的价格。
+     * 小扣的计划选择一份主食和一款饮料，且花费不超过 x 元。请返回小扣共有多少种购买方案。
+     * 注意：答案需要以 1e9 + 7 (1000000007) 为底取模，如：计算初始结果为：1000000008，请返回 1
+     * <p>
+     * 示例 1：
+     * 输入：staple = [10,20,5], drinks = [5,5,2], x = 15
+     * 输出：6
+     * <p>
+     * 解释：小扣有 6 种购买方案，所选主食与所选饮料在数组中对应的下标分别是：
+     * 第 1 种方案：staple[0] + drinks[0] = 10 + 5 = 15；
+     * 第 2 种方案：staple[0] + drinks[1] = 10 + 5 = 15；
+     * 第 3 种方案：staple[0] + drinks[2] = 10 + 2 = 12；
+     * 第 4 种方案：staple[2] + drinks[0] = 5 + 5 = 10；
+     * 第 5 种方案：staple[2] + drinks[1] = 5 + 5 = 10；
+     * 第 6 种方案：staple[2] + drinks[2] = 5 + 2 = 7。
+     * <p>
+     * 示例 2：
+     * 输入：staple = [2,1,1], drinks = [8,9,5,1], x = 9
+     * 输出：8
+     * 解释：小扣有 8 种购买方案，所选主食与所选饮料在数组中对应的下标分别是：
+     * 第 1 种方案：staple[0] + drinks[2] = 2 + 5 = 7；
+     * 第 2 种方案：staple[0] + drinks[3] = 2 + 1 = 3；
+     * 第 3 种方案：staple[1] + drinks[0] = 1 + 8 = 9；
+     * 第 4 种方案：staple[1] + drinks[2] = 1 + 5 = 6；
+     * 第 5 种方案：staple[1] + drinks[3] = 1 + 1 = 2；
+     * 第 6 种方案：staple[2] + drinks[0] = 1 + 8 = 9；
+     * 第 7 种方案：staple[2] + drinks[2] = 1 + 5 = 6；
+     * 第 8 种方案：staple[2] + drinks[3] = 1 + 1 = 2；
+     */
+    public int breakfastNumber(int[] staple, int[] drinks, int x) {
+        int[] dp = new int[x + 1];
+
+        for (int i = 0; i < staple.length; i++) {
+            if (staple[i] < x) dp[staple[i]]++;
+        }
+
+        for (int i = 1; i <= x; i++) {
+            dp[i] += dp[i - 1];
+        }
+        int result = 0;
+        for (int i = 0; i < drinks.length; i++) {
+            if (drinks[i] < x) {
+                result += (dp[x - drinks[i]]);
+            }
+
+            if (result > 1000000007) result %= 1000000007;
+        }
+        return result;
+    }
+
+    /**
+     * LCP 19. 秋叶收藏集
+     * 小扣出去秋游，途中收集了一些红叶和黄叶，他利用这些叶子初步整理了一份秋叶收藏集 leaves， 字符串 leaves 仅包含小写字符 r 和 y， 其中字符 r 表示一片红叶，字符 y 表示一片黄叶。
+     * 出于美观整齐的考虑，小扣想要将收藏集中树叶的排列调整成「红、黄、红」三部分。每部分树叶数量可以不相等，但均需大于等于 1。每次调整操作，小扣可以将一片红叶替换成黄叶或者将一片黄叶替换成红叶。请问小扣最少需要多少次调整操作才能将秋叶收藏集调整完毕。
+     * <p>
+     * 示例 1：
+     * 输入：leaves = "rrryyyrryyyrr"
+     * 输出：2
+     * 解释：调整两次，将中间的两片红叶替换成黄叶，得到 "rrryyyyyyyyrr"
+     * <p>
+     * 示例 2：
+     * 输入：leaves = "ryr"
+     * 输出：0
+     */
+    public int minimumOperations(String leaves) {
+        /*
+            统计黄叶出现的索引，最少的方式将黄叶归并到一起
+            分区域，两侧rrr区域中间yr混杂区
+        */
+        int len = leaves.length();
+        char[] arr = leaves.toCharArray();
+        int i = 0;
+        int j = leaves.length() - 1;
+        int res = 0;
+        // 边界条件 两端为red
+        if (arr[i] == 'y') {
+            arr[i] = 'r';
+            res++;
+            i++;
+        }
+        if (arr[j] == 'y') {
+            arr[j] = 'r';
+            res++;
+            j--;
+        }
+        while (i < len && arr[i] == 'r') {
+            i++;
+        }
+        while (j >= 0 && arr[j] == 'r') {
+            j--;
+        }
+
+        // i,j此时为混杂区的
+        if (i == j) {
+            return res;
+        } else if (i > j) {
+            return res + 1;
+        }
+
+        List<Integer> yellow = new LinkedList<>();
+        List<Integer> red = new LinkedList<>();
+        int yellow_count = 0;
+        int k = i;
+        //统计红黄色区域得到结果
+        int max = 0;
+        int prefix = 0;
+        int min_pre = len;
+        while (k <= j) {
+            if (arr[k] == 'y') {
+                int temp = 0;
+                while (arr[k] == 'y') {
+                    temp++;
+                    k++;
+                }
+                yellow_count += temp;
+                prefix += temp;
+                max = Math.max(max, prefix);
+                if (min_pre < len) {
+                    max = Math.max(max, prefix - min_pre);
+                }
+            } else {
+                int temp = 0;
+                while (arr[k] == 'r') {
+                    temp++;
+                    k++;
+                }
+                // 加入红色区域方便下一次计算
+                prefix -= temp;
+                // 记录最小的前缀，便于下次计算时去用
+                min_pre = Math.min(min_pre, prefix);
+            }
+        }
+
+        return res + yellow_count - max;
+    }
+
+    /**
+     * LCP 22. 黑白方格画
+     * 小扣注意到秋日市集上有一个创作黑白方格画的摊位。摊主给每个顾客提供一个固定在墙上的白色画板，画板不能转动。画板上有 n * n 的网格。
+     * 绘画规则为，小扣可以选择任意多行以及任意多列的格子涂成黑色，所选行数、列数均可为 0。
+     * 小扣希望最终的成品上需要有 k 个黑色格子，请返回小扣共有多少种涂色方案。
+     * 注意：两个方案中任意一个相同位置的格子颜色不同，就视为不同的方案。
+     * <p>
+     * 示例 1：
+     * 输入：n = 2, k = 2
+     * 输出：4
+     * 解释：一共有四种不同的方案：
+     * 第一种方案：涂第一列；
+     * 第二种方案：涂第二列；
+     * 第三种方案：涂第一行；
+     * 第四种方案：涂第二行。
+     * <p>
+     * 示例 2：
+     * 输入：n = 2, k = 1
+     * 输出：0
+     * 解释：不可行，因为第一次涂色至少会涂两个黑格。
+     * <p>
+     * 示例 3：
+     * 输入：n = 2, k = 4
+     * 输出：1
+     */
+    public int paintingPlan(int n, int k) {
+        int res = 0;
+        //边界问题
+        if (k == 0) return 1;
+        if (k == n * n) return 1;
+
+        //第一层循环表示涂 i 行 第二层循环表示涂 j 列
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= n; j++)
+                //当你涂了 i 行 j 列  则有 i * n + j * n个方格被涂过了
+                //去掉重复计入的 i*j个方格 是否等于结果k
+                if ((i * n) + (j * n) - (i * j) == k) {
+                    res += C(i, n) * C(j, n);
+                }
+        }
+        return res;
+    }
+
+    //数学里的排列组合 C(愚蠢式写法，勿计较)
+    private int C(int x, int y) {
+        if (x == 0) return 1;
+        int n = 1;
+        for (int i = 0; i < x; i++) {
+            n *= (y - i);
+        }
+        for (int i = 1; i <= x; i++) {
+            n /= i;
+        }
+        return n;
+    }
+
+    /**
+     * LCP 23. 魔术排列
+     * 秋日市集上，魔术师邀请小扣与他互动。魔术师的道具为分别写有数字 1~N 的 N 张卡牌，然后请小扣思考一个 N 张卡牌的排列 target。
+     * <p>
+     * 魔术师的目标是找到一个数字 k（k >= 1），使得初始排列顺序为 1~N 的卡牌经过特殊的洗牌方式最终变成小扣所想的排列 target，特殊的洗牌方式为：
+     * <p>
+     * 第一步，魔术师将当前位于 偶数位置 的卡牌（下标自 1 开始），保持 当前排列顺序 放在位于 奇数位置 的卡牌之前。例如：将当前排列 [1,2,3,4,5] 位于偶数位置的 [2,4] 置于奇数位置的 [1,3,5] 前，排列变为 [2,4,1,3,5]；
+     * 第二步，若当前卡牌数量小于等于 k，则魔术师按排列顺序取走全部卡牌；若当前卡牌数量大于 k，则取走前 k 张卡牌，剩余卡牌继续重复这两个步骤，直至所有卡牌全部被取走；
+     * 卡牌按照魔术师取走顺序构成的新排列为「魔术取数排列」，请返回是否存在这个数字 k 使得「魔术取数排列」恰好就是 target，从而让小扣感到大吃一惊。
+     * <p>
+     * 示例 1：
+     * 输入：target = [2,4,3,1,5]
+     * 输出：true
+     * 解释：排列 target 长度为 5，初始排列为：1,2,3,4,5。我们选择 k = 2：
+     * 第一次：将当前排列 [1,2,3,4,5] 位于偶数位置的 [2,4] 置于奇数位置的 [1,3,5] 前，排列变为 [2,4,1,3,5]。取走前 2 张卡牌 2,4，剩余 [1,3,5]；
+     * 第二次：将当前排列 [1,3,5] 位于偶数位置的 [3] 置于奇数位置的 [1,5] 前，排列变为 [3,1,5]。取走前 2 张 3,1，剩余 [5]；
+     * 第三次：当前排列为 [5]，全部取出。
+     * 最后，数字按照取出顺序构成的「魔术取数排列」2,4,3,1,5 恰好为 target。
+     * <p>
+     * 示例 2：
+     * 输入：target = [5,4,3,2,1]
+     * 输出：false
+     */
+    public boolean isMagic(int[] target) {
+        int n = target.length;
+        int[] cards = new int[n];
+        for(int i = 0; i < n; i++){
+            cards[i] = i + 1;
+        }
+        return shuffleCards(cards, target, 0, -1);
+    }
+
+    private boolean shuffleCards(int[] cards, int[] target, int idx, int k){
+        if(idx >= cards.length){
+            return true;
+        }
+        int[] tmp = Arrays.copyOf(cards, cards.length);
+        int insert = idx;
+        for(int j = idx + 1; j < cards.length; j += 2){
+            cards[insert++] = tmp[j];
+        }
+        for(int j = idx; j < cards.length; j += 2){
+            cards[insert++] = tmp[j];
+        }
+        int curK = 0;
+        for(int i = idx; i < cards.length; i++){
+            if(target[i] != cards[i]){
+                break;
+            }
+            curK++;
+        }
+        if(k == -1){
+            k = curK;
+        }
+        if(curK == 0 || idx + curK < cards.length && curK < k){
+            return false;
+        }
+        return shuffleCards(cards, target, idx + k, k);
     }
 }

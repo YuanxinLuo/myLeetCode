@@ -99,4 +99,34 @@ public class Test1_16 {
         System.out.println(lcp.maxWeight(new int[][]{{0, 2}, {2, 1}}, new int[]{1, 2, 5}));
         System.out.println(lcp.maxWeight(new int[][]{{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}, {1, 1}, {1, 2}, {1, 3}, {1, 4}, {1, 5}}, new int[]{7, 8, 6, 8, 9, 7}));
     }
+
+    @Test
+    public void test17() {
+        System.out.println(lcp.calculate("AB"));
+    }
+
+    @Test
+    public void test18() {
+        System.out.println(lcp.breakfastNumber(new int[]{10, 20, 5}, new int[]{5, 5, 2}, 15));
+        System.out.println(lcp.breakfastNumber(new int[]{2, 1, 1}, new int[]{8, 9, 5, 1}, 9));
+    }
+
+    @Test
+    public void test19() {
+        System.out.println(lcp.minimumOperations("rrryyyrryyyrr"));
+        System.out.println(lcp.minimumOperations("ryr"));
+    }
+
+    @Test
+    public void test22() {
+        System.out.println(lcp.paintingPlan(2, 2));
+        System.out.println(lcp.paintingPlan(2, 1));
+        System.out.println(lcp.paintingPlan(2, 4));
+    }
+
+    @Test
+    public void test23() {
+        System.out.println(lcp.isMagic(new int[]{2, 4, 3, 1, 5}));
+        System.out.println(lcp.isMagic(new int[]{5, 4, 3, 2, 1}));
+    }
 }
