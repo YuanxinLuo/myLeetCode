@@ -21,18 +21,17 @@ public class T1_10 {
      * @return 两数相加等于目标的下标数组
      */
     public int[] twoSum(int[] nums, int target) {
-        int[] ret = new int[2];
-        for (int i = 0; i < nums.length; i++) {
-            int a = nums[i];
-            for (int j = i + 1; j < nums.length; j++) {
-                int b = nums[j];
-                if (a + b == target) {
-                    ret[0] = i;
-                    ret[1] = j;
-                }
+        int volume = 2<<10; //2的10次方
+        int bitNum = volume-1; //11111111111
+        int[] res = new int[volume];
+        for(int i=0;i<nums.length;i++){
+            int c = (target-nums[i])&bitNum;
+            if(res[c]!=0){
+                return new int[]{res[c]-1,i};
             }
+            res[nums[i]&bitNum] = i+1;
         }
-        return ret;
+        throw new IllegalArgumentException("No two sum solution");
     }
 
     /**
