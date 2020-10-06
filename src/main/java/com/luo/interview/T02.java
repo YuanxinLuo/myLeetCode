@@ -1,6 +1,8 @@
 package com.luo.interview;
 
 import java.util.BitSet;
+import java.util.HashSet;
+import java.util.Set;
 
 public class T02 {
 
@@ -81,6 +83,106 @@ public class T02 {
     }
 
     /**
+     * 面试题 02.04. 分割链表
+     * 编写程序以 x 为基准分割链表，使得所有小于 x 的节点排在大于或等于 x 的节点之前。如果链表中包含 x，x 只需出现在小于 x 的元素之后(如下所示)。
+     * 分割元素 x 只需处于“右半部分”即可，其不需要被置于左右两部分之间。
+     * <p>
+     * 示例:
+     * <p>
+     * 输入: head = 3->5->8->5->10->2->1, x = 5
+     * 输出: 3->1->2->10->5->5->8
+     */
+    public ListNode partition(ListNode head, int x) {
+        if (head == null) return null;
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode prev = head;
+        head = head.next;
+        while (head != null) {
+            if (head.val < x) {
+                prev.next = head.next;
+                head.next = dummy.next;
+                dummy.next = head;
+                head = prev.next;
+            } else {
+                prev = prev.next;
+                head = head.next;
+            }
+        }
+        return dummy.next;
+    }
+
+    /**
+     * 面试题 02.05. 链表求和
+     * 给定两个用链表表示的整数，每个节点包含一个数位。
+     * 这些数位是反向存放的，也就是个位排在链表首部。
+     * 编写函数对这两个整数求和，并用链表形式返回结果。
+     * <p>
+     * <p>
+     * 示例：
+     * <p>
+     * 输入：(7 -> 1 -> 6) + (5 -> 9 -> 2)，即617 + 295
+     * 输出：2 -> 1 -> 9，即912
+     * 进阶：思考一下，假设这些数位是正向存放的，又该如何解决呢?
+     * <p>
+     * 示例：
+     * <p>
+     * 输入：(6 -> 1 -> 7) + (2 -> 9 -> 5)，即617 + 295
+     * 输出：9 -> 1 -> 2，即912
+     */
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        //初始进位为0
+        int pre = 0;
+        //操作数
+        ListNode mid = new ListNode(0);
+        //返回头节点
+        ListNode anws = mid;
+        //当l1和l2都不为null时进入while循环
+        while (l1 != null && l2 != null) {
+            //操作数赋值
+            mid.val = (l1.val + l2.val + pre) % 10;
+            //更新进位
+            pre = (l1.val + l2.val + pre) / 10;
+            //更新头节点
+            l1 = l1.next;
+            l2 = l2.next;
+            //头节点更新后判断是否为空
+            if (l1 == null) {
+                //如果l1头节点为空且进位为0，则操作数的next直接为l2剩下的
+                if (pre == 0) {
+                    mid.next = l2;
+                    return anws;
+                } else {
+                    //如果有进位，则递归调用addTwoNumbers方法
+                    mid.next = addTwoNumbers(l2, new ListNode(pre));
+                    return anws;
+                }
+            }
+            //同上
+            if (l2 == null) {
+                if (pre == 0) {
+                    mid.next = l1;
+                    return anws;
+                } else {
+                    mid.next = addTwoNumbers(l1, new ListNode(pre));
+                    return anws;
+                }
+            }
+            //l1 l2更新后都不为null，则设置操作数为0 进入下一次while循环
+            mid.next = new ListNode(0);
+            mid = mid.next;
+        }
+        //l1为null，直接不能进入上面while循环的情况下，直接返回l2
+        if (l1 == null) {
+            return l2;
+        }//同上
+        else if (l2 == null) {
+            return l1;
+        }
+        return anws;
+    }
+
+    /**
      * 面试题 02.06. 回文链表
      * 编写一个函数，检查输入的链表是否是回文的。
      * 示例 1：
@@ -157,5 +259,52 @@ public class T02 {
             h2 = h2 == null ? headA : h2.next;
         }
         return h1;
+    }
+
+    /**
+     * 面试题 02.08. 环路检测
+     * 给定一个链表，如果它是有环链表，实现一个算法返回环路的开头节点。
+     * 有环链表的定义：在链表中某个节点的next元素指向在它前面出现过的节点，则表明该链表存在环路。
+     * <p>
+     * 示例 1：
+     * 输入：head = [3,2,0,-4], pos = 1
+     * 输出：tail connects to node index 1
+     * 解释：链表中有一个环，其尾部连接到第二个节点。
+     * <p>
+     * 示例 2：
+     * 输入：head = [1,2], pos = 0
+     * 输出：tail connects to node index 0
+     * 解释：链表中有一个环，其尾部连接到第一个节点。
+     * <p>
+     * 示例 3：
+     * 输入：head = [1], pos = -1
+     * 输出：no cycle
+     * 解释：链表中没有环。
+     */
+    public ListNode detectCycle(ListNode head) {
+        if (head == null) return null;
+        ListNode slow = head, fast = head;
+        int dis = 0, len = 0;
+        while (slow != null && fast != null) {
+            if (fast.next == null) return null;
+            fast = fast.next.next;
+            slow = slow.next;
+            dis++;
+            if (slow == fast) break;
+        }
+        if (slow == null || fast == null) return null;
+        ListNode tmp = slow;
+        do {
+            len++;
+            tmp = tmp.next;
+        } while (tmp != slow);
+        fast = head;
+        for (int i = 0; i < dis - len; i++)
+            fast = fast.next;
+        while (slow != fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
     }
 }
