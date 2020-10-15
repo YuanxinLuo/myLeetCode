@@ -276,7 +276,7 @@ public class T111_120 {
             right = _right;
             next = _next;
         }
-    };
+    }
 
     /**
      * 117. 填充每个节点的下一个右侧节点指针 II
