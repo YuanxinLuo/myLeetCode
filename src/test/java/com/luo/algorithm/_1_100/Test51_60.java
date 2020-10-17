@@ -47,6 +47,15 @@ public class Test51_60 {
     }
 
     @Test
+    public void test57() {
+        int[][] ints1 = t.insert(new int[][]{{1, 3}, {6, 9}}, new int[]{2, 5});
+        Arrays.stream(ints1).forEach(i -> System.out.println(Arrays.toString(i)));
+
+        int[][] ints2 = t.insert(new int[][]{{1,2},{3,5},{6,7},{8,10},{12,16}},new int[]{4,8});
+        Arrays.stream(ints2).forEach(i -> System.out.println(Arrays.toString(i)));
+    }
+
+    @Test
     public void test58() {
         System.out.println(t.lengthOfLastWord("Hello world"));
         System.out.println(t.lengthOfLastWord(" "));

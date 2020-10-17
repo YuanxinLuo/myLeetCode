@@ -304,6 +304,84 @@ public class T51_60 {
     }
 
     /**
+     * 57. 插入区间
+     * 给出一个无重叠的 ，按照区间起始端点排序的区间列表。
+     * 在列表中插入一个新的区间，你需要确保列表中的区间仍然有序且不重叠（如果有必要的话，可以合并区间）。
+     * <p>
+     * 示例 1：
+     * 输入：intervals = [[1,3],[6,9]], newInterval = [2,5]
+     * 输出：[[1,5],[6,9]]
+     * <p>
+     * 示例 2：
+     * 输入：intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+     * 输出：[[1,2],[3,10],[12,16]]
+     * 解释：这是因为新的区间 [4,8] 与 [3,5],[6,7],[8,10] 重叠。
+     */
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        int n = intervals.length, l = 0, r = n - 1;
+        int v = newInterval[0];
+        while (l <= r) {
+            int m = (l + r) >> 1;
+            if (intervals[m][0] == v) {
+                l = m;
+                break;
+            }
+            if (intervals[m][0] < v) {
+                l = m + 1;
+            } else {
+                r = m - 1;
+            }
+        }
+        int l0 = l;
+        int r0 = l;
+        if (l0 > 0 && intervals[l0 - 1][1] >= v) l0--;
+        if (l < n) {
+            v = newInterval[1];
+            r = n - 1;
+            while (l <= r) {
+                int m = (l + r) >> 1;
+                if (intervals[m][1] == v) {
+                    l = m;
+                    break;
+                }
+                if (intervals[m][1] < v) {
+                    l = m + 1;
+                } else {
+                    r = m - 1;
+                }
+            }
+            r0 = l;
+            if (l < n && intervals[l][0] <= v) r0++;
+        }
+        if (l0 == r0) {
+            int[][] r1 = new int[n + 1][2];
+            System.arraycopy(intervals, 0, r1, 0, l0);
+            System.arraycopy(intervals, l, r1, l0 + 1, n - l0);
+            r1[l0] = newInterval;
+            return r1;
+        } else if (l0 + 1 == r0) {
+            intervals[l0][0] = min(intervals[l0][0], newInterval[0]);
+            intervals[l0][1] = max(intervals[l0][1], newInterval[1]);
+            return intervals;
+        } else {
+            int[][] r1 = new int[n - (r0 - l0 - 1)][2];
+            System.arraycopy(intervals, 0, r1, 0, l0);
+            System.arraycopy(intervals, r0, r1, l0 + 1, n - r0);
+            r1[l0][0] = min(intervals[l0][0], newInterval[0]);
+            r1[l0][1] = max(intervals[r0 - 1][1], newInterval[1]);
+            return r1;
+        }
+    }
+
+    int min(int a, int b) {
+        return a < b ? a : b;
+    }
+
+    int max(int a, int b) {
+        return a > b ? a : b;
+    }
+
+    /**
      * 58. 最后一个单词的长度
      * 给定一个仅包含大小写字母和空格 ' ' 的字符串 s，返回其最后一个单词的长度。如果字符串从左向右滚动显示，那么最后一个单词就是最后出现的单词。
      * 如果不存在最后一个单词，请返回 0 。
